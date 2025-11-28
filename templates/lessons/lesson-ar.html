@@ -1,689 +1,294 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>الميزانية الأساسية - بيزفينتشر كيدز</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="lesson.css" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
-    <!-- Main Header -->
-    <header class="main-header">
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ lesson.title }}{% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/lessons/lesson.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="lesson-container fade-in">
+  <!-- Lesson Header -->
+  <div class="lesson-header">
+    <div class="lesson-title">{{ lesson.icon }} {{ lesson.title }}</div>
+    <div class="lesson-subtitle">{{ lesson.description }}</div>
+    <div class="lesson-meta">
+      <div class="meta-item">
+        <span class="meta-icon">📊</span>
+        <span>{{ lesson.path.get_difficulty_display }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-icon">👶</span>
+        <span>الأعمار {{ lesson.path.min_age }}-{{ lesson.path.max_age }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-icon">⏱️</span>
+        <span>{{ lesson.duration }} دقيقة</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-icon">🏅</span>
+        <span>{{ lesson.points }} نقطة • {{ lesson.coins }} عملة</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lesson Content -->
+  <div class="lesson-content">
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
       <div>
-        <div class="logo">
-          <span class="logo-icon">💰</span>
-          المحاسب الصغير
-        </div>
-        <div class="tagline">
-          ★ العب. قرر. انمُ: الطريقة الآمنة لتعلم المهارات المالية الحقيقية! ★
-        </div>
+        <div class="progress-label">تقدم الدرس:</div>
+        <div class="progress-percentage">{{ user_lesson.progress_percentage|default:0 }}% مكتمل</div>
       </div>
-      <nav>
-        <ul>
-          <li><a href="#home">الرئيسية</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#quiz">اختبار</a></li>
-          <li><a href="#contact">اتصل بنا</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <div class="lesson-container fade-in">
-      <!-- Lesson Header -->
-      <div class="lesson-header">
-        <div class="lesson-title">💰 الميزانية الأساسية</div>
-        <div class="lesson-subtitle">تعلم كيفية إنشاء وإدارة ميزانية شخصية</div>
-        <div class="lesson-meta">
-          <div class="meta-item">
-            <span class="meta-icon">📊</span>
-            <span>مبتدئ</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-icon">👶</span>
-            <span>الأعمار 8-12</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-icon">⏱️</span>
-            <span>30-45 دقيقة</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-icon">🏅</span>
-            <span>شارة خبير الميزانية</span>
-          </div>
+      <div class="progress-steps">
+        {% for i in "1234" %}
+        <div class="progress-step {% if forloop.counter <= user_lesson.progress_percentage|default:0|divisibleby:25 %}completed{% elif forloop.counter == user_lesson.progress_percentage|default:0|add:25|divisibleby:25 %}active{% endif %}">
+          {{ forloop.counter }}
         </div>
-      </div>
-
-      <!-- Lesson Content -->
-      <div class="lesson-content">
-        <!-- Progress Tracker -->
-        <div class="progress-tracker">
-          <div>
-            <div class="progress-label">تقدم الدرس:</div>
-            <div class="progress-percentage">25% مكتمل</div>
-          </div>
-          <div class="progress-steps">
-            <div class="progress-step completed">1</div>
-            <div class="progress-step active">2</div>
-            <div class="progress-step">3</div>
-            <div class="progress-step">4</div>
-          </div>
-        </div>
-
-        <!-- Section 1: What is a Budget? -->
-        <div class="section">
-          <h2 class="section-title">
-            <span class="section-icon">📖</span>
-            ما هي الميزانية؟
-          </h2>
-          <div class="content-box">
-            <p>الميزانية هي خطة لكيفية إنفاق وادخار أموالك. تساعدك على:</p>
-            <ul>
-              <li>تتبع أين تذهب أموالك</li>
-              <li>التأكد من أن لديك ما يكفي للأشياء المهمة</li>
-              <li>الادخار لأهداف المستقبل</li>
-              <li>تجنب إنفاق أكثر مما لديك</li>
-            </ul>
-            <div class="fun-fact">
-              <strong>حقيقة ممتعة:</strong> حتى الشركات الكبيرة تستخدم
-              الميزانيات! يسمونها "التخطيط المالي".
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 2: Budgeting Scenario -->
-        <div class="section">
-          <h2 class="section-title">
-            <span class="section-icon">🎯</span>
-            سيناريو الميزانية
-          </h2>
-          <div class="interactive-element">
-            <div class="interactive-title">
-              لنتدرب مع سيناريو بسيط. تخيل أن لديك 20 دولاراً من مصروفك هذا
-              الأسبوع.
-            </div>
-
-            <div class="budget-summary">
-              <div class="budget-item">
-                <div class="budget-label">ميزانيتك:</div>
-                <div class="budget-value">
-                  $<span id="total-budget">20.00</span>
-                </div>
-              </div>
-              <div class="budget-item">
-                <div class="budget-label">المتبقي:</div>
-                <div class="budget-value remaining">
-                  $<span id="remaining-budget">20.00</span>
-                </div>
-              </div>
-            </div>
-
-            <table class="budget-table">
-              <thead>
-                <tr>
-                  <th>البند</th>
-                  <th>السعر</th>
-                  <th>الكمية</th>
-                  <th>الإجمالي</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>وجبات خفيفة</td>
-                  <td>$2.50</td>
-                  <td>
-                    <input
-                      type="number"
-                      class="input-field"
-                      id="snacks-qty"
-                      min="0"
-                      max="10"
-                      value="0"
-                      onchange="calculateBudget()"
-                    />
-                  </td>
-                  <td class="item-total">
-                    $<span id="snacks-total">0.00</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>لعبة</td>
-                  <td>$8.00</td>
-                  <td>
-                    <input
-                      type="number"
-                      class="input-field"
-                      id="toy-qty"
-                      min="0"
-                      max="10"
-                      value="0"
-                      onchange="calculateBudget()"
-                    />
-                  </td>
-                  <td class="item-total">$<span id="toy-total">0.00</span></td>
-                </tr>
-                <tr>
-                  <td>كتاب</td>
-                  <td>$5.00</td>
-                  <td>
-                    <input
-                      type="number"
-                      class="input-field"
-                      id="book-qty"
-                      min="0"
-                      max="10"
-                      value="0"
-                      onchange="calculateBudget()"
-                    />
-                  </td>
-                  <td class="item-total">$<span id="book-total">0.00</span></td>
-                </tr>
-                <tr>
-                  <td>مدخرات</td>
-                  <td>$1.00</td>
-                  <td>
-                    <input
-                      type="number"
-                      class="input-field"
-                      id="savings-qty"
-                      min="0"
-                      max="20"
-                      value="0"
-                      onchange="calculateBudget()"
-                    />
-                  </td>
-                  <td class="item-total">
-                    $<span id="savings-total">0.00</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div style="text-align: center">
-              <button class="button" onclick="checkBudget()">
-                تحقق من ميزانيتي
-              </button>
-              <button class="button secondary" onclick="resetBudget()">
-                إعادة تعيين
-              </button>
-            </div>
-
-            <div id="budget-feedback" class="feedback"></div>
-          </div>
-        </div>
-
-        <!-- Section 3: Budgeting Quiz -->
-        <div class="section">
-          <h2 class="section-title">
-            <span class="section-icon">❓</span>
-            اختبار الميزانية
-          </h2>
-
-          <div class="quiz-question">
-            <div class="question-number">السؤال 1 من 5</div>
-            <div class="question-text">ما هو الغرض الرئيسي من الميزانية؟</div>
-            <div class="options-grid">
-              <div class="option" onclick="selectOption(this, 'q1', 'a')">
-                أ) إنفاق كل أموالك بأسرع ما يمكن
-              </div>
-              <div class="option" onclick="selectOption(this, 'q1', 'b')">
-                ب) التخطيط لكيفية إنفاق وادخار أموالك
-              </div>
-              <div class="option" onclick="selectOption(this, 'q1', 'c')">
-                ج) إخفاء أموالك من والديك
-              </div>
-              <div class="option" onclick="selectOption(this, 'q1', 'd')">
-                د) جعل الواجبات المنزلية الرياضية أكثر تعقيداً
-              </div>
-            </div>
-          </div>
-
-          <div class="quiz-question">
-            <div class="question-number">السؤال 2 من 5</div>
-            <div class="question-text">
-              أي من هذه ليست ممارسة جيدة للميزانية؟
-            </div>
-            <div class="options-grid">
-              <div class="option" onclick="selectOption(this, 'q2', 'a')">
-                أ) ادخار بعض المال للمستقبل
-              </div>
-              <div class="option" onclick="selectOption(this, 'q2', 'b')">
-                ب) تتبع أين تذهب أموالك
-              </div>
-              <div class="option" onclick="selectOption(this, 'q2', 'c')">
-                ج) إنفاق كل أموالك على شيء واحد
-              </div>
-              <div class="option" onclick="selectOption(this, 'q2', 'd')">
-                د) التخطيط للنفقات غير المتوقعة
-              </div>
-            </div>
-          </div>
-
-          <div class="quiz-question">
-            <div class="question-number">السؤال 3 من 5</div>
-            <div class="question-text">
-              إذا باع كشك الليمون بقيمة 50 دولاراً من الليموناضة وأنفق 30
-              دولاراً على اللوازم، ما هو الربح؟
-            </div>
-            <div class="options-grid">
-              <div class="option" onclick="selectOption(this, 'q3', 'a')">
-                أ) $80
-              </div>
-              <div class="option" onclick="selectOption(this, 'q3', 'b')">
-                ب) $20
-              </div>
-              <div class="option" onclick="selectOption(this, 'q3', 'c')">
-                ج) $30
-              </div>
-              <div class="option" onclick="selectOption(this, 'q3', 'd')">
-                د) $50
-              </div>
-            </div>
-          </div>
-
-          <div class="quiz-question">
-            <div class="question-number">السؤال 4 من 5</div>
-            <div class="question-text">ما هي أفضل طريقة لتوفير المال؟</div>
-            <div class="options-grid">
-              <div class="option" onclick="selectOption(this, 'q4', 'a')">
-                أ) إنفاق كل مصروفك على الفور
-              </div>
-              <div class="option" onclick="selectOption(this, 'q4', 'b')">
-                ب) الاحتفاظ بكل أموالك في جيبك
-              </div>
-              <div class="option" onclick="selectOption(this, 'q4', 'c')">
-                ج) تخصيص جزء من أموالك بانتظام
-              </div>
-              <div class="option" onclick="selectOption(this, 'q4', 'd')">
-                د) الادخار فقط عندما يكون لديك أموال إضافية
-              </div>
-            </div>
-          </div>
-
-          <div class="quiz-question">
-            <div class="question-number">السؤال 5 من 5</div>
-            <div class="question-text">لماذا قد تختار الشركة خفض الأسعار؟</div>
-            <div class="options-grid">
-              <div class="option" onclick="selectOption(this, 'q5', 'a')">
-                أ) لتحقيق ربح أقل
-              </div>
-              <div class="option" onclick="selectOption(this, 'q5', 'b')">
-                ب) لجذب المزيد من العملاء
-              </div>
-              <div class="option" onclick="selectOption(this, 'q5', 'c')">
-                ج) لزيادة النفقات
-              </div>
-              <div class="option" onclick="selectOption(this, 'q5', 'd')">
-                د) لإرباك العملاء
-              </div>
-            </div>
-          </div>
-
-          <div style="text-align: center; margin-top: 25px">
-            <button class="button" onclick="checkAnswers()">
-              تحقق من الإجابات
-            </button>
-          </div>
-
-          <div id="quiz-feedback" class="feedback"></div>
-        </div>
-
-        <!-- Section 4: Budgeting Tips -->
-        <div class="section">
-          <h2 class="section-title">
-            <span class="section-icon">💡</span>
-            نصائح الميزانية
-          </h2>
-
-          <div class="content-box">
-            <h3>قاعدة 50/30/20</h3>
-            <p>طريقة بسيطة لوضع الميزانية هي قاعدة 50/30/20:</p>
-
-            <div class="rule-breakdown">
-              <div class="rule-item">
-                <div class="rule-percentage">50%</div>
-                <div class="rule-category">للاحتياجات</div>
-                <div class="rule-description">
-                  الأشياء التي يجب أن تمتلكها (الطعام، الملابس)
-                </div>
-              </div>
-              <div class="rule-item">
-                <div class="rule-percentage">30%</div>
-                <div class="rule-category">للرغبات</div>
-                <div class="rule-description">
-                  الأشياء التي ترغب في الحصول عليها (الألعاب، الألعاب)
-                </div>
-              </div>
-              <div class="rule-item">
-                <div class="rule-percentage">20%</div>
-                <div class="rule-category">للمدخرات</div>
-                <div class="rule-description">المال الذي توفره لاحقاً</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="content-box" style="margin-top: 25px">
-            <h3>نصائح ذكية للادخار</h3>
-            <div class="tips-grid">
-              <div class="tip-card">
-                <h4>🎯 حدد هدف ادخار</h4>
-                <p>مثل لعبة جديدة أو لعبة تريدها</p>
-              </div>
-              <div class="tip-card">
-                <h4>🏺 استخدم البرطمانات أو المظاريف</h4>
-                <p>لفصل الأموال لأغراض مختلفة</p>
-              </div>
-              <div class="tip-card">
-                <h4>⏰ انتظر 24 ساعة</h4>
-                <p>قبل شراء شيء تريده للتأكد من أنك تريده حقاً</p>
-              </div>
-              <div class="tip-card">
-                <h4>🔍 ابحث عن المبيعات</h4>
-                <p>وقارن الأسعار لتوفير المال</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Completion Badge -->
-        <div id="completion-badge" class="completion-badge">
-          <div class="badge-icon">🏅</div>
-          <div class="badge-title">خبير الميزانية!</div>
-          <div class="badge-description">لقد أكملت درس الميزانية الأساسية!</div>
-          <button class="button" onclick="returnToDashboard()">
-            العودة إلى لوحة التحكم
-          </button>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="navigation-buttons">
-          <button class="button secondary" onclick="goBack()">
-            ← العودة إلى مسار التعلم
-          </button>
-          <button class="button" onclick="markComplete()">
-            تحديد كمكتمل →
-          </button>
-        </div>
+        {% endfor %}
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>روابط سريعة</h3>
-          <a href="#home">الرئيسية</a>
-          <a href="#about">من نحن</a>
-          <a href="#quiz">اختبار</a>
-          <a href="#contact">اتصل بنا</a>
-        </div>
-        <div class="footer-section">
-          <h3>معلومات قانونية</h3>
-          <a href="#privacy">سياسة الخصوصية</a>
-          <a href="#terms">الشروط والأحكام</a>
-          <a href="#faq">الأسئلة الشائعة</a>
-        </div>
-        <div class="footer-section">
-          <h3>تواصل معنا</h3>
-          <p>📞 +47 961 78 807</p>
-          <p>✉️ Info@BizVentureKids.no</p>
+    <!-- Lesson Content from Database -->
+    <div class="section">
+      {{ lesson.content|safe }}
+    </div>
+
+    <!-- Video Section (if available) -->
+    {% if lesson.video_url %}
+    <div class="section">
+      <h2 class="section-title">
+        <span class="section-icon">🎥</span>
+        فيديو الدرس
+      </h2>
+      <div class="content-box">
+        <div class="video-container">
+          <iframe src="{{ lesson.video_url }}" 
+                  frameborder="0" 
+                  allowfullscreen
+                  style="width: 100%; height: 400px; border-radius: 10px;"></iframe>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
-      </div>
-    </footer>
+    </div>
+    {% endif %}
 
-    <script>
-      // Budget Calculator
-      const totalBudget = 20.0;
-      const prices = {
-        snacks: 2.5,
-        toy: 8.0,
-        book: 5.0,
-        savings: 1.0,
-      };
+    <!-- Quiz Section -->
+    {% if quiz %}
+    <div class="section">
+      <h2 class="section-title">
+        <span class="section-icon">❓</span>
+        {{ quiz.title }}
+      </h2>
+      <p>{{ quiz.description }}</p>
 
-      function calculateBudget() {
-        const snacksQty =
-          parseInt(document.getElementById("snacks-qty").value) || 0;
-        const toyQty = parseInt(document.getElementById("toy-qty").value) || 0;
-        const bookQty =
-          parseInt(document.getElementById("book-qty").value) || 0;
-        const savingsQty =
-          parseInt(document.getElementById("savings-qty").value) || 0;
+      <form method="post" action="{% url 'lessons:quiz_submit' quiz.id %}" id="quizForm">
+        {% csrf_token %}
+        
+        {% for question in quiz.questions.all %}
+        <div class="quiz-question">
+          <div class="question-number">السؤال {{ forloop.counter }} من {{ quiz.questions.count }}</div>
+          <div class="question-text">{{ question.question_text }}</div>
+          
+          {% if question.question_type == 'multiple' %}
+          <div class="options-grid">
+            {% for answer in question.answers.all %}
+            <div class="option" onclick="selectOption(this, 'question_{{ question.id }}', '{{ answer.id }}')">
+              {{ answer.answer_text }}
+            </div>
+            {% endfor %}
+          </div>
+          <input type="hidden" name="question_{{ question.id }}" id="question_{{ question.id }}_input">
+          
+          {% elif question.question_type == 'true_false' %}
+          <div class="options-grid">
+            {% for answer in question.answers.all %}
+            <div class="option" onclick="selectOption(this, 'question_{{ question.id }}', '{{ answer.id }}')">
+              {{ answer.answer_text }}
+            </div>
+            {% endfor %}
+          </div>
+          <input type="hidden" name="question_{{ question.id }}" id="question_{{ question.id }}_input">
+          
+          {% elif question.question_type == 'text' %}
+          <textarea name="question_{{ question.id }}" 
+                    class="input-field" 
+                    rows="3" 
+                    placeholder="اكتب إجابتك هنا..."
+                    style="width: 100%; padding: 10px; border-radius: 5px;"></textarea>
+          {% endif %}
+        </div>
+        {% endfor %}
 
-        const snacksTotal = snacksQty * prices.snacks;
-        const toyTotal = toyQty * prices.toy;
-        const bookTotal = bookQty * prices.book;
-        const savingsTotal = savingsQty * prices.savings;
+        <div style="text-align: center; margin-top: 25px">
+          <button type="submit" class="button">
+            تحقق من الإجابات
+          </button>
+        </div>
+      </form>
 
-        document.getElementById("snacks-total").textContent =
-          snacksTotal.toFixed(2);
-        document.getElementById("toy-total").textContent = toyTotal.toFixed(2);
-        document.getElementById("book-total").textContent =
-          bookTotal.toFixed(2);
-        document.getElementById("savings-total").textContent =
-          savingsTotal.toFixed(2);
+      <div id="quiz-feedback" class="feedback"></div>
+    </div>
+    {% endif %}
 
-        const totalSpent = snacksTotal + toyTotal + bookTotal + savingsTotal;
-        const remaining = totalBudget - totalSpent;
+    <!-- Completion Badge -->
+    {% if user_lesson.is_completed %}
+    <div id="completion-badge" class="completion-badge show">
+      <div class="badge-icon">🏅</div>
+      <div class="badge-title">مبروك! أكملت الدرس</div>
+      <div class="badge-description">حصلت على {{ lesson.points }} نقطة و {{ lesson.coins }} عملة!</div>
+      <a href="{% url 'lessons:learning_path' %}" class="button">
+        العودة إلى مسار التعلم
+      </a>
+    </div>
+    {% else %}
+    <div id="completion-badge" class="completion-badge">
+      <div class="badge-icon">🏅</div>
+      <div class="badge-title">خبير الميزانية!</div>
+      <div class="badge-description">لقد أكملت درس {{ lesson.title }}!</div>
+      <a href="{% url 'lessons:learning_path' %}" class="button">
+        العودة إلى لوحة التحكم
+      </a>
+    </div>
+    {% endif %}
 
-        document.getElementById("remaining-budget").textContent =
-          remaining.toFixed(2);
+    <!-- Navigation Buttons -->
+    <div class="navigation-buttons">
+      <a href="{% url 'lessons:learning_path' %}" class="button secondary">
+        ← العودة إلى مسار التعلم
+      </a>
+      
+      {% if not user_lesson.is_completed %}
+      <form method="post" action="{% url 'lessons:complete_lesson' lesson.id %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="button" onclick="return confirm('هل أنت متأكد من إكمال هذا الدرس؟')">
+          تحديد كمكتمل →
+        </button>
+      </form>
+      {% else %}
+      <span class="button" style="background: #4caf50; cursor: default;">
+        ✓ مكتمل
+      </span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
 
-        const remainingElement = document.querySelector(
-          ".budget-value.remaining"
-        );
-        if (remaining < 0) {
-          remainingElement.style.color = "#d32f2f";
-        } else if (remaining === 0) {
-          remainingElement.style.color = "#4caf50";
-        } else {
-          remainingElement.style.color = "#ff9800";
-        }
+{% block extra_js %}
+<script>
+  // Django context data
+  const lessonData = {
+    id: {{ lesson.id }},
+    title: "{{ lesson.title|escapejs }}",
+    isCompleted: {{ user_lesson.is_completed|yesno:"true,false" }},
+    progress: {{ user_lesson.progress_percentage|default:0 }}
+  };
+
+  const quizData = {% if quiz %}{
+    id: {{ quiz.id }},
+    passPercentage: {{ quiz.pass_percentage }},
+    questionCount: {{ quiz.questions.count }}
+  }{% else %}null{% endif %};
+
+  // Quiz option selection
+  function selectOption(element, questionName, answerId) {
+    const options = element.parentElement.querySelectorAll('.option');
+    options.forEach(opt => opt.classList.remove('selected'));
+    element.classList.add('selected');
+    
+    // Set hidden input value
+    const input = document.getElementById(questionName + '_input');
+    if (input) {
+      input.value = answerId;
+    }
+  }
+
+  // Update progress display
+  function updateProgress(percentage) {
+    document.querySelector('.progress-percentage').textContent = percentage + '% مكتمل';
+    
+    const steps = document.querySelectorAll('.progress-step');
+    const completedSteps = Math.floor((percentage / 100) * steps.length);
+    
+    steps.forEach((step, index) => {
+      if (index < completedSteps) {
+        step.classList.add('completed');
+        step.classList.remove('active');
+      } else if (index === completedSteps) {
+        step.classList.add('active');
+        step.classList.remove('completed');
+      } else {
+        step.classList.remove('completed', 'active');
       }
+    });
+  }
 
-      function checkBudget() {
-        const remaining = parseFloat(
-          document.getElementById("remaining-budget").textContent
-        );
-        const feedback = document.getElementById("budget-feedback");
-        const savingsQty =
-          parseInt(document.getElementById("savings-qty").value) || 0;
+  // Show completion badge
+  function showCompletionBadge() {
+    const badge = document.getElementById('completion-badge');
+    badge.classList.add('show');
+    badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 
-        if (remaining < 0) {
-          feedback.className = "feedback incorrect";
-          feedback.innerHTML =
-            "❌ أوه لا! لقد تجاوزت ميزانيتك بمقدار $" +
-            Math.abs(remaining).toFixed(2) +
-            ". حاول تقليل بعض المشتريات!";
-        } else if (remaining === 0 && savingsQty > 0) {
-          feedback.className = "feedback correct";
-          feedback.innerHTML =
-            "🎉 ممتاز! لقد استخدمت ميزانيتك بالكامل وتذكرت الادخار! أنت خبير ميزانية!";
-          updateProgress(50);
-        } else if (remaining === 0) {
-          feedback.className = "feedback correct";
-          feedback.innerHTML =
-            "✅ جيد! لقد استخدمت ميزانيتك بالكامل، لكن تذكر دائماً تخصيص بعض المال للمدخرات!";
-        } else if (savingsQty > 0) {
-          feedback.className = "feedback correct";
-          feedback.innerHTML =
-            "👍 عمل رائع! لديك $" +
-            remaining.toFixed(2) +
-            " متبقية وتذكرت الادخار. فكر فيما يمكنك القيام به بالمال المتبقي!";
-        } else {
-          feedback.className = "feedback correct";
-          feedback.innerHTML =
-            "✅ جيد! لديك $" +
-            remaining.toFixed(2) +
-            " متبقية. تذكر دائماً تخصيص بعض المال للمدخرات!";
-        }
+  // Form validation before submit
+  {% if quiz %}
+  document.getElementById('quizForm').addEventListener('submit', function(e) {
+    const hiddenInputs = document.querySelectorAll('input[type="hidden"][name^="question_"]');
+    let allAnswered = true;
+    
+    hiddenInputs.forEach(input => {
+      if (!input.value) {
+        allAnswered = false;
       }
+    });
+    
+    if (!allAnswered) {
+      e.preventDefault();
+      alert('الرجاء الإجابة على جميع الأسئلة!');
+      return false;
+    }
+  });
+  {% endif %}
 
-      function resetBudget() {
-        document.getElementById("snacks-qty").value = 0;
-        document.getElementById("toy-qty").value = 0;
-        document.getElementById("book-qty").value = 0;
-        document.getElementById("savings-qty").value = 0;
-        calculateBudget();
-        document.getElementById("budget-feedback").className = "feedback";
-        document.getElementById("budget-feedback").innerHTML = "";
+  // Smooth scroll for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+    });
+  });
 
-      // Quiz Functionality
-      const correctAnswers = {
-        q1: "b",
-        q2: "c",
-        q3: "b",
-        q4: "c",
-        q5: "b",
-      };
+  // Auto-save progress (placeholder for future AJAX implementation)
+  function autoSaveProgress() {
+    const progress = lessonData.progress;
+    console.log('حفظ التقدم تلقائياً:', progress + '%');
+    // Future: Send AJAX request to save progress
+  }
 
-      const userAnswers = {};
+  // Initialize on page load
+  window.addEventListener('load', function() {
+    console.log('%c مرحباً بك في ' + lessonData.title + '! 💰', 
+      'color: #4caf50; font-size: 20px; font-weight: bold;');
+    
+    // Show completion badge if lesson is completed
+    if (lessonData.isCompleted) {
+      setTimeout(showCompletionBadge, 500);
+    }
+    
+    // Set up auto-save interval (every minute)
+    setInterval(autoSaveProgress, 60000);
+  });
 
-      function selectOption(element, question, answer) {
-        const options = element.parentElement.querySelectorAll(".option");
-        options.forEach((opt) => opt.classList.remove("selected"));
-        element.classList.add("selected");
-        userAnswers[question] = answer;
-      }
-
-      function checkAnswers() {
-        let score = 0;
-        const totalQuestions = Object.keys(correctAnswers).length;
-
-        for (let question in correctAnswers) {
-          if (userAnswers[question] === correctAnswers[question]) {
-            score++;
-          }
-        }
-
-        const percentage = (score / totalQuestions) * 100;
-        const feedback = document.getElementById("quiz-feedback");
-
-        if (percentage === 100) {
-          feedback.className = "feedback correct";
-          feedback.innerHTML = `🎉 مذهل! لقد حصلت على ${score} من ${totalQuestions} صحيحة (${percentage}%)! أنت خبير حقيقي في الميزانية!`;
-          updateProgress(100);
-        } else if (percentage >= 80) {
-          feedback.className = "feedback correct";
-          feedback.innerHTML = `👍 عمل رائع! لقد حصلت على ${score} من ${totalQuestions} صحيحة (${percentage}%). استمر في العمل الجيد!`;
-          updateProgress(75);
-        } else if (percentage >= 60) {
-          feedback.className = "feedback correct";
-          feedback.innerHTML = `✅ جيد! لقد حصلت على ${score} من ${totalQuestions} صحيحة (${percentage}%). راجع المادة وحاول مرة أخرى!`;
-          updateProgress(50);
-        } else {
-          feedback.className = "feedback incorrect";
-          feedback.innerHTML = `📚 لقد حصلت على ${score} من ${totalQuestions} صحيحة (${percentage}%). دعنا نراجع الدرس معاً ونحاول مرة أخرى!`;
-        }
-      }
-
-      function updateProgress(percentage) {
-        document.querySelector(".progress-percentage").textContent =
-          percentage + "% مكتمل";
-
-        const steps = document.querySelectorAll(".progress-step");
-        const completedSteps = Math.floor((percentage / 100) * steps.length);
-
-        steps.forEach((step, index) => {
-          if (index < completedSteps) {
-            step.classList.add("completed");
-            step.classList.remove("active");
-          } else if (index === completedSteps) {
-            step.classList.add("active");
-            step.classList.remove("completed");
-          } else {
-            step.classList.remove("completed", "active");
-          }
-        });
-      }
-
-      function markComplete() {
-        const completionBadge = document.getElementById("completion-badge");
-        completionBadge.classList.add("show");
-        completionBadge.scrollIntoView({ behavior: "smooth", block: "center" });
-
-        // Confetti effect
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
-
-        console.log("الدرس مكتمل! تم حفظ التقدم.");
-      }
-
-      function returnToDashboard() {
-        alert(
-          "العودة إلى لوحة التحكم...\n\nسيتم حفظ تقدمك وستتلقى شارة خبير الميزانية! 🏅"
-        );
-        // In real application, this would navigate to the dashboard
-      }
-
-      function goBack() {
-        if (confirm("هل أنت متأكد من أنك تريد المغادرة؟ سيتم حفظ تقدمك.")) {
-          alert("العودة إلى مسار التعلم...");
-          // In real application, this would navigate back
-        }
-      }
-
-      // Simple confetti function
-      function confetti(options) {
-        const defaults = {
-          particleCount: 50,
-          spread: 45,
-          origin: { y: 0.7 },
-        };
-        const config = { ...defaults, ...options };
-
-        console.log("🎉 تهانينا! لقد أكملت الدرس!");
-      }
-
-      // Smooth scroll behavior
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-        });
-      });
-
-      // Console welcome message
-      console.log(
-        "%c مرحباً بك في درس الميزانية الأساسية! 💰",
-        "color: #4caf50; font-size: 20px; font-weight: bold;"
-      );
-      console.log(
-        "%c تعلم كيفية إدارة أموالك بذكاء! 🎓",
-        "color: #ff9800; font-size: 14px;"
-      );
-
-      // Auto-save progress
-      setInterval(() => {
-        const progress = document.querySelector(
-          ".progress-percentage"
-        ).textContent;
-        console.log("حفظ التقدم تلقائياً:", progress);
-      }, 60000); // Every minute
-    </script>
-  </body>
-</html>
+  // Keyboard shortcuts
+  document.addEventListener('keydown', function(e) {
+    // Esc key to go back
+    if (e.key === 'Escape') {
+      window.location.href = "{% url 'lessons:learning_path' %}";
+    }
+  });
+</script>
+{% endblock extra_js %}

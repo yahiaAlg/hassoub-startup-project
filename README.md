@@ -7,6 +7,14 @@ mkdir -p pages/management/commands
 touch pages/management/__init__.py
 touch pages/management/commands/__init__.py
 
+mkdir -p accounts/management/commands
+touch accounts/management/__init__.py
+touch accounts/management/commands/__init__.py
+
+mkdir -p lessons/management/commands
+touch lessons/management/__init__.py
+touch lessons/management/commands/__init__.py
+
 # Then run the command
 python manage.py populate_pages
 ```

@@ -1,4 +1,4 @@
-    <!-- Header -->
+<!-- Header -->
     <header>
       <div class="logo">
         <span class="logo-icon">💰</span>
@@ -10,6 +10,257 @@
           <li><a href="{% url "pages:about" %}">من نحن</a></li>
           <li><a href="{% url "lessons:learning_path" %}">اختبار</a></li>
           <li><a href="{% url "pages:contact" %}">اتصل بنا</a></li>
+          
+          {% if user.is_authenticated %}
+            <li class="user-menu">
+              <div class="user-avatar-wrapper">
+                {% if user.profile.avatar and user.profile.avatar.name != 'avatars/default.png' %}
+                  <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="user-avatar">
+                {% else %}
+                  <div class="user-avatar user-avatar-default">
+                    👤
+                  </div>
+                {% endif %}
+                <span class="user-name">{{ user.first_name|default:user.username }}</span>
+                <span class="dropdown-arrow">▼</span>
+              </div>
+              
+              <div class="user-dropdown">
+                <div class="dropdown-header">
+                  <div class="dropdown-user-info">
+                    <strong>{{ user.get_full_name|default:user.username }}</strong>
+                    <span class="user-level">المستوى {{ user.profile.level }}</span>
+                  </div>
+                </div>
+                
+                <div class="dropdown-divider"></div>
+                
+                <a href="{% url 'accounts:profile' %}" class="dropdown-item">
+                  <span class="dropdown-icon">👤</span>
+                  الملف الشخصي
+                </a>
+                
+                {% if user.parent_profile %}
+                  <a href="{% url 'accounts:parent_dashboard' %}" class="dropdown-item">
+                    <span class="dropdown-icon">👨‍👩‍👧‍👦</span>
+                    لوحة تحكم الوالدين
+                  </a>
+                {% else %}
+                  <a href="{% url 'accounts:user_dashboard' %}" class="dropdown-item">
+                    <span class="dropdown-icon">📊</span>
+                    لوحة التحكم
+                  </a>
+                {% endif %}
+                
+                <a href="{% url 'lessons:learning_path' %}" class="dropdown-item">
+                  <span class="dropdown-icon">📚</span>
+                  الدروس
+                </a>
+                
+                <a href="{% url 'accounts:progress_rewards' %}" class="dropdown-item">
+                  <span class="dropdown-icon">🏆</span>
+                  الإنجازات والمكافآت
+                </a>
+                
+                <div class="dropdown-divider"></div>
+                
+                <a href="{% url 'accounts:logout' %}" class="dropdown-item logout-item">
+                  <span class="dropdown-icon">🚪</span>
+                  تسجيل الخروج
+                </a>
+              </div>
+            </li>
+          {% else %}
+            <li><a href="{% url 'accounts:login' %}" class="login-btn">تسجيل الدخول</a></li>
+            <li><a href="{% url 'accounts:register' %}" class="register-btn">التسجيل</a></li>
+          {% endif %}
         </ul>
       </nav>
     </header>
+    
+    <style>
+      /* User Menu Styles */
+      .user-menu {
+        position: relative;
+      }
+      
+      .user-avatar-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 20px;
+        transition: background-color 0.3s;
+      }
+      
+      .user-avatar-wrapper:hover {
+        background-color: #f0f0f0;
+      }
+      
+      .user-avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #2e8b57;
+      }
+      
+      .user-avatar-default {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2e8b57, #3cb371);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2em;
+        border: 2px solid #2e8b57;
+      }
+      
+      .user-name {
+        color: #2e8b57;
+        font-weight: 600;
+        font-size: 1em;
+      }
+      
+      .dropdown-arrow {
+        color: #2e8b57;
+        font-size: 0.7em;
+        transition: transform 0.3s;
+      }
+      
+      .user-menu:hover .dropdown-arrow {
+        transform: rotate(180deg);
+      }
+      
+      /* Dropdown Menu */
+      .user-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        min-width: 220px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        margin-top: 10px;
+      }
+      
+      .user-menu:hover .user-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      
+      .dropdown-header {
+        padding: 15px;
+        background: linear-gradient(135deg, #2e8b57, #3cb371);
+        border-radius: 10px 10px 0 0;
+        color: white;
+      }
+      
+      .dropdown-user-info strong {
+        display: block;
+        font-size: 1.1em;
+        margin-bottom: 5px;
+      }
+      
+      .user-level {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 0.85em;
+      }
+      
+      .dropdown-divider {
+        height: 1px;
+        background: #e0e0e0;
+        margin: 5px 0;
+      }
+      
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.2s;
+      }
+      
+      .dropdown-item:hover {
+        background-color: #f5f5f5;
+      }
+      
+      .dropdown-icon {
+        font-size: 1.2em;
+        width: 25px;
+        text-align: center;
+      }
+      
+      .logout-item {
+        color: #d32f2f;
+      }
+      
+      .logout-item:hover {
+        background-color: #ffebee;
+      }
+      
+      /* Login/Register Buttons */
+      .login-btn, .register-btn {
+        padding: 8px 20px;
+        border-radius: 20px;
+        transition: all 0.3s;
+      }
+      
+      .login-btn {
+        background-color: transparent;
+        border: 2px solid #2e8b57;
+      }
+      
+      .login-btn:hover {
+        background-color: #2e8b57;
+        color: white !important;
+      }
+      
+      .register-btn {
+        background-color: #ff6347;
+        color: white !important;
+        border: 2px solid #ff6347;
+      }
+      
+      .register-btn:hover {
+        background-color: #ff4500;
+        border-color: #ff4500;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .user-name {
+          display: none;
+        }
+        
+        .user-dropdown {
+          right: 0;
+          left: auto;
+        }
+      }
+    </style>
+    
+    <script>
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(event) {
+        const userMenu = document.querySelector('.user-menu');
+        if (userMenu && !userMenu.contains(event.target)) {
+          // Dropdown will auto-hide with CSS hover
+        }
+      });
+    </script>

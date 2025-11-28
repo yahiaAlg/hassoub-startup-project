@@ -1,44 +1,18 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>لوحة التحكم - بيزفينتشر كيدز</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="dashboard.css" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <div class="logo">
-        <span class="logo-icon">💰</span>
-        المحاسب الصغير
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#home">الرئيسية</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#quiz">اختبار</a></li>
-          <li><a href="#contact">اتصل بنا</a></li>
-        </ul>
-      </nav>
-    </header>
+{% extends "base.html" %}
+{% load static %}
+{% load math_filters %}
+{% block title %}
+لوحة التحكم
+{% endblock title %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/accounts/dashboard.css' %}" />
+{% endblock extra_css %}
+{% block content %}
 
     <div class="dashboard-container">
       <!-- Header Section -->
       <div class="header">
-        <div class="welcome-message">مرحباً بعودتك، أحمد! 👋</div>
+        <div class="welcome-message">مرحباً بعودتك، {{ request.user.first_name|default:request.user.username }}! 👋</div>
         <div class="notifications">
           🔔
           <span class="notification-badge">3</span>
@@ -48,24 +22,24 @@
       <!-- Stats Container -->
       <div class="stats-container">
         <div class="stat-card">
-          <div class="stat-title">إجمالي الربح</div>
-          <div class="stat-value">$1,245</div>
-          <div class="stat-change positive">12% من الأسبوع الماضي</div>
+          <div class="stat-title">إجمالي النقاط</div>
+          <div class="stat-value">{{ total_points }}</div>
+          <div class="stat-change positive">المستوى {{ profile.level }}</div>
         </div>
         <div class="stat-card">
-          <div class="stat-title">المشاريع المنجزة</div>
-          <div class="stat-value">18</div>
-          <div class="stat-change positive">4 جديدة هذا الشهر</div>
+          <div class="stat-title">الدروس المكتملة</div>
+          <div class="stat-value">{{ total_lessons }}</div>
+          <div class="stat-change positive">{{ recent_lessons|length }} نشطة</div>
         </div>
         <div class="stat-card">
-          <div class="stat-title">نقاط التعلم</div>
-          <div class="stat-value">87%</div>
-          <div class="stat-change positive">5% من الشهر الماضي</div>
+          <div class="stat-title">السيناريوهات المنجزة</div>
+          <div class="stat-value">{{ total_scenarios }}</div>
+          <div class="stat-change positive">{{ certificates.count }} شهادة</div>
         </div>
         <div class="stat-card">
-          <div class="stat-title">الوقت المستغرق</div>
-          <div class="stat-value">12س 45د</div>
-          <div class="stat-change positive">2س هذا الأسبوع</div>
+          <div class="stat-title">العملات المعدنية</div>
+          <div class="stat-value">{{ total_coins }} 🪙</div>
+          <div class="stat-change positive">متاحة للإنفاق</div>
         </div>
       </div>
 
@@ -73,22 +47,26 @@
       <div class="progress-section">
         <div class="progress-card">
           <div class="progress-title">📈 تقدمك</div>
-          <div class="level-display">المستوى 5</div>
+          <div class="level-display">المستوى {{ profile.level }}</div>
           <div class="level-info">
-            <span>6,500 نقطة خبرة</span>
-            <span>10,000 نقطة خبرة</span>
+            <span>{{ profile.total_points }} نقطة خبرة</span>
+            <span>{% if profile.level == 1 %}100{% elif profile.level == 2 %}300{% elif profile.level == 3 %}600{% elif profile.level == 4 %}1000{% else %}{{ profile.level|add:"-4"|multiply:500|add:1000 }}{% endif %} نقطة خبرة</span>
           </div>
           <div class="xp-bar">
-            <div class="xp-fill"></div>
+            <div class="xp-fill" style="width: {{ profile.get_progress_to_next_level }}%;"></div>
           </div>
           <div class="milestone">
             <div class="milestone-title">🎯 المعلم التالي</div>
-            <div class="milestone-info">المستوى 6: قطب الألعاب</div>
-            <div class="milestone-info">3,500 نقطة خبرة متبقية</div>
-            <div
-              class="milestone-info"
-              style="margin-top: 8px; color: var(--primary)"
-            >
+            <div class="milestone-info">المستوى {{ profile.level|add:1 }}: قطب الألعاب</div>
+            <div class="milestone-info">
+              {% if profile.level == 1 %}{{ 100|subtract:profile.total_points }}
+              {% elif profile.level == 2 %}{{ 300|subtract:profile.total_points }}
+              {% elif profile.level == 3 %}{{ 600|subtract:profile.total_points }}
+              {% elif profile.level == 4 %}{{ 1000|subtract:profile.total_points }}
+              {% else %}{{ profile.level|add:"-4"|multiply:500|add:1000|subtract:profile.total_points }}
+              {% endif %} نقطة خبرة متبقية
+            </div>
+            <div class="milestone-info" style="margin-top: 8px; color: var(--primary)">
               🔓 فتح: أدوات متقدمة للمخزون
             </div>
           </div>
@@ -99,30 +77,24 @@
           <div class="streak-counter">
             <div class="streak-display">
               <span class="fire-icon">🔥</span>
-              <span class="streak-number">7</span>
+              <span class="streak-number">{{ streak.current_streak|default:0 }}</span>
             </div>
             <div class="streak-label">أيام متتالية</div>
           </div>
-          <div
-            style="
-              margin-top: 20px;
-              padding: 15px;
-              background-color: #fff3e0;
-              border-radius: 10px;
-              text-align: center;
-            "
-          >
-            <p
-              style="
-                color: var(--accent);
-                font-weight: bold;
-                margin-bottom: 5px;
-              "
-            >
+          <div style="margin-top: 20px; padding: 15px; background-color: #fff3e0; border-radius: 10px; text-align: center;">
+            <p style="color: var(--accent); font-weight: bold; margin-bottom: 5px;">
               استمر في التقدم! 💪
             </p>
             <p style="color: var(--text-light); font-size: 0.9em">
-              3 أيام أخرى للحصول على شارة 10 أيام!
+              {% if streak.current_streak %}
+                {% if streak.current_streak < 10 %}
+                  {{ 10|subtract:streak.current_streak }} أيام أخرى للحصول على شارة 10 أيام!
+                {% else %}
+                  أحسنت! لديك سلسلة رائعة!
+                {% endif %}
+              {% else %}
+                ابدأ سلسلتك اليوم!
+              {% endif %}
             </p>
           </div>
         </div>
@@ -136,8 +108,7 @@
             <div class="recommendation-icon">🏪</div>
             <div class="recommendation-title">متجر الألعاب الكبير</div>
             <div class="recommendation-description">
-              لقد أتقنت الأساسيات! جرب إدارة متجر ألعاب مع خطوط إنتاج متعددة
-              وطلب موسمي.
+              لقد أتقنت الأساسيات! جرب إدارة متجر ألعاب مع خطوط إنتاج متعددة وطلب موسمي.
             </div>
             <button class="start-button" onclick="startScenario('toy-shop')">
               <span>▶️</span>
@@ -148,8 +119,7 @@
             <div class="recommendation-icon">🍋</div>
             <div class="recommendation-title">إمبراطورية الليمون</div>
             <div class="recommendation-description">
-              تدرب على استراتيجيات التسعير مع هذا السيناريو الكلاسيكي. مثالي
-              لجلسة سريعة مدتها 10 دقائق!
+              تدرب على استراتيجيات التسعير مع هذا السيناريو الكلاسيكي. مثالي لجلسة سريعة مدتها 10 دقائق!
             </div>
             <button class="start-button" onclick="startScenario('lemonade')">
               <span>▶️</span>
@@ -160,13 +130,9 @@
             <div class="recommendation-icon">📊</div>
             <div class="recommendation-title">التقارير المالية</div>
             <div class="recommendation-description">
-              تعلم قراءة الميزانيات العمومية وبيانات الدخل من خلال وحدة الثقافة
-              المالية التفاعلية.
+              تعلم قراءة الميزانيات العمومية وبيانات الدخل من خلال وحدة الثقافة المالية التفاعلية.
             </div>
-            <button
-              class="start-button"
-              onclick="startLesson('financial-reports')"
-            >
+            <button class="start-button" onclick="startLesson('financial-reports')">
               <span>📚</span>
               <span>بدء الدرس</span>
             </button>
@@ -178,32 +144,58 @@
       <div class="badges-section">
         <div class="badges-title">🏆 شاراتك</div>
         <div class="badges-grid">
-          <div class="badge">
-            <div class="badge-icon">💰</div>
-            <div class="badge-name">أول ربح</div>
-          </div>
-          <div class="badge">
-            <div class="badge-icon">🍋</div>
-            <div class="badge-name">خبير الليمون</div>
-          </div>
-          <div class="badge">
-            <div class="badge-icon">🏆</div>
-            <div class="badge-name">قطب الألعاب</div>
-          </div>
-          <div class="badge locked">
-            <span class="lock-icon">🔒</span>
-            <div class="badge-icon">📈</div>
-            <div class="badge-name">المستثمر</div>
-          </div>
-          <div class="badge">
-            <div class="badge-icon">🕒</div>
-            <div class="badge-name">سلسلة 7 أيام</div>
-          </div>
-          <div class="badge locked">
-            <span class="lock-icon">🔒</span>
-            <div class="badge-icon">🏢</div>
-            <div class="badge-name">رجل أعمال</div>
-          </div>
+          {% for achievement in recent_achievements %}
+            <div class="badge">
+              <div class="badge-icon">{{ achievement.achievement.icon }}</div>
+              <div class="badge-name">{{ achievement.achievement.name_ar }}</div>
+            </div>
+          {% endfor %}
+          
+          <!-- Locked badges placeholder -->
+          {% if recent_achievements|length < 6 %}
+            {% if recent_achievements|length <= 5 %}
+              <div class="badge locked">
+                <span class="lock-icon">🔒</span>
+                <div class="badge-icon">🏆</div>
+                <div class="badge-name">قريباً</div>
+              </div>
+            {% endif %}
+            {% if recent_achievements|length <= 4 %}
+              <div class="badge locked">
+                <span class="lock-icon">🔒</span>
+                <div class="badge-icon">🏆</div>
+                <div class="badge-name">قريباً</div>
+              </div>
+            {% endif %}
+            {% if recent_achievements|length <= 3 %}
+              <div class="badge locked">
+                <span class="lock-icon">🔒</span>
+                <div class="badge-icon">🏆</div>
+                <div class="badge-name">قريباً</div>
+              </div>
+            {% endif %}
+            {% if recent_achievements|length <= 2 %}
+              <div class="badge locked">
+                <span class="lock-icon">🔒</span>
+                <div class="badge-icon">🏆</div>
+                <div class="badge-name">قريباً</div>
+              </div>
+            {% endif %}
+            {% if recent_achievements|length <= 1 %}
+              <div class="badge locked">
+                <span class="lock-icon">🔒</span>
+                <div class="badge-icon">🏆</div>
+                <div class="badge-name">قريباً</div>
+              </div>
+            {% endif %}
+            {% if recent_achievements|length == 0 %}
+              <div class="badge locked">
+                <span class="lock-icon">🔒</span>
+                <div class="badge-icon">🏆</div>
+                <div class="badge-name">قريباً</div>
+              </div>
+            {% endif %}
+          {% endif %}
         </div>
       </div>
 
@@ -211,44 +203,49 @@
       <div class="recent-activity">
         <div class="activity-title">📜 النشاط الأخير</div>
         <div class="activity-list">
-          <div class="activity-item">
-            <div class="activity-icon">✅</div>
-            <div class="activity-content">أكملت سيناريو "كشك الليمون"</div>
-            <div class="activity-time">منذ ساعتين</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">💰</div>
-            <div class="activity-content">
-              حققت ربحاً قدره $125 في متجر الألعاب
+          {% for lesson in recent_lessons %}
+            <div class="activity-item">
+              <div class="activity-icon">{% if lesson.is_completed %}✅{% else %}📖{% endif %}</div>
+              <div class="activity-content">
+                {% if lesson.is_completed %}أكملت{% else %}بدأت{% endif %} درس "{{ lesson.lesson.title_ar }}"
+              </div>
+              <div class="activity-time">{{ lesson.started_at|timesince }} مضت</div>
             </div>
-            <div class="activity-time">منذ يوم واحد</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">🏅</div>
-            <div class="activity-content">فتحت شارة "أول ربح"</div>
-            <div class="activity-time">منذ يومين</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">⬆️</div>
-            <div class="activity-content">وصلت إلى المستوى 5</div>
-            <div class="activity-time">منذ 3 أيام</div>
-          </div>
+          {% endfor %}
+          
+          {% for scenario in recent_scenarios %}
+            <div class="activity-item">
+              <div class="activity-icon">{% if scenario.status == 'completed' %}🎮{% else %}⏳{% endif %}</div>
+              <div class="activity-content">
+                {% if scenario.status == 'completed' %}أكملت{% else %}بدأت{% endif %} سيناريو "{{ scenario.scenario.title_ar }}"
+              </div>
+              <div class="activity-time">{{ scenario.started_at|timesince }} مضت</div>
+            </div>
+          {% endfor %}
+          
+          {% if not recent_lessons and not recent_scenarios %}
+            <div class="activity-item">
+              <div class="activity-icon">🎯</div>
+              <div class="activity-content">ابدأ رحلتك التعليمية الآن!</div>
+              <div class="activity-time">الآن</div>
+            </div>
+          {% endif %}
         </div>
       </div>
 
       <!-- Quick Actions -->
       <div class="quick-actions">
-        <div class="action-card" onclick="startNewScenario()">
+        <div class="action-card" onclick="window.location.href='{% url "lessons:learning_path" %}'">
           <div class="action-icon">🎮</div>
           <div class="action-title">بدء سيناريو جديد</div>
         </div>
-        <div class="action-card" onclick="editProfile()">
+        <div class="action-card" onclick="window.location.href='{% url "accounts:profile" %}'">
           <div class="action-icon">👤</div>
           <div class="action-title">تعديل الملف الشخصي</div>
         </div>
-        <div class="action-card" onclick="viewLeaderboard()">
+        <div class="action-card" onclick="window.location.href='{% url "accounts:progress_rewards" %}'">
           <div class="action-icon">🏆</div>
-          <div class="action-title">عرض لوحة المتصدرين</div>
+          <div class="action-title">عرض الإنجازات</div>
         </div>
         <div class="action-card" onclick="visitShop()">
           <div class="action-icon">🛒</div>
@@ -256,78 +253,27 @@
         </div>
       </div>
     </div>
+{% endblock content %}
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>روابط سريعة</h3>
-          <a href="#home">الرئيسية</a>
-          <a href="#about">من نحن</a>
-          <a href="#quiz">اختبار</a>
-          <a href="#contact">اتصل بنا</a>
-        </div>
-        <div class="footer-section">
-          <h3>معلومات قانونية</h3>
-          <a href="#privacy">سياسة الخصوصية</a>
-          <a href="#terms">الشروط والأحكام</a>
-          <a href="#faq">الأسئلة الشائعة</a>
-        </div>
-        <div class="footer-section">
-          <h3>تواصل معنا</h3>
-          <p>📞 +47 961 78 807</p>
-          <p>✉️ Info@BizVentureKids.no</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
-      </div>
-    </footer>
-
+{% block extra_js %}
     <script>
       // Scenario functions
       function startScenario(scenarioId) {
-        alert(`بدء السيناريو: ${scenarioId} 🎮`);
-        // In real application, this would navigate to the scenario page
-        console.log("Starting scenario:", scenarioId);
+        window.location.href = "{% url 'lessons:learning_path' %}";
       }
 
       function startLesson(lessonId) {
-        alert(`بدء الدرس: ${lessonId} 📚`);
-        // In real application, this would navigate to the lesson page
-        console.log("Starting lesson:", lessonId);
-      }
-
-      // Quick action functions
-      function startNewScenario() {
-        alert("اختر سيناريو جديد للبدء! 🎮");
-        // In real application, show scenario selection modal or navigate to scenarios page
-      }
-
-      function editProfile() {
-        alert("الانتقال إلى صفحة الملف الشخصي... 👤");
-        // In real application, navigate to profile page
-        // window.location.href = 'profile.html';
-      }
-
-      function viewLeaderboard() {
-        alert("عرض لوحة المتصدرين... 🏆");
-        // In real application, navigate to leaderboard page
+        window.location.href = "{% url 'lessons:learning_path' %}";
       }
 
       function visitShop() {
-        alert("مرحباً بك في المتجر! 🛒");
-        // In real application, navigate to shop page
+        alert("المتجر قريباً! 🛒");
       }
 
       // Notification click handler
-      document
-        .querySelector(".notifications")
-        .addEventListener("click", function () {
-          alert(
-            "لديك 3 إشعارات جديدة:\n\n1. أحمد تحداك في سيناريو جديد!\n2. فتحت شارة جديدة: خبير الليمون 🍋\n3. عرض خاص: خصم 20% على جميع المحتوى التعليمي!"
-          );
-        });
+      document.querySelector(".notifications").addEventListener("click", function () {
+        alert("لديك 3 إشعارات جديدة:\n\n1. أحمد تحداك في سيناريو جديد!\n2. فتحت شارة جديدة 🏆\n3. عرض خاص: خصم 20% على جميع المحتوى التعليمي!");
+      });
 
       // Add smooth scroll behavior
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -349,24 +295,14 @@
         statValues.forEach((stat) => {
           stat.style.transform = "scale(0)";
           setTimeout(() => {
-            stat.style.transition =
-              "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)";
+            stat.style.transition = "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)";
             stat.style.transform = "scale(1)";
           }, 100);
         });
-
-        // Animate XP bar
-        const xpFill = document.querySelector(".xp-fill");
-        xpFill.style.width = "0%";
-        setTimeout(() => {
-          xpFill.style.width = "65%";
-        }, 300);
       });
 
       // Add hover effects to cards
-      const cards = document.querySelectorAll(
-        ".stat-card, .recommendation-card, .action-card, .badge"
-      );
+      const cards = document.querySelectorAll(".stat-card, .recommendation-card, .action-card, .badge");
       cards.forEach((card) => {
         card.addEventListener("mouseenter", function () {
           this.style.transition = "all 0.3s ease";
@@ -374,14 +310,7 @@
       });
 
       // Console welcome message
-      console.log(
-        "%c مرحباً بك في المحاسب الصغير! 💰",
-        "color: #4caf50; font-size: 20px; font-weight: bold;"
-      );
-      console.log(
-        "%c استمتع بتعلم المهارات المالية! 🚀",
-        "color: #ff9800; font-size: 14px;"
-      );
+      console.log("%c مرحباً بك في المحاسب الصغير! 💰", "color: #4caf50; font-size: 20px; font-weight: bold;");
+      console.log("%c استمتع بتعلم المهارات المالية! 🚀", "color: #ff9800; font-size: 14px;");
     </script>
-  </body>
-</html>
+{% endblock extra_js %}

@@ -1,71 +1,38 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>مسار إتقان المال - بيزفينتشر كيدز</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="learning-path.css" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
-    <!-- Main Header -->
-    <header class="main-header">
-      <div>
-        <div class="logo">
-          <span class="logo-icon">💰</span>
-          المحاسب الصغير
-        </div>
-        <div class="tagline">
-          ★ العب. قرر. انمُ: الطريقة الآمنة لتعلم المهارات المالية الحقيقية! ★
-        </div>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#home">الرئيسية</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#quiz">اختبار</a></li>
-          <li><a href="#contact">اتصل بنا</a></li>
-        </ul>
-      </nav>
-    </header>
+{% extends "base.html" %}
+{% load static %}
 
+{% block title %}{{ path.title }}{% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/lessons/learning-path.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
     <!-- Path Container -->
     <div class="path-container">
       <!-- Path Header -->
       <div class="path-header">
-        <h1 class="path-title">💰 مسار إتقان المال</h1>
-        <p class="path-description">
-          أتقن أساسيات إدارة المال، من الادخار الأساسي إلى استراتيجيات الأعمال
-          المتقدمة. أكمل جميع الدروس لتحصل على شهادة سيد المال الخاصة بك!
-        </p>
+        <h1 class="path-title">{{ path.icon }} {{ path.title }}</h1>
+        <p class="path-description">{{ path.description }}</p>
         <div class="path-meta">
           <div class="meta-item">
             <span class="meta-icon">📊</span>
-            متوسط
+            {{ path.get_difficulty_display }}
           </div>
           <div class="meta-item">
             <span class="meta-icon">👶</span>
-            الأعمار 10-14
+            الأعمار {{ path.min_age }}-{{ path.max_age }}
           </div>
           <div class="meta-item">
             <span class="meta-icon">⏱️</span>
-            ~8 ساعات إجمالاً
+            ~{{ path.total_duration|floatformat:0 }} دقيقة إجمالاً
           </div>
+          {% if path.certificate_available %}
           <div class="meta-item">
             <span class="meta-icon">🎓</span>
             الشهادة متاحة
           </div>
+          {% endif %}
         </div>
       </div>
 
@@ -73,466 +40,253 @@
       <div class="progress-container">
         <h2 class="progress-title">تقدمك</h2>
         <div class="overall-progress">
-          <span class="progress-text">60% مكتمل</span>
+          <span class="progress-text">{{ progress_percentage }}% مكتمل</span>
           <div class="progress-bar">
-            <div class="progress-fill"></div>
+            <div class="progress-fill" style="width: {{ progress_percentage }}%"></div>
           </div>
-          <span class="progress-stats">8/13 درس</span>
+          <span class="progress-stats">{{ completed_lessons }}/{{ total_lessons }} درس</span>
         </div>
       </div>
 
       <!-- Lessons Container -->
       <div class="lessons-container">
-        <!-- Lesson 1: Introduction to Money -->
-        <div class="lesson-card completed" onclick="openLesson(1)">
-          <div class="lesson-icon completed">💰</div>
+        {% for lesson_data in lessons_data %}
+        <div class="lesson-card {{ lesson_data.status }}" 
+             {% if not lesson_data.is_locked %}
+             onclick="window.location.href='{% url 'lessons:lesson_detail' lesson_data.lesson.id %}'"
+             {% else %}
+             onclick="showLockedMessage()"
+             {% endif %}
+             style="cursor: pointer;">
+          <div class="lesson-icon {{ lesson_data.status }}">{{ lesson_data.lesson.icon }}</div>
           <div class="lesson-content">
-            <h3 class="lesson-title">مقدمة في المال</h3>
-            <p class="lesson-description">
-              تعرف على أنواع المال المختلفة، وكيفية استخدامه، ولماذا هو مهم في
-              حياتنا اليومية.
-            </p>
+            <h3 class="lesson-title">{{ lesson_data.lesson.title }}</h3>
+            <p class="lesson-description">{{ lesson_data.lesson.description }}</p>
             <div class="lesson-meta">
-              <span class="lesson-duration">30 دقيقة</span>
-              <span class="lesson-status status-completed">
-                <span class="checkmark">✓</span>
-                مكتمل
+              <span class="lesson-duration">{{ lesson_data.lesson.duration }} دقيقة</span>
+              <span class="lesson-status status-{{ lesson_data.status }}">
+                {% if lesson_data.status == 'completed' %}
+                  <span class="checkmark">✓</span>
+                  مكتمل
+                {% elif lesson_data.status == 'inprogress' %}
+                  <span class="progress">⏳</span>
+                  قيد التقدم
+                {% elif lesson_data.status == 'locked' %}
+                  <span class="lock">🔒</span>
+                  مقفل
+                {% else %}
+                  <span class="unlock">🔓</span>
+                  غير مقفل
+                {% endif %}
               </span>
             </div>
           </div>
         </div>
-
-        <!-- Lesson 2: Saving vs. Spending -->
-        <div class="lesson-card completed" onclick="openLesson(2)">
-          <div class="lesson-icon completed">💸</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">الادخار مقابل الإنفاق</h3>
-            <p class="lesson-description">
-              استكشف الفرق بين الادخار والإنفاق، وتعلم استراتيجيات الإدارة
-              الذكية للمال.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">45 دقيقة</span>
-              <span class="lesson-status status-completed">
-                <span class="checkmark">✓</span>
-                مكتمل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 3: Basic Budgeting -->
-        <div class="lesson-card completed" onclick="openLesson(3)">
-          <div class="lesson-icon completed">🛒</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">الميزانية الأساسية</h3>
-            <p class="lesson-description">
-              أنشئ ميزانيتك الأولى وتعلم كيفية تتبع الدخل والمصروفات بفعالية.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">ساعة واحدة</span>
-              <span class="lesson-status status-completed">
-                <span class="checkmark">✓</span>
-                مكتمل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 4: Lemonade Stand Simulation -->
-        <div class="lesson-card completed" onclick="openLesson(4)">
-          <div class="lesson-icon completed">🍋</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">محاكاة كشك الليموناضة</h3>
-            <p class="lesson-description">
-              قم بإدارة كشك الليموناضة الافتراضي الخاص بك وتعلم عن التكاليف
-              والتسعير والربح.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">ساعة واحدة</span>
-              <span class="lesson-status status-completed">
-                <span class="checkmark">✓</span>
-                مكتمل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 5: Toy Shop Tycoon -->
-        <div class="lesson-card inprogress" onclick="openLesson(5)">
-          <div class="lesson-icon inprogress">🧸</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">قطب متجر الألعاب</h3>
-            <p class="lesson-description">
-              قم بإدارة متجر ألعاب بمنتجات متعددة ومخزون وأنواع عملاء مختلفة.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">1.5 ساعة</span>
-              <span class="lesson-status status-inprogress">
-                <span class="progress">⏳</span>
-                قيد التقدم
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 6: Understanding Profit -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">📊</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">فهم الربح</h3>
-            <p class="lesson-description">
-              تعلم كيفية حساب الربح وفهم الفرق بين الإيرادات والمصروفات.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">45 دقيقة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 7: Introduction to Banking -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">💳</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">مقدمة في الخدمات المصرفية</h3>
-            <p class="lesson-description">
-              تعرف على الحسابات المصرفية والفوائد وكيف تساعد البنوك في إدارة
-              المال.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">ساعة واحدة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 8: Investing Basics -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">📈</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">أساسيات الاستثمار</h3>
-            <p class="lesson-description">
-              اكتشف أساسيات الاستثمار وكيف يمكن للمال أن ينمو بمرور الوقت.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">ساعة واحدة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 9: Business Planning -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">🏢</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">تخطيط الأعمال</h3>
-            <p class="lesson-description">
-              تعلم كيفية إنشاء خطة عمل وفهم مفاهيم الأعمال الرئيسية.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">1.5 ساعة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 10: Advanced Budgeting -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">💼</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">الميزانية المتقدمة</h3>
-            <p class="lesson-description">
-              ارتق بمهارات الميزانية الخاصة بك إلى المستوى التالي باستخدام
-              تقنيات وأدوات متقدمة.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">ساعة واحدة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 11: Market Analysis -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">📉</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">تحليل السوق</h3>
-            <p class="lesson-description">
-              فهم كيفية تحليل اتجاهات السوق واتخاذ قرارات عمل مستنيرة.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">ساعة واحدة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 12: Financial Risk Management -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">⚠️</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">إدارة المخاطر المالية</h3>
-            <p class="lesson-description">
-              تعلم كيفية تحديد وإدارة المخاطر المالية في العمل والحياة الشخصية.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">1.5 ساعة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lesson 13: Final Project -->
-        <div class="lesson-card locked" onclick="showLockedMessage()">
-          <div class="lesson-icon locked">🎯</div>
-          <div class="lesson-content">
-            <h3 class="lesson-title">المشروع النهائي</h3>
-            <p class="lesson-description">
-              طبق كل ما تعلمته في مشروع عمل شامل واحصل على شهادتك.
-            </p>
-            <div class="lesson-meta">
-              <span class="lesson-duration">2 ساعة</span>
-              <span class="lesson-status status-locked">
-                <span class="lock">🔒</span>
-                مقفل
-              </span>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
 
       <!-- Path Navigation -->
       <div class="path-navigation">
-        <button class="nav-button prev" onclick="goToPreviousPath()">
-          ← المسار السابق
+        <button class="nav-button prev" onclick="goBack()">
+          ← العودة
         </button>
+        {% if progress_percentage < 100 %}
         <button class="nav-button next" onclick="continueCurrentLesson()">
-          متابعة الدرس الحالي →
+          متابعة التعلم →
         </button>
+        {% endif %}
       </div>
 
-      <!-- Path Completion (Hidden by default, shown when all lessons complete) -->
-      <div class="path-completion" style="display: none" id="completionSection">
+      <!-- Path Completion -->
+      {% if progress_percentage == 100 %}
+      <div class="path-completion" id="completionSection">
         <div class="completion-icon">🎉</div>
-        <h2 class="completion-message">تهانينا! لقد أكملت مسار إتقان المال!</h2>
+        <h2 class="completion-message">تهانينا! لقد أكملت {{ path.title }}!</h2>
         <p class="completion-subtitle">
           لقد أتقنت المهارات المالية الأساسية. احصل على شهادتك الآن!
         </p>
-        <button class="certificate-button" onclick="downloadCertificate()">
-          🎓 احصل على شهادتك
-        </button>
+        <form method="post" action="{% url 'lessons:generate_certificate' path.id %}">
+          {% csrf_token %}
+          <button type="submit" class="certificate-button">
+            🎓 احصل على شهادتك
+          </button>
+        </form>
       </div>
+      {% endif %}
     </div>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>روابط سريعة</h3>
-          <a href="#home">الرئيسية</a>
-          <a href="#about">من نحن</a>
-          <a href="#quiz">اختبار</a>
-          <a href="#contact">اتصل بنا</a>
+    <!-- Lesson Modal (if lesson selected) -->
+    {% if selected_lesson %}
+    <div class="lesson-modal" id="lessonModal">
+      <div class="modal-content">
+        <button class="close-modal" onclick="closeLesson()">&times;</button>
+        <h2>{{ selected_lesson.icon }} {{ selected_lesson.title }}</h2>
+        <div class="lesson-body">
+          {{ selected_lesson.content|safe }}
+          
+          {% if selected_lesson.video_url %}
+          <div class="video-container">
+            <iframe src="{{ selected_lesson.video_url }}" allowfullscreen></iframe>
+          </div>
+          {% endif %}
         </div>
-        <div class="footer-section">
-          <h3>معلومات قانونية</h3>
-          <a href="#privacy">سياسة الخصوصية</a>
-          <a href="#terms">الشروط والأحكام</a>
-          <a href="#faq">الأسئلة الشائعة</a>
+        
+        {% if quiz %}
+        <div class="quiz-section">
+          <h3>{{ quiz.title }}</h3>
+          <p>{{ quiz.description }}</p>
+          <form method="post" action="{% url 'lessons:quiz_submit' quiz.id %}">
+            {% csrf_token %}
+            {% for question in quiz.questions.all %}
+            <div class="question-block">
+              <p class="question-text">{{ forloop.counter }}. {{ question.question_text }}</p>
+              <div class="answers">
+                {% for answer in question.answers.all %}
+                <label class="answer-option">
+                  <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" required>
+                  <span>{{ answer.answer_text }}</span>
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="submit-quiz-btn">إرسال الإجابات</button>
+          </form>
         </div>
-        <div class="footer-section">
-          <h3>تواصل معنا</h3>
-          <p>📞 +47 961 78 807</p>
-          <p>✉️ Info@BizVentureKids.no</p>
-        </div>
+        {% else %}
+        <form method="post" action="{% url 'lessons:complete_lesson' selected_lesson.id %}">
+          {% csrf_token %}
+          <button type="submit" class="complete-lesson-btn">إكمال الدرس</button>
+        </form>
+        {% endif %}
       </div>
-      <div class="footer-bottom">
-        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
-      </div>
-    </footer>
+    </div>
+    {% endif %}
+{% endblock content %}
 
-    <script>
-      // Open Lesson Function
-      function openLesson(lessonNumber) {
-        if (lessonNumber <= 5) {
-          console.log(`فتح الدرس ${lessonNumber}...`);
-          alert(`🎓 فتح الدرس ${lessonNumber}: ` + getLessonName(lessonNumber));
-          // In a real application, this would navigate to the lesson page
-        }
-      }
+{% block extra_js %}
+<script>
+  // Django context variables
+  const pathData = {
+    id: {{ path.id }},
+    title: "{{ path.title|escapejs }}",
+    totalLessons: {{ total_lessons }},
+    completedLessons: {{ completed_lessons }},
+    progressPercentage: {{ progress_percentage }}
+  };
 
-      function getLessonName(lessonNumber) {
-        const lessons = [
-          "", // index 0 unused
-          "مقدمة في المال",
-          "الادخار مقابل الإنفاق",
-          "الميزانية الأساسية",
-          "محاكاة كشك الليموناضة",
-          "قطب متجر الألعاب",
-          "فهم الربح",
-          "مقدمة في الخدمات المصرفية",
-          "أساسيات الاستثمار",
-          "تخطيط الأعمال",
-          "الميزانية المتقدمة",
-          "تحليل السوق",
-          "إدارة المخاطر المالية",
-          "المشروع النهائي",
-        ];
-        return lessons[lessonNumber] || "درس غير معروف";
-      }
+  const lessons = [
+    {% for lesson_data in lessons_data %}
+    {
+      id: {{ lesson_data.lesson.id }},
+      title: "{{ lesson_data.lesson.title|escapejs }}",
+      status: "{{ lesson_data.status }}",
+      isLocked: {{ lesson_data.is_locked|yesno:"true,false" }}
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
 
-      // Show Locked Message
-      function showLockedMessage() {
-        alert(
-          "🔒 هذا الدرس مقفل!\n\nأكمل الدروس السابقة أولاً لفتح هذا الدرس."
-        );
-      }
+  // Open Lesson Function
+  function openLesson(lessonId) {
+    window.location.href = "{% url 'lessons:learning_path' %}?lesson=" + lessonId;
+  }
 
-      // Continue Current Lesson
-      function continueCurrentLesson() {
-        console.log("متابعة الدرس الحالي: قطب متجر الألعاب");
-        alert(
-          "🧸 متابعة الدرس: قطب متجر الألعاب\n\nسيتم توجيهك إلى الدرس الحالي..."
-        );
-        // In a real application, this would navigate to lesson 5
-      }
+  // Show Locked Message
+  function showLockedMessage() {
+    alert("🔒 هذا الدرس مقفل!\n\nأكمل الدروس السابقة أولاً لفتح هذا الدرس.");
+  }
 
-      // Go to Previous Path
-      function goToPreviousPath() {
-        console.log("الانتقال إلى المسار السابق...");
-        alert(
-          "← العودة إلى المسار السابق\n\nسيتم توجيهك إلى صفحة المسارات التعليمية..."
-        );
-        // In a real application, this would navigate to the paths page
-      }
+  // Continue Current Lesson
+  function continueCurrentLesson() {
+    const inProgressLesson = lessons.find(l => l.status === 'inprogress');
+    const unlockedLesson = lessons.find(l => l.status === 'unlocked');
+    
+    if (inProgressLesson) {
+      openLesson(inProgressLesson.id);
+    } else if (unlockedLesson) {
+      openLesson(unlockedLesson.id);
+    } else {
+      alert("لا يوجد درس متاح للمتابعة.");
+    }
+  }
 
-      // Download Certificate
-      function downloadCertificate() {
-        console.log("تنزيل الشهادة...");
-        alert("🎓 تهانينا!\n\nسيتم تنزيل شهادة إتقان المال الخاصة بك...");
-        // In a real application, this would generate and download a PDF certificate
-      }
+  // Go Back
+  function goBack() {
+    window.history.back();
+  }
 
-      // Check Progress and Show Completion
-      function checkProgress() {
-        const totalLessons = 13;
-        const completedLessons = 8;
-        const progressPercentage = (completedLessons / totalLessons) * 100;
+  // Close Lesson Modal
+  function closeLesson() {
+    window.location.href = "{% url 'lessons:learning_path' %}";
+  }
 
-        if (progressPercentage === 100) {
-          document.getElementById("completionSection").style.display = "block";
-        }
-      }
+  // Animate Progress Bar on Load
+  window.addEventListener("load", function() {
+    console.log(`%c 🎓 مرحباً بك في ${pathData.title}! `, 
+      "color: #4caf50; font-size: 20px; font-weight: bold;");
+    console.log(`%c لقد أكملت ${pathData.progressPercentage}% من المسار! استمر! 🌟`, 
+      "color: #ff9800; font-size: 14px;");
 
-      // Animate Progress Bar on Load
-      window.addEventListener("load", function () {
-        console.log(
-          "%c 🎓 مرحباً بك في مسار إتقان المال! ",
-          "color: #4caf50; font-size: 20px; font-weight: bold;"
-        );
-        console.log(
-          "%c لقد أكملت 60% من المسار! استمر! 🌟",
-          "color: #ff9800; font-size: 14px;"
-        );
+    // Scroll animation for lesson cards
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
 
-        // Scroll animation for lesson cards
-        const observerOptions = {
-          threshold: 0.1,
-          rootMargin: "0px 0px -50px 0px",
-        };
-
-        const observer = new IntersectionObserver(function (entries) {
-          entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-              setTimeout(() => {
-                entry.target.style.animation = "slideInRight 0.5s ease-out";
-                entry.target.style.opacity = "1";
-              }, index * 100);
-            }
-          });
-        }, observerOptions);
-
-        document.querySelectorAll(".lesson-card").forEach((card) => {
-          card.style.opacity = "0";
-          observer.observe(card);
-        });
-
-        // Check if path is complete
-        checkProgress();
-      });
-
-      // Add slide animation
-      const style = document.createElement("style");
-      style.textContent = `
-            @keyframes slideInRight {
-                from {
-                    opacity: 0;
-                    transform: translateX(-50px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-            }
-        `;
-      document.head.appendChild(style);
-
-      // Save Progress (localStorage simulation)
-      function saveProgress() {
-        const progress = {
-          pathName: "مسار إتقان المال",
-          completedLessons: 8,
-          totalLessons: 13,
-          currentLesson: 5,
-          percentage: 60,
-          lastAccessed: new Date().toISOString(),
-        };
-        console.log("تم حفظ التقدم:", progress);
-        // In a real application, this would save to a backend or localStorage
-      }
-
-      // Keyboard Navigation
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowRight") {
-          continueCurrentLesson();
-        } else if (e.key === "ArrowLeft") {
-          goToPreviousPath();
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.style.animation = "slideInRight 0.5s ease-out";
+            entry.target.style.opacity = "1";
+          }, index * 100);
         }
       });
+    }, observerOptions);
 
-      // Interactive lesson card click effects
-      document.querySelectorAll(".lesson-card").forEach((card) => {
-        card.addEventListener("click", function () {
-          if (!this.classList.contains("locked")) {
-            this.style.transform = "scale(0.98)";
-            setTimeout(() => {
-              this.style.transform = "";
-            }, 100);
-          }
-        });
-      });
-    </script>
-  </body>
-</html>
+    document.querySelectorAll(".lesson-card").forEach(card => {
+      card.style.opacity = "0";
+      observer.observe(card);
+    });
+  });
+
+  // Add slide animation
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Keyboard Navigation
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "ArrowRight") {
+      continueCurrentLesson();
+    } else if (e.key === "ArrowLeft") {
+      goBack();
+    } else if (e.key === "Escape") {
+      closeLesson();
+    }
+  });
+
+  // Interactive lesson card click effects
+  document.querySelectorAll(".lesson-card").forEach(card => {
+    card.addEventListener("click", function() {
+      if (!this.classList.contains("locked")) {
+        this.style.transform = "scale(0.98)";
+        setTimeout(() => {
+          this.style.transform = "";
+        }, 100);
+      }
+    });
+  });
+</script>
+{% endblock extra_js %}

@@ -3,24 +3,24 @@
       <div class="footer-content">
         <div class="footer-section">
           <h3>روابط سريعة</h3>
-          <a href="#home">الرئيسية</a>
-          <a href="#about">من نحن</a>
-          <a href="#quiz">اختبار</a>
-          <a href="#contact">اتصل بنا</a>
+          <a href="{% url "pages:index" %}">الرئيسية</a>
+          <a href="{% url "pages:about" %}">من نحن</a>
+          <a href="{% url "lessons:learning_path" %}">اختبار</a>
+          <a href="{% url "pages:contact" %}">اتصل بنا</a>
         </div>
         <div class="footer-section">
           <h3>معلومات قانونية</h3>
           <a href="#privacy">سياسة الخصوصية</a>
           <a href="#terms">الشروط والأحكام</a>
-          <a href="#faq">الأسئلة الشائعة</a>
+          <a href="{% url "pages:contact" %}#faqs">الأسئلة الشائعة</a>
         </div>
         <div class="footer-section">
           <h3>تواصل معنا</h3>
-          <p>📞 +47 961 78 807</p>
-          <p>✉️ Info@BizVentureKids.no</p>
+          <p>📞 {{ site_settings.phone }}</p>
+          <p>✉️ {{ site_settings.address_ar|default:site_settings.address }}</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
+        <p>© 2025 {{ site_settings.site_name_ar }}. جميع الحقوق محفوظة.</p>
       </div>
     </footer>

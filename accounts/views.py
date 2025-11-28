@@ -85,7 +85,7 @@ def register(request):
             return redirect("accounts:parent_dashboard")
         return redirect("accounts:user_dashboard")
 
-    return render(request, "accounts/register.html")
+    return render(request, "accounts/signup-ar.html")
 
 
 def user_login(request):
@@ -223,6 +223,13 @@ def profile(request):
 
             messages.success(request, "تم تغيير كلمة المرور بنجاح!")
             return redirect("accounts:profile")
+        elif action == "delete_account":
+            # Delete user account
+            username = request.user.username
+            request.user.delete()
+            logout(request)
+            messages.success(request, f"تم حذف حساب {username} بنجاح.")
+            return redirect("pages:index")
 
     # Get user achievements
     user_achievements = UserAchievement.objects.filter(
@@ -253,7 +260,7 @@ def profile(request):
         "certificates": certificates,
         "streak": streak,
     }
-    return render(request, "accounts/profile.html", context)
+    return render(request, "accounts/profile-ar.html", context)
 
 
 @login_required
@@ -316,7 +323,7 @@ def user_dashboard(request):
         "streak": streak,
     }
 
-    return render(request, "accounts/user_dashboard.html", context)
+    return render(request, "accounts/dashboard-ar.html", context)
 
 
 @login_required
@@ -432,7 +439,7 @@ def parent_dashboard(request):
         "children_data": children_data,
     }
 
-    return render(request, "accounts/parent_dashboard.html", context)
+    return render(request, "accounts/parent-dashboard-ar.html", context)
 
 
 @login_required

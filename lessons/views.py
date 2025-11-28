@@ -3,153 +3,167 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from .models import (
-    LearningPath, Lesson, UserLesson, Quiz, Question, 
-    Answer, UserQuizAttempt, Certificate
+    LearningPath,
+    Lesson,
+    UserLesson,
+    Quiz,
+    Question,
+    Answer,
+    UserQuizAttempt,
+    Certificate,
 )
 from accounts.models import UserAchievement, Achievement
 import random
 import string
 
+
 @login_required
 def learning_path(request):
-    """Display the main learning path with integrated lesson content"""
+    """Display the main learning path with all lessons"""
     path = LearningPath.objects.filter(is_active=True).first()
-    
+
     if not path:
-        messages.error(request, 'لا توجد مسارات تعليمية متاحة حالياً.')
-        return redirect('pages:index')
-    
-    # Get selected lesson if any
-    selected_lesson_id = request.GET.get('lesson')
-    selected_lesson = None
-    quiz = None
-    
-    if selected_lesson_id:
-        selected_lesson = get_object_or_404(Lesson, id=selected_lesson_id, is_active=True)
-        if not selected_lesson.is_locked_for_user(request.user):
-            quiz = selected_lesson.quizzes.filter(is_active=True).first()
-            
-            # Mark as started
-            UserLesson.objects.get_or_create(
-                user=request.user,
-                lesson=selected_lesson
-            )
-    
+        messages.error(request, "لا توجد مسارات تعليمية متاحة حالياً.")
+        return redirect("pages:index")
+
     # Get all lessons for this path
     lessons = path.lessons.filter(is_active=True)
-    
+
     # Get user progress for each lesson
     lessons_data = []
     for lesson in lessons:
         user_lesson = UserLesson.objects.filter(
-            user=request.user,
-            lesson=lesson
+            user=request.user, lesson=lesson
         ).first()
-        
+
         is_locked = lesson.is_locked_for_user(request.user)
-        
+
         if user_lesson and user_lesson.is_completed:
-            status = 'completed'
+            status = "completed"
         elif user_lesson and not user_lesson.is_completed:
-            status = 'inprogress'
+            status = "inprogress"
         elif is_locked:
-            status = 'locked'
+            status = "locked"
         else:
-            status = 'unlocked'
-        
-        lessons_data.append({
-            'lesson': lesson,
-            'user_lesson': user_lesson,
-            'status': status,
-            'is_locked': is_locked,
-        })
-    
+            status = "unlocked"
+
+        lessons_data.append(
+            {
+                "lesson": lesson,
+                "user_lesson": user_lesson,
+                "status": status,
+                "is_locked": is_locked,
+            }
+        )
+
     # Calculate overall progress
     total_lessons = lessons.count()
     completed_lessons = UserLesson.objects.filter(
-        user=request.user,
-        lesson__path=path,
-        is_completed=True
+        user=request.user, lesson__path=path, is_completed=True
     ).count()
-    
+
     progress_percentage = 0
     if total_lessons > 0:
         progress_percentage = int((completed_lessons / total_lessons) * 100)
-    
+
     context = {
-        'path': path,
-        'lessons_data': lessons_data,
-        'total_lessons': total_lessons,
-        'completed_lessons': completed_lessons,
-        'progress_percentage': progress_percentage,
-        'selected_lesson': selected_lesson,
-        'quiz': quiz,
+        "path": path,
+        "lessons_data": lessons_data,
+        "total_lessons": total_lessons,
+        "completed_lessons": completed_lessons,
+        "progress_percentage": progress_percentage,
     }
-    
-    return render(request, 'lessons/learning_path.html', context)
+
+    return render(request, "lessons/learning-path-ar.html", context)
+
+
+@login_required
+def lesson_detail(request, lesson_id):
+    """Display individual lesson with content and quiz"""
+    lesson = get_object_or_404(Lesson, id=lesson_id, is_active=True)
+
+    # Check if lesson is locked
+    if lesson.is_locked_for_user(request.user):
+        messages.error(request, "هذا الدرس مقفل. أكمل الدروس السابقة أولاً!")
+        return redirect("lessons:learning_path")
+
+    # Get or create user lesson progress
+    user_lesson, created = UserLesson.objects.get_or_create(
+        user=request.user, lesson=lesson
+    )
+
+    # Get quiz if available
+    quiz = lesson.quizzes.filter(is_active=True).first()
+
+    context = {
+        "lesson": lesson,
+        "user_lesson": user_lesson,
+        "quiz": quiz,
+    }
+
+    return render(request, "lessons/lesson-ar.html", context)
 
 
 @login_required
 def complete_lesson(request, lesson_id):
     """Mark lesson as complete"""
-    if request.method != 'POST':
-        return redirect('lessons:learning_path')
-    
+    if request.method != "POST":
+        return redirect("lessons:learning_path")
+
     lesson = get_object_or_404(Lesson, id=lesson_id)
-    
+
     user_lesson, created = UserLesson.objects.get_or_create(
-        user=request.user,
-        lesson=lesson
+        user=request.user, lesson=lesson
     )
-    
+
     if not user_lesson.is_completed:
         user_lesson.is_completed = True
         user_lesson.completed_at = timezone.now()
         user_lesson.progress_percentage = 100
         user_lesson.save()
-        
+
         # Award points and coins
         profile = request.user.profile
         profile.total_points += lesson.points
         profile.coins += lesson.coins
         profile.save()
-        
+
         # Check for achievements
         check_lesson_achievements(request.user)
-        
+
         messages.success(
-            request, 
-            f'تهانينا! لقد أكملت درس "{lesson.title}" وحصلت على {lesson.points} نقطة و {lesson.coins} عملة!'
+            request,
+            f'تهانينا! لقد أكملت درس "{lesson.title}" وحصلت على {lesson.points} نقطة و {lesson.coins} عملة!',
         )
-    
-    return redirect('lessons:learning_path')
+
+    return redirect("lessons:lesson_detail", lesson_id=lesson_id)
 
 
 @login_required
 def quiz_submit(request, quiz_id):
     """Submit quiz answers"""
-    if request.method != 'POST':
-        return redirect('lessons:learning_path')
-    
+    if request.method != "POST":
+        return redirect("lessons:learning_path")
+
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = quiz.questions.all()
-    
+
     score = 0
     total_questions = questions.count()
-    
+
     # Check answers
     for question in questions:
-        answer_id = request.POST.get(f'question_{question.id}')
+        answer_id = request.POST.get(f"question_{question.id}")
         if answer_id:
             answer = Answer.objects.filter(id=answer_id, is_correct=True).first()
             if answer:
                 score += question.points
-    
+
     # Calculate percentage
     max_score = sum(q.points for q in questions)
     percentage = int((score / max_score) * 100) if max_score > 0 else 0
     passed = percentage >= quiz.pass_percentage
-    
+
     # Save attempt
     UserQuizAttempt.objects.create(
         user=request.user,
@@ -157,107 +171,100 @@ def quiz_submit(request, quiz_id):
         score=score,
         total_questions=total_questions,
         percentage=percentage,
-        passed=passed
+        passed=passed,
     )
-    
+
     # If passed, complete the lesson
     if passed:
         user_lesson, created = UserLesson.objects.get_or_create(
-            user=request.user,
-            lesson=quiz.lesson
+            user=request.user, lesson=quiz.lesson
         )
-        
+
         if not user_lesson.is_completed:
             user_lesson.is_completed = True
             user_lesson.completed_at = timezone.now()
+            user_lesson.progress_percentage = 100
             user_lesson.save()
-            
+
             # Award points
             profile = request.user.profile
             profile.total_points += quiz.lesson.points
             profile.coins += quiz.lesson.coins
             profile.save()
-            
+
             # Perfect score achievement
             if percentage == 100:
                 check_perfect_score_achievement(request.user)
-        
-        messages.success(request, f'ممتاز! لقد نجحت في الاختبار بنسبة {percentage}%!')
+
+        messages.success(request, f"ممتاز! لقد نجحت في الاختبار بنسبة {percentage}%!")
     else:
-        messages.warning(request, f'للأسف، لم تنجح في الاختبار. حصلت على {percentage}%. حاول مرة أخرى!')
-    
-    return redirect('lessons:learning_path')
+        messages.warning(
+            request,
+            f"للأسف، لم تنجح في الاختبار. حصلت على {percentage}%. حاول مرة أخرى!",
+        )
+
+    return redirect("lessons:lesson_detail", lesson_id=quiz.lesson.id)
 
 
 @login_required
 def generate_certificate(request, path_id):
     """Generate certificate for completed path"""
     path = get_object_or_404(LearningPath, id=path_id)
-    
+
     # Check if all lessons are completed
     total_lessons = path.lessons.count()
     completed_lessons = UserLesson.objects.filter(
-        user=request.user,
-        lesson__path=path,
-        is_completed=True
+        user=request.user, lesson__path=path, is_completed=True
     ).count()
-    
+
     if completed_lessons < total_lessons:
-        messages.error(request, 'يجب إكمال جميع الدروس للحصول على الشهادة!')
-        return redirect('lessons:learning_path')
-    
+        messages.error(request, "يجب إكمال جميع الدروس للحصول على الشهادة!")
+        return redirect("lessons:learning_path")
+
     # Check if certificate already exists
-    certificate = Certificate.objects.filter(
-        user=request.user,
-        path=path
-    ).first()
-    
+    certificate = Certificate.objects.filter(user=request.user, path=path).first()
+
     if not certificate:
         # Generate unique certificate number
         certificate_number = f"BVK-{timezone.now().year}-{request.user.id:04d}-{''.join(random.choices(string.ascii_uppercase + string.digits, k=6))}"
-        
+
         certificate = Certificate.objects.create(
-            user=request.user,
-            path=path,
-            certificate_number=certificate_number
+            user=request.user, path=path, certificate_number=certificate_number
         )
-        
-        messages.success(request, 'تهانينا! تم إصدار شهادتك بنجاح!')
-    
+
+        messages.success(request, "تهانينا! تم إصدار شهادتك بنجاح!")
+
     context = {
-        'certificate': certificate,
+        "certificate": certificate,
     }
-    
-    return render(request, 'lessons/certificate.html', context)
+
+    return render(request, "lessons/certificate.html", context)
 
 
 def check_lesson_achievements(user):
     """Check and award lesson-related achievements"""
     completed_count = UserLesson.objects.filter(user=user, is_completed=True).count()
-    
+
     # First lesson achievement
     if completed_count == 1:
         achievement = Achievement.objects.filter(
-            achievement_type='lesson',
-            points_required=1
+            achievement_type="lesson", points_required=1
         ).first()
         if achievement:
             UserAchievement.objects.get_or_create(user=user, achievement=achievement)
-    
+
     # 5 lessons achievement
     elif completed_count == 5:
         achievement = Achievement.objects.filter(
-            achievement_type='lesson',
-            points_required=5
+            achievement_type="lesson", points_required=5
         ).first()
         if achievement:
             UserAchievement.objects.get_or_create(user=user, achievement=achievement)
-    
+
     # 10 lessons achievement
     elif completed_count == 10:
         achievement = Achievement.objects.filter(
-            achievement_type='lesson',
-            points_required=10
+            achievement_type="lesson", points_required=10
         ).first()
         if achievement:
             UserAchievement.objects.get_or_create(user=user, achievement=achievement)
@@ -265,6 +272,6 @@ def check_lesson_achievements(user):
 
 def check_perfect_score_achievement(user):
     """Award achievement for perfect quiz score"""
-    achievement = Achievement.objects.filter(achievement_type='quiz').first()
+    achievement = Achievement.objects.filter(achievement_type="quiz").first()
     if achievement:
         UserAchievement.objects.get_or_create(user=user, achievement=achievement)

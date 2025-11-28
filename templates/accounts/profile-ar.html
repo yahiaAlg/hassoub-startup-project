@@ -1,54 +1,33 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>الملف الشخصي - بيزفينتشر كيدز</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="profile.css" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <div class="logo">
-        <span class="logo-icon">💰</span>
-        المحاسب الصغير
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#home">الرئيسية</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#quiz">اختبار</a></li>
-          <li><a href="#contact">اتصل بنا</a></li>
-        </ul>
-      </nav>
-    </header>
+{% extends "base.html" %}
+{% load static %}
 
+{% block title %}ملفي الشخصي{% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/accounts/profile.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
     <div class="profile-container">
       <!-- Profile Header -->
       <div class="profile-header">
         <div class="profile-card">
-          <div class="avatar">👤</div>
-          <div class="username">أحمد المغامر</div>
-          <div class="level-xp">
-            <span class="level">المستوى 5</span>
-            <div class="xp-bar">
-              <div class="xp-fill"></div>
-            </div>
-            <span class="xp-percentage">65%</span>
+          <div class="avatar">
+            {% if profile.avatar %}
+              <img src="{{ profile.avatar.url }}" alt="{{ user.get_full_name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+            {% else %}
+              👤
+            {% endif %}
           </div>
-          <div class="member-since">عضو منذ يونيو 2023</div>
+          <div class="username">{{ user.get_full_name|default:user.username }}</div>
+          <div class="level-xp">
+            <span class="level">المستوى {{ profile.level }}</span>
+            <div class="xp-bar">
+              <div class="xp-fill" style="width: {{ progress_percentage }}%"></div>
+            </div>
+            <span class="xp-percentage">{{ progress_percentage }}%</span>
+          </div>
+          <div class="member-since">عضو منذ {{ profile.created_at|date:"F Y" }}</div>
         </div>
       </div>
 
@@ -67,10 +46,7 @@
                 <div class="setting-description">قم بتحديث كلمة مرور حسابك</div>
               </div>
               <div class="setting-control">
-                <button
-                  class="change-password-btn"
-                  onclick="openPasswordModal()"
-                >
+                <button class="change-password-btn" onclick="openPasswordModal()">
                   تغيير
                 </button>
               </div>
@@ -78,13 +54,11 @@
             <div class="setting-item">
               <div class="setting-info">
                 <div class="setting-label">تفضيلات البريد الإلكتروني</div>
-                <div class="setting-description">
-                  إدارة إشعارات البريد الإلكتروني
-                </div>
+                <div class="setting-description">إدارة إشعارات البريد الإلكتروني</div>
               </div>
               <div class="setting-control">
                 <label class="toggle-switch">
-                  <input type="checkbox" checked="" />
+                  <input type="checkbox" id="receiveEmails" {% if profile.receive_emails %}checked{% endif %} />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -126,13 +100,11 @@
             <div class="setting-item">
               <div class="setting-info">
                 <div class="setting-label">المؤثرات الصوتية</div>
-                <div class="setting-description">
-                  تشغيل/إيقاف الأصوات في اللعبة
-                </div>
+                <div class="setting-description">تشغيل/إيقاف الأصوات في اللعبة</div>
               </div>
               <div class="setting-control">
                 <label class="toggle-switch">
-                  <input type="checkbox" id="soundEffects" checked="" />
+                  <input type="checkbox" id="soundEffects" checked />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -145,6 +117,18 @@
               <div class="setting-control">
                 <label class="toggle-switch">
                   <input type="checkbox" id="darkMode" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <div class="setting-label">تلقي الإشعارات</div>
+                <div class="setting-description">إشعارات التقدم والإنجازات</div>
+              </div>
+              <div class="setting-control">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="receiveNotifications" {% if profile.receive_notifications %}checked{% endif %} />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -162,9 +146,7 @@
             <div class="setting-item">
               <div class="setting-info">
                 <div class="setting-label">ظهور الملف الشخصي</div>
-                <div class="setting-description">
-                  التحكم في من يمكنه رؤية ملفك الشخصي
-                </div>
+                <div class="setting-description">التحكم في من يمكنه رؤية ملفك الشخصي</div>
               </div>
               <div class="setting-control">
                 <select class="select-box" id="profileVisibility">
@@ -177,13 +159,11 @@
             <div class="setting-item">
               <div class="setting-info">
                 <div class="setting-label">المشاركة في لوحة المتصدرين</div>
-                <div class="setting-description">
-                  الظهور في تصنيفات اللاعبين
-                </div>
+                <div class="setting-description">الظهور في تصنيفات اللاعبين</div>
               </div>
               <div class="setting-control">
                 <label class="toggle-switch">
-                  <input type="checkbox" id="leaderboard" checked="" />
+                  <input type="checkbox" id="leaderboard" checked />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -204,8 +184,7 @@
                 <span>حذف الحساب</span>
               </div>
               <p class="danger-description">
-                حذف حسابك نهائياً وجميع البيانات المرتبطة به. هذا الإجراء لا
-                يمكن التراجع عنه.
+                حذف حسابك نهائياً وجميع البيانات المرتبطة به. هذا الإجراء لا يمكن التراجع عنه.
               </p>
               <button class="delete-account-btn" onclick="openDeleteModal()">
                 حذف الحساب
@@ -214,10 +193,24 @@
           </div>
         </div>
 
-        <button class="save-btn" onclick="saveSettings()">
-          <span>💾</span>
-          <span>حفظ التغييرات</span>
-        </button>
+        <form method="post" action="{% url 'accounts:profile' %}" id="settingsForm">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="update_profile">
+          <input type="hidden" name="first_name" id="firstNameInput" value="{{ user.first_name }}">
+          <input type="hidden" name="last_name" id="lastNameInput" value="{{ user.last_name }}">
+          <input type="hidden" name="email" id="emailInput" value="{{ user.email }}">
+          <input type="hidden" name="phone" id="phoneInput" value="{{ profile.phone }}">
+          <input type="hidden" name="bio" id="bioInput" value="{{ profile.bio }}">
+          <input type="hidden" name="city" id="cityInput" value="{{ profile.city }}">
+          <input type="hidden" name="gender" id="genderInput" value="{{ profile.gender }}">
+          <input type="hidden" name="receive_notifications" id="notificationsInput" value="{{ profile.receive_notifications }}">
+          <input type="hidden" name="receive_emails" id="emailsInput" value="{{ profile.receive_emails }}">
+          
+          <button type="button" class="save-btn" onclick="saveSettings()">
+            <span>💾</span>
+            <span>حفظ التغييرات</span>
+          </button>
+        </form>
       </div>
     </div>
 
@@ -225,40 +218,28 @@
     <div id="passwordModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">🔐 تغيير كلمة المرور</div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="currentPassword">كلمة المرور الحالية</label>
-            <input
-              type="password"
-              id="currentPassword"
-              placeholder="أدخل كلمة المرور الحالية"
-            />
+        <form method="post" action="{% url 'accounts:profile' %}" id="passwordForm">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="change_password">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="currentPassword">كلمة المرور الحالية</label>
+              <input type="password" name="old_password" id="currentPassword" placeholder="أدخل كلمة المرور الحالية" required />
+            </div>
+            <div class="form-group">
+              <label for="newPassword">كلمة المرور الجديدة</label>
+              <input type="password" name="new_password" id="newPassword" placeholder="أدخل كلمة المرور الجديدة" required />
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">تأكيد كلمة المرور</label>
+              <input type="password" name="confirm_password" id="confirmPassword" placeholder="أعد إدخال كلمة المرور الجديدة" required />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="newPassword">كلمة المرور الجديدة</label>
-            <input
-              type="password"
-              id="newPassword"
-              placeholder="أدخل كلمة المرور الجديدة"
-            />
+          <div class="modal-buttons">
+            <button type="button" class="cancel-btn" onclick="closePasswordModal()">إلغاء</button>
+            <button type="submit" class="success-btn">حفظ التغييرات</button>
           </div>
-          <div class="form-group">
-            <label for="confirmPassword">تأكيد كلمة المرور</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              placeholder="أعد إدخال كلمة المرور الجديدة"
-            />
-          </div>
-        </div>
-        <div class="modal-buttons">
-          <button class="cancel-btn" onclick="closePasswordModal()">
-            إلغاء
-          </button>
-          <button class="success-btn" onclick="changePassword()">
-            حفظ التغييرات
-          </button>
-        </div>
+        </form>
       </div>
     </div>
 
@@ -267,156 +248,88 @@
       <div class="modal-content">
         <div class="modal-header">⚠️ حذف الحساب</div>
         <div class="modal-body">
-          <p>
-            هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.
-          </p>
+          <p>هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.</p>
           <p style="color: var(--danger); font-weight: bold">
             سيتم حذف جميع بياناتك وإنجازاتك بشكل نهائي!
           </p>
         </div>
         <div class="modal-buttons">
           <button class="cancel-btn" onclick="closeDeleteModal()">إلغاء</button>
-          <button class="confirm-btn" onclick="deleteAccount()">
-            حذف الحساب
-          </button>
+          <button class="confirm-btn" onclick="deleteAccount()">حذف الحساب</button>
         </div>
       </div>
     </div>
+{% endblock content %}
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>روابط سريعة</h3>
-          <a href="#home">الرئيسية</a>
-          <a href="#about">من نحن</a>
-          <a href="#quiz">اختبار</a>
-          <a href="#contact">اتصل بنا</a>
-        </div>
-        <div class="footer-section">
-          <h3>معلومات قانونية</h3>
-          <a href="#privacy">سياسة الخصوصية</a>
-          <a href="#terms">الشروط والأحكام</a>
-          <a href="#faq">الأسئلة الشائعة</a>
-        </div>
-        <div class="footer-section">
-          <h3>تواصل معنا</h3>
-          <p>📞 +47 961 78 807</p>
-          <p>✉️ Info@BizVentureKids.no</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
-      </div>
-    </footer>
-
+{% block extra_js %}
     <script>
-      // Toggle section expansion
       function toggleSection(element) {
         const content = element.nextElementSibling;
-        const allSections = document.querySelectorAll(".section-title");
-        const allContents = document.querySelectorAll(".section-content");
-
-        // Close other sections if desired (optional)
-        // allSections.forEach(section => {
-        //     if (section !== element) {
-        //         section.classList.remove('active');
-        //     }
-        // });
-        // allContents.forEach(content => {
-        //     if (content !== element.nextElementSibling) {
-        //         content.classList.remove('active');
-        //     }
-        // });
-
-        // Toggle current section
         element.classList.toggle("active");
         content.classList.toggle("active");
       }
 
-      // Open password modal
       function openPasswordModal() {
         document.getElementById("passwordModal").classList.add("active");
       }
 
-      // Close password modal
       function closePasswordModal() {
         document.getElementById("passwordModal").classList.remove("active");
-        // Clear fields
         document.getElementById("currentPassword").value = "";
         document.getElementById("newPassword").value = "";
         document.getElementById("confirmPassword").value = "";
       }
 
-      // Change password
-      function changePassword() {
-        const currentPassword =
-          document.getElementById("currentPassword").value;
-        const newPassword = document.getElementById("newPassword").value;
-        const confirmPassword =
-          document.getElementById("confirmPassword").value;
-
-        if (!currentPassword || !newPassword || !confirmPassword) {
-          alert("الرجاء ملء جميع الحقول");
-          return;
-        }
-
-        if (newPassword !== confirmPassword) {
-          alert("كلمات المرور الجديدة غير متطابقة");
-          return;
-        }
-
-        if (newPassword.length < 6) {
-          alert("يجب أن تكون كلمة المرور الجديدة 6 أحرف على الأقل");
-          return;
-        }
-
-        // Simulate password change
-        alert("تم تغيير كلمة المرور بنجاح! 🎉");
-        closePasswordModal();
-      }
-
-      // Open delete account modal
       function openDeleteModal() {
         document.getElementById("deleteModal").classList.add("active");
       }
 
-      // Close delete account modal
       function closeDeleteModal() {
         document.getElementById("deleteModal").classList.remove("active");
       }
 
-      // Delete account
       function deleteAccount() {
-        // In real application, this would make an API call
-        alert("تم حذف الحساب. نأسف لرؤيتك تغادر! 😢");
-        closeDeleteModal();
-        // Redirect to home page
-        // window.location.href = '/';
+        if (confirm("تأكيد نهائي: سيتم حذف جميع بياناتك!")) {
+          // Create form and submit
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '{% url "accounts:profile" %}';
+          
+          const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+          const csrfInput = document.createElement('input');
+          csrfInput.type = 'hidden';
+          csrfInput.name = 'csrfmiddlewaretoken';
+          csrfInput.value = csrfToken;
+          
+          const actionInput = document.createElement('input');
+          actionInput.type = 'hidden';
+          actionInput.name = 'action';
+          actionInput.value = 'delete_account';
+          
+          form.appendChild(csrfInput);
+          form.appendChild(actionInput);
+          document.body.appendChild(form);
+          form.submit();
+        }
       }
 
-      // Save settings
       function saveSettings() {
-        const difficulty = document.getElementById("difficulty").value;
-        const soundEffects = document.getElementById("soundEffects").checked;
-        const darkMode = document.getElementById("darkMode").checked;
-        const profileVisibility =
-          document.getElementById("profileVisibility").value;
-        const leaderboard = document.getElementById("leaderboard").checked;
-
-        // In real application, this would make an API call to save settings
-        console.log("Settings saved:", {
-          difficulty,
-          soundEffects,
-          darkMode,
-          profileVisibility,
-          leaderboard,
-        });
-
-        alert("تم حفظ الإعدادات بنجاح! ✅");
+        const receiveNotifications = document.getElementById("receiveNotifications").checked;
+        const receiveEmails = document.getElementById("receiveEmails").checked;
+        
+        document.getElementById("notificationsInput").value = receiveNotifications;
+        document.getElementById("emailsInput").value = receiveEmails;
+        
+        // Store preferences in localStorage for non-DB settings
+        localStorage.setItem('difficulty', document.getElementById("difficulty").value);
+        localStorage.setItem('soundEffects', document.getElementById("soundEffects").checked);
+        localStorage.setItem('darkMode', document.getElementById("darkMode").checked);
+        localStorage.setItem('profileVisibility', document.getElementById("profileVisibility").value);
+        localStorage.setItem('leaderboard', document.getElementById("leaderboard").checked);
+        
+        document.getElementById("settingsForm").submit();
       }
 
-      // Close modal when clicking outside
       window.onclick = function (event) {
         const passwordModal = document.getElementById("passwordModal");
         const deleteModal = document.getElementById("deleteModal");
@@ -429,27 +342,35 @@
         }
       };
 
-      // Initialize - open first section by default
       window.addEventListener("load", () => {
         const firstSection = document.querySelector(".section-title");
         if (firstSection) {
           firstSection.click();
         }
+        
+        // Load saved preferences
+        const difficulty = localStorage.getItem('difficulty');
+        const soundEffects = localStorage.getItem('soundEffects');
+        const darkMode = localStorage.getItem('darkMode');
+        const profileVisibility = localStorage.getItem('profileVisibility');
+        const leaderboard = localStorage.getItem('leaderboard');
+        
+        if (difficulty) document.getElementById("difficulty").value = difficulty;
+        if (soundEffects !== null) document.getElementById("soundEffects").checked = soundEffects === 'true';
+        if (darkMode !== null) document.getElementById("darkMode").checked = darkMode === 'true';
+        if (profileVisibility) document.getElementById("profileVisibility").value = profileVisibility;
+        if (leaderboard !== null) document.getElementById("leaderboard").checked = leaderboard === 'true';
       });
 
-      // Dark mode toggle functionality
       const darkModeToggle = document.getElementById("darkMode");
       darkModeToggle.addEventListener("change", (e) => {
         if (e.target.checked) {
           document.body.style.backgroundColor = "#1a1a1a";
           document.body.style.color = "#ffffff";
-          alert("الوضع الليلي قيد التطوير! 🌙");
-          // In real application, apply dark mode styles
         } else {
           document.body.style.backgroundColor = "#f5f5f5";
           document.body.style.color = "#2e7d32";
         }
       });
     </script>
-  </body>
-</html>
+{% endblock extra_js %}

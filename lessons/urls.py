@@ -5,6 +5,7 @@ app_name = "lessons"
 
 urlpatterns = [
     path("", views.learning_path, name="learning_path"),
+    path("lesson/<int:lesson_id>/", views.lesson_detail, name="lesson_detail"),
     path(
         "lesson/<int:lesson_id>/complete/",
         views.complete_lesson,

@@ -22,7 +22,7 @@
           تعلم مهارات المال من خلال اللعب! قم بإدارة عملك الافتراضي الخاص، واتخذ
           خيارات ذكية، واكسب المكافآت—كل ذلك في بيئة آمنة وممتعة.
         </p>
-        <button class="cta-button">ابدأ مغامرتك 🚀</button>
+        <a href="{% url "pages:index" %}#how-it-works" class="cta-button">ابدأ مغامرتك 🚀</a>
       </div>
 
       <div class="hero-visual">
@@ -131,7 +131,7 @@
     </section>
 
     <!-- How It Works Section -->
-    <section class="how-it-works">
+    <section id="how-it-works" class="how-it-works">
       <h2 class="section-title">
         <span class="section-icon">🎯</span>
         كيف يعمل: ابدأ مغامرتك في 3 خطوات سهلة!
@@ -168,7 +168,7 @@
           </p>
         </div>
       </div>
-      <button class="cta-button">ابدأ مغامرتك الآن! 🌟</button>
+      <a href="{% url "accounts:login" %}"  class="cta-button">ابدأ مغامرتك الآن! 🌟</a>
     </section>
 
     <!-- Age Group Selector -->
@@ -294,7 +294,7 @@
         <span class="section-icon">🎉</span>
       </h2>
       <p class="cta-subtitle">سجل الآن ودع المتعة تبدأ!</p>
-      <button class="signup-button">سجل مجاناً! 🚀</button>
+      <a href="{% url "accounts:register" %}" class="signup-button">سجل مجاناً! 🚀</a>
     </section>
 
 {% endblock content %}
