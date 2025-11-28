@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول - بيزفينتشر كيدز</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="login.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <span class="logo-icon">💰</span>
+        المحاسب الصغير
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#quiz">اختبار</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="login-container">
+      <div class="form-section">
+        <h1>
+          <span>👋</span>
+          مرحباً بعودتك!
+        </h1>
+        <p class="subtitle">سجل الدخول لمتابعة مغامرتك المالية</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">البريد الإلكتروني/اسم المستخدم</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required=""
+              placeholder="أدخل بريدك الإلكتروني أو اسم المستخدم"
+              autocomplete="username"
+            />
+            <span class="input-icon" id="usernameIcon">👤</span>
+            <div class="error-message" id="usernameError">
+              الرجاء إدخال بريد إلكتروني أو اسم مستخدم صحيح
+            </div>
+          </div>
+
+          <div class="form-group password-container">
+            <label for="password">كلمة المرور</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required=""
+              placeholder="أدخل كلمة المرور"
+              autocomplete="current-password"
+            />
+            <span class="toggle-password" id="togglePassword">👁️</span>
+            <div class="error-message" id="passwordError">
+              الرجاء إدخال كلمة المرور
+            </div>
+          </div>
+
+          <div class="form-options">
+            <div class="checkbox-group">
+              <input type="checkbox" id="remember" name="remember" />
+              <label for="remember">تذكرني</label>
+            </div>
+            <div class="forgot-password">
+              <a href="#forgot">نسيت كلمة المرور؟</a>
+            </div>
+          </div>
+
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span class="btn-text">تسجيل الدخول</span>
+            <span class="spinner"></span>
+          </button>
+        </form>
+
+        <div class="signup-link">
+          ليس لديك حساب؟
+          <a href="#signup">سجل الآن</a>
+        </div>
+
+        <div class="welcome-message">
+          <h3>🎉 انضم إلى مغامرة التعلم المالي!</h3>
+          <p>
+            تعلم مهارات إدارة المال بطريقة ممتعة وآمنة. ابدأ رحلتك نحو الذكاء
+            المالي اليوم!
+          </p>
+        </div>
+
+        <div class="features-list">
+          <div class="feature-item">
+            <div class="feature-icon">🎮</div>
+            <div class="feature-title">ألعاب تفاعلية</div>
+            <div class="feature-desc">تعلم من خلال اللعب والمرح</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📊</div>
+            <div class="feature-title">تتبع التقدم</div>
+            <div class="feature-desc">راقب إنجازاتك ونموك</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🏆</div>
+            <div class="feature-title">مكافآت وشارات</div>
+            <div class="feature-desc">احصل على جوائز عند التقدم</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-title">بيئة آمنة</div>
+            <div class="feature-desc">محتوى مناسب للأطفال</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>روابط سريعة</h3>
+          <a href="#home">الرئيسية</a>
+          <a href="#about">من نحن</a>
+          <a href="#quiz">اختبار</a>
+          <a href="#contact">اتصل بنا</a>
+        </div>
+        <div class="footer-section">
+          <h3>معلومات قانونية</h3>
+          <a href="#privacy">سياسة الخصوصية</a>
+          <a href="#terms">الشروط والأحكام</a>
+          <a href="#faq">الأسئلة الشائعة</a>
+        </div>
+        <div class="footer-section">
+          <h3>تواصل معنا</h3>
+          <p>📞 +47 961 78 807</p>
+          <p>✉️ Info@BizVentureKids.no</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Toggle password visibility
+      const togglePassword = document.getElementById("togglePassword");
+      const passwordInput = document.getElementById("password");
+
+      togglePassword.addEventListener("click", () => {
+        const type = passwordInput.type === "password" ? "text" : "password";
+        passwordInput.type = type;
+        togglePassword.textContent = type === "password" ? "👁️" : "🙈";
+      });
+
+      // Form validation
+      const loginForm = document.getElementById("loginForm");
+      const usernameInput = document.getElementById("username");
+      const loginBtn = document.getElementById("loginBtn");
+      const usernameError = document.getElementById("usernameError");
+      const passwordError = document.getElementById("passwordError");
+      const usernameIcon = document.getElementById("usernameIcon");
+
+      // Real-time username validation
+      usernameInput.addEventListener("input", () => {
+        const value = usernameInput.value.trim();
+        if (value.length > 0) {
+          if (validateEmail(value) || value.length >= 3) {
+            usernameInput.style.borderColor = "var(--success)";
+            usernameIcon.textContent = "✓";
+            usernameIcon.classList.add("success-icon");
+            usernameIcon.classList.remove("error-icon");
+            usernameError.classList.remove("show");
+          } else {
+            usernameInput.style.borderColor = "var(--error)";
+            usernameIcon.textContent = "✗";
+            usernameIcon.classList.add("error-icon");
+            usernameIcon.classList.remove("success-icon");
+          }
+        } else {
+          usernameInput.style.borderColor = "var(--border)";
+          usernameIcon.textContent = "👤";
+          usernameIcon.classList.remove("success-icon", "error-icon");
+        }
+      });
+
+      // Email validation helper
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      // Form submission
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+
+        let isValid = true;
+
+        // Validate username
+        if (!username || (!validateEmail(username) && username.length < 3)) {
+          usernameError.classList.add("show");
+          usernameInput.style.borderColor = "var(--error)";
+          isValid = false;
+        } else {
+          usernameError.classList.remove("show");
+        }
+
+        // Validate password
+        if (!password) {
+          passwordError.classList.add("show");
+          passwordInput.style.borderColor = "var(--error)";
+          isValid = false;
+        } else {
+          passwordError.classList.remove("show");
+        }
+
+        if (!isValid) {
+          loginForm.classList.add("shake");
+          setTimeout(() => loginForm.classList.remove("shake"), 500);
+          return;
+        }
+
+        // Add loading state
+        loginBtn.classList.add("loading");
+        loginBtn.disabled = true;
+
+        // Simulate login process
+        setTimeout(() => {
+          loginBtn.classList.remove("loading");
+          loginBtn.disabled = false;
+
+          // Simulate successful login
+          alert("تم تسجيل الدخول بنجاح! 🎉");
+
+          // In real application, redirect to dashboard
+          // window.location.href = '/dashboard';
+        }, 2000);
+      });
+
+      // Remember me functionality
+      const rememberCheckbox = document.getElementById("remember");
+
+      // Load saved username if exists
+      window.addEventListener("load", () => {
+        const savedUsername = localStorage.getItem("rememberedUsername");
+        if (savedUsername) {
+          usernameInput.value = savedUsername;
+          rememberCheckbox.checked = true;
+        }
+      });
+
+      // Save username if remember me is checked
+      loginForm.addEventListener("submit", () => {
+        if (rememberCheckbox.checked) {
+          localStorage.setItem("rememberedUsername", usernameInput.value);
+        } else {
+          localStorage.removeItem("rememberedUsername");
+        }
+      });
+    </script>
+  </body>
+</html>

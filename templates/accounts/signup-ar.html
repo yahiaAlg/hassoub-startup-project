@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إنشاء حساب - بيزفينتشر كيدز</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="signup.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <span class="logo-icon">💰</span>
+        المحاسب الصغير
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#quiz">اختبار</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="signup-container">
+      <div class="form-section">
+        <div class="progress-bar">
+          <div class="progress-step active">1</div>
+          <div class="progress-step">2</div>
+          <div class="progress-step">3</div>
+        </div>
+
+        <h1>إنشاء حسابك</h1>
+        <p class="subtitle">انضم إلى مغامرة المال!</p>
+
+        <form id="signupForm">
+          <div class="form-group">
+            <label for="childName">اسم الطفل</label>
+            <input
+              type="text"
+              id="childName"
+              name="childName"
+              required=""
+              placeholder="أدخل اسم الطفل الكامل"
+              autocomplete="name"
+            />
+            <span class="input-icon" id="nameIcon">👤</span>
+            <div class="error-message" id="nameError">
+              الرجاء إدخال اسم صحيح
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ageGrade">العمر/المستوى الدراسي</label>
+            <select id="ageGrade" name="ageGrade" required="">
+              <option value="">اختر العمر/المستوى الدراسي</option>
+              <option value="5-7">أعمار 5-7 (روضة - صف 2)</option>
+              <option value="8-10">أعمار 8-10 (صف 3 - صف 5)</option>
+              <option value="11-13">أعمار 11-13 (صف 6 - صف 8)</option>
+            </select>
+            <div class="age-preview" id="agePreview"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="parentEmail">البريد الإلكتروني لولي الأمر</label>
+            <input
+              type="email"
+              id="parentEmail"
+              name="parentEmail"
+              required=""
+              placeholder="parent@example.com"
+              autocomplete="email"
+            />
+            <span class="input-icon" id="emailIcon">✉️</span>
+            <div class="error-message" id="emailError">
+              الرجاء إدخال بريد إلكتروني صحيح
+            </div>
+          </div>
+
+          <div class="form-group password-container">
+            <label for="password">كلمة المرور</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required=""
+              placeholder="يجب أن تكون 6 أحرف على الأقل"
+              autocomplete="new-password"
+            />
+            <span class="toggle-password" id="togglePassword">👁️</span>
+            <div class="error-message" id="passwordError">
+              يجب أن تكون كلمة المرور 6 أحرف على الأقل
+            </div>
+            <div class="password-strength" id="passwordStrength">
+              <div class="password-strength-bar" id="passwordStrengthBar"></div>
+            </div>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="terms" name="terms" required="" />
+            <label for="terms">
+              أوافق على
+              <a href="#terms" class="terms-link">الشروط والأحكام</a>
+            </label>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span class="btn-text">إنشاء الحساب</span>
+            <span class="spinner"></span>
+          </button>
+        </form>
+
+        <div class="login-link">
+          لديك حساب بالفعل؟
+          <a href="#login">تسجيل الدخول</a>
+        </div>
+      </div>
+
+      <div class="illustration-section">
+        <div class="illustration-content">
+          <div class="illustration-icon">🎓💰</div>
+          <div class="illustration-title">ابدأ رحلتك المالية!</div>
+          <div class="illustration-desc">
+            تعلم إدارة المال بطريقة ممتعة وآمنة
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>روابط سريعة</h3>
+          <a href="#home">الرئيسية</a>
+          <a href="#about">من نحن</a>
+          <a href="#quiz">اختبار</a>
+          <a href="#contact">اتصل بنا</a>
+        </div>
+        <div class="footer-section">
+          <h3>معلومات قانونية</h3>
+          <a href="#privacy">سياسة الخصوصية</a>
+          <a href="#terms">الشروط والأحكام</a>
+          <a href="#faq">الأسئلة الشائعة</a>
+        </div>
+        <div class="footer-section">
+          <h3>تواصل معنا</h3>
+          <p>📞 +47 961 78 807</p>
+          <p>✉️ Info@BizVentureKids.no</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Toggle password visibility
+      const togglePassword = document.getElementById("togglePassword");
+      const passwordInput = document.getElementById("password");
+
+      togglePassword.addEventListener("click", () => {
+        const type = passwordInput.type === "password" ? "text" : "password";
+        passwordInput.type = type;
+        togglePassword.textContent = type === "password" ? "👁️" : "🙈";
+      });
+
+      // Form validation
+      const signupForm = document.getElementById("signupForm");
+      const childNameInput = document.getElementById("childName");
+      const ageGradeSelect = document.getElementById("ageGrade");
+      const parentEmailInput = document.getElementById("parentEmail");
+      const termsCheckbox = document.getElementById("terms");
+      const submitBtn = document.getElementById("submitBtn");
+
+      // Icons
+      const nameIcon = document.getElementById("nameIcon");
+      const emailIcon = document.getElementById("emailIcon");
+
+      // Error messages
+      const nameError = document.getElementById("nameError");
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+
+      // Age preview
+      const agePreview = document.getElementById("agePreview");
+      const ageMessages = {
+        "5-7": "🎨 محتوى ملائم للأطفال الصغار مع ألعاب تفاعلية بسيطة",
+        "8-10": "🎮 أنشطة متوسطة الصعوبة مع تحديات ممتعة",
+        "11-13": "🏆 محتوى متقدم مع مهام واقعية لإدارة المال",
+      };
+
+      ageGradeSelect.addEventListener("change", () => {
+        const value = ageGradeSelect.value;
+        if (value && ageMessages[value]) {
+          agePreview.textContent = ageMessages[value];
+          agePreview.classList.add("show");
+        } else {
+          agePreview.classList.remove("show");
+        }
+      });
+
+      // Real-time name validation
+      childNameInput.addEventListener("input", () => {
+        const value = childNameInput.value.trim();
+        if (value.length >= 2) {
+          childNameInput.style.borderColor = "var(--success)";
+          nameIcon.textContent = "✓";
+          nameIcon.classList.add("success-icon");
+          nameIcon.classList.remove("error-icon");
+          nameError.classList.remove("show");
+        } else if (value.length > 0) {
+          childNameInput.style.borderColor = "var(--error)";
+          nameIcon.textContent = "✗";
+          nameIcon.classList.add("error-icon");
+          nameIcon.classList.remove("success-icon");
+        } else {
+          childNameInput.style.borderColor = "var(--border)";
+          nameIcon.textContent = "👤";
+          nameIcon.classList.remove("success-icon", "error-icon");
+        }
+      });
+
+      // Real-time email validation
+      parentEmailInput.addEventListener("input", () => {
+        const value = parentEmailInput.value.trim();
+        if (validateEmail(value)) {
+          parentEmailInput.style.borderColor = "var(--success)";
+          emailIcon.textContent = "✓";
+          emailIcon.classList.add("success-icon");
+          emailIcon.classList.remove("error-icon");
+          emailError.classList.remove("show");
+        } else if (value.length > 0) {
+          parentEmailInput.style.borderColor = "var(--error)";
+          emailIcon.textContent = "✗";
+          emailIcon.classList.add("error-icon");
+          emailIcon.classList.remove("success-icon");
+        } else {
+          parentEmailInput.style.borderColor = "var(--border)";
+          emailIcon.textContent = "✉️";
+          emailIcon.classList.remove("success-icon", "error-icon");
+        }
+      });
+
+      // Password strength indicator
+      const passwordStrength = document.getElementById("passwordStrength");
+      const passwordStrengthBar = document.getElementById(
+        "passwordStrengthBar"
+      );
+
+      passwordInput.addEventListener("input", () => {
+        const value = passwordInput.value;
+
+        if (value.length > 0) {
+          passwordStrength.classList.add("show");
+
+          let strength = 0;
+          if (value.length >= 6) strength++;
+          if (value.length >= 8) strength++;
+          if (/[A-Z]/.test(value) || /[ا-ي]/.test(value)) strength++;
+          if (/[0-9]/.test(value)) strength++;
+          if (/[^A-Za-z0-9ا-ي]/.test(value)) strength++;
+
+          passwordStrengthBar.className = "password-strength-bar";
+
+          if (strength <= 2) {
+            passwordStrengthBar.classList.add("weak");
+          } else if (strength <= 3) {
+            passwordStrengthBar.classList.add("medium");
+          } else {
+            passwordStrengthBar.classList.add("strong");
+          }
+
+          if (value.length >= 6) {
+            passwordInput.style.borderColor = "var(--success)";
+            passwordError.classList.remove("show");
+          } else {
+            passwordInput.style.borderColor = "var(--error)";
+          }
+        } else {
+          passwordStrength.classList.remove("show");
+          passwordInput.style.borderColor = "var(--border)";
+        }
+      });
+
+      // Email validation helper
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      // Progress bar update
+      const progressSteps = document.querySelectorAll(".progress-step");
+
+      function updateProgressBar(step) {
+        progressSteps.forEach((stepEl, index) => {
+          if (index < step) {
+            stepEl.classList.add("active");
+          } else {
+            stepEl.classList.remove("active");
+          }
+        });
+      }
+
+      // Update progress based on form completion
+      signupForm.addEventListener("input", () => {
+        const name = childNameInput.value.trim();
+        const email = parentEmailInput.value.trim();
+        const age = ageGradeSelect.value;
+        const password = passwordInput.value;
+        const terms = termsCheckbox.checked;
+
+        if (name && age) {
+          updateProgressBar(2);
+        } else if (name) {
+          updateProgressBar(1);
+        }
+
+        if (name && age && email && password && terms) {
+          updateProgressBar(3);
+        }
+      });
+
+      // Form submission
+      signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = childNameInput.value.trim();
+        const email = parentEmailInput.value.trim();
+        const password = passwordInput.value;
+        const terms = termsCheckbox.checked;
+
+        let isValid = true;
+
+        // Validate name
+        if (name.length < 2) {
+          nameError.classList.add("show");
+          childNameInput.style.borderColor = "var(--error)";
+          isValid = false;
+        }
+
+        // Validate email
+        if (!validateEmail(email)) {
+          emailError.classList.add("show");
+          parentEmailInput.style.borderColor = "var(--error)";
+          isValid = false;
+        }
+
+        // Validate password
+        if (password.length < 6) {
+          passwordError.classList.add("show");
+          passwordInput.style.borderColor = "var(--error)";
+          isValid = false;
+        }
+
+        // Validate terms
+        if (!terms) {
+          alert("الرجاء الموافقة على الشروط والأحكام");
+          isValid = false;
+        }
+
+        if (!isValid) {
+          return;
+        }
+
+        // Add loading state
+        submitBtn.classList.add("loading");
+        submitBtn.disabled = true;
+
+        // Simulate registration process
+        setTimeout(() => {
+          submitBtn.classList.remove("loading");
+          submitBtn.disabled = false;
+
+          // Simulate successful registration
+          alert("تم إنشاء الحساب بنجاح! 🎉\nمرحباً بك في بيزفينتشر كيدز!");
+
+          // In real application, redirect to dashboard
+          // window.location.href = '/dashboard';
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>

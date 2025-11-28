@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>قطب متجر الألعاب - بيزفينتشر كيدز</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="scenario2.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Main Header -->
+    <header class="main-header">
+      <div>
+        <div class="logo">
+          <span class="logo-icon">💰</span>
+          المحاسب الصغير
+        </div>
+        <div class="tagline">
+          ★ العب. قرر. انمُ: الطريقة الآمنة لتعلم المهارات المالية الحقيقية! ★
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#quiz">اختبار</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Simulation Container -->
+    <div class="simulation-container">
+      <!-- Simulation Header -->
+      <div class="simulation-header">
+        <h1 class="simulation-title">🧸 قطب متجر الألعاب</h1>
+        <p class="simulation-subtitle">
+          قم بإدارة متجر الألعاب الخاص بك لمدة شهر! اتخذ قرارات ذكية لتحقيق أقصى
+          قدر من الأرباح وتعلم إدارة متاجر التجزئة.
+        </p>
+        <div class="simulation-meta">
+          <div class="meta-item">
+            <span class="meta-icon">📊</span>
+            متوسط
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon">👶</span>
+            الأعمار 10-14
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon">⏱️</span>
+            15-20 دقيقة
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon">💵</span>
+            $200 للبداية
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon">⭐</span>
+            100 نقطة خبرة
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulation Content -->
+      <div class="simulation-content">
+        <!-- Progress Tracker -->
+        <div class="progress-tracker">
+          <span class="progress-info"
+            >تقدم المحاكاة: <strong id="progressPercent">0%</strong> مكتمل</span
+          >
+          <div class="progress-steps">
+            <div class="progress-step active" id="step1">1</div>
+            <div class="progress-step" id="step2">2</div>
+            <div class="progress-step" id="step3">3</div>
+            <div class="progress-step" id="step4">4</div>
+            <div class="progress-step" id="step5">5</div>
+          </div>
+        </div>
+
+        <!-- Section 1: Choose Location -->
+        <div class="scenario-section active" id="section1">
+          <h2 class="scenario-title">
+            <span class="scenario-icon">📍</span>
+            اختر موقعك
+          </h2>
+          <div class="scenario-description">
+            أنت تفتح متجر ألعاب لمدة شهر واحد! قرارك الأول هو أين ستكون موقع
+            متجرك.
+            <br /><br />
+            لكل موقع تكاليف مختلفة ويجذب أنواعًا مختلفة من العملاء. ضع في
+            اعتبارك ميزانيتك والسوق المستهدف عند اتخاذ قرارك.
+          </div>
+
+          <div class="educational-note">
+            <strong>مفهوم رئيسي:</strong> هذه <strong>تكلفة ثابتة</strong> -
+            تدفع الإيجار بغض النظر عن مقدار ما تبيعه! اختر موقعًا يتناسب مع
+            ميزانيتك وأهداف عملك.
+          </div>
+
+          <div class="decision-card">
+            <h3 class="decision-title">1. أين ستستأجر مساحة لمتجرك؟</h3>
+            <div class="decision-options">
+              <div class="option-card" onclick="selectLocation('park')">
+                <div class="option-title">كشك الحديقة المحلية</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$20/شهر</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الحركة:</strong>
+                    <span>عالية في عطلات نهاية الأسبوع</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>المساحة:</strong>
+                    <span>صغيرة (حد أقصى 50 لعبة)</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>العملاء:</strong>
+                    <span>العائلات مع الأطفال الصغار</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>المخاطر:</strong>
+                    <span>يعتمد على الطقس</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="option-card" onclick="selectLocation('strip')">
+                <div class="option-title">مركز تجاري صغير</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$60/شهر</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الحركة:</strong>
+                    <span>حركة يومية ثابتة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>المساحة:</strong>
+                    <span>متوسطة (حد أقصى 100 لعبة)</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>العملاء:</strong>
+                    <span>مجموعات عمرية مختلطة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الميزة:</strong>
+                    <span>حماية داخلية</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="option-card" onclick="selectLocation('mall')">
+                <div class="option-title">مركز تسوق كبير</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$120/شهر</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الحركة:</strong>
+                    <span>عالية جدًا</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>المساحة:</strong>
+                    <span>كبيرة (حد أقصى 200 لعبة)</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>العملاء:</strong>
+                    <span>متسوقون جادون</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الميزة:</strong>
+                    <span>ظهور متميز</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Inventory Selection -->
+        <div class="scenario-section" id="section2">
+          <h2 class="scenario-title">
+            <span class="scenario-icon">📦</span>
+            اختر مخزون الألعاب
+          </h2>
+          <div class="scenario-description">
+            الآن اختر الألعاب التي ستخزنها في متجرك. كل نوع من الألعاب له تكاليف
+            مختلفة وجاذبية وإمكانية ربح.
+            <br /><br />
+            لديك 200 دولار لإنفاقها على المخزون، ومساحتك محدودة بحسب اختيار
+            موقعك. فكر في الألعاب التي ستجذب عملاءك!
+          </div>
+
+          <div class="educational-note">
+            <strong>مفهوم رئيسي:</strong> المنتجات المختلفة لها
+            <strong>سرعات بيع وهوامش ربح مختلفة</strong>. المزيج الجيد يمكن أن
+            يساعد في تحقيق التوازن بين المخاطر!
+          </div>
+
+          <div class="decision-card">
+            <h3 class="decision-title">2. اختر مزيج مخزون الألعاب الخاص بك:</h3>
+
+            <table class="inventory-table">
+              <thead>
+                <tr>
+                  <th>نوع اللعبة</th>
+                  <th>التكلفة لكل قطعة</th>
+                  <th>البيع المقترح</th>
+                  <th>الجاذبية</th>
+                  <th>سرعة البيع</th>
+                  <th>هامش الربح</th>
+                  <th>الكمية</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>كرات مطاطية</td>
+                  <td>$1.00</td>
+                  <td>$4.00</td>
+                  <td>الأطفال الصغار جدًا (3-6)</td>
+                  <td>سريع جدًا</td>
+                  <td>منخفض لكن موثوق</td>
+                  <td>
+                    <input
+                      type="number"
+                      class="inventory-input"
+                      id="balls"
+                      min="0"
+                      value="0"
+                      onchange="updateInventory()"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>حيوانات محشوة</td>
+                  <td>$5.00</td>
+                  <td>$18.00</td>
+                  <td>الأطفال 5-10 سنوات</td>
+                  <td>سريع</td>
+                  <td>متوسط</td>
+                  <td>
+                    <input
+                      type="number"
+                      class="inventory-input"
+                      id="plush"
+                      min="0"
+                      value="0"
+                      onchange="updateInventory()"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>ألعاب طاولة</td>
+                  <td>$12.00</td>
+                  <td>$35.00</td>
+                  <td>الأطفال 8-14 سنة</td>
+                  <td>متوسط</td>
+                  <td>عالي</td>
+                  <td>
+                    <input
+                      type="number"
+                      class="inventory-input"
+                      id="games"
+                      min="0"
+                      value="0"
+                      onchange="updateInventory()"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>سيارات بالتحكم عن بعد</td>
+                  <td>$25.00</td>
+                  <td>$75.00</td>
+                  <td>الأطفال 10-15 سنة</td>
+                  <td>بطيء</td>
+                  <td>عالي جدًا لكن محفوف بالمخاطر</td>
+                  <td>
+                    <input
+                      type="number"
+                      class="inventory-input"
+                      id="cars"
+                      min="0"
+                      value="0"
+                      onchange="updateInventory()"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="budget-summary">
+              <div class="budget-item">
+                <div class="budget-label">التكلفة الإجمالية:</div>
+                <div class="budget-value" id="totalCost">$0</div>
+              </div>
+              <div class="budget-item">
+                <div class="budget-label">الميزانية المتبقية:</div>
+                <div class="budget-value" id="remainingBudget">$200</div>
+              </div>
+              <div class="budget-item">
+                <div class="budget-label">العناصر المشتراة:</div>
+                <div class="budget-value" id="itemsPurchased">0</div>
+              </div>
+              <div class="budget-item">
+                <div class="budget-label">المساحة المستخدمة:</div>
+                <div class="budget-value" id="spaceUsed">
+                  0/<span id="maxSpace">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="warning" id="budgetWarning">
+              ⚠️ لقد تجاوزت ميزانيتك البالغة 200 دولار!
+            </div>
+            <div class="warning" id="spaceWarning">
+              ⚠️ لقد تجاوزت حد المساحة الخاص بك!
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Hire Help -->
+        <div class="scenario-section" id="section3">
+          <h2 class="scenario-title">
+            <span class="scenario-icon">👥</span>
+            توظيف مساعدة؟
+          </h2>
+          <div class="scenario-description">
+            قرر ما إذا كنت ستوظف مساعدة لمتجر الألعاب الخاص بك. المزيد من
+            الموظفين يعني أنه يمكنك خدمة المزيد من العملاء، لكنه أيضًا يزيد من
+            تكاليفك.
+            <br /><br />
+            فكر في عدد العملاء الذين تتوقعهم وما إذا كانت المبيعات المتزايدة
+            ستبرر تكاليف العمالة.
+          </div>
+
+          <div class="educational-note">
+            <strong>مفهوم رئيسي:</strong> تكاليف العمالة تزيد من قدرتك لكنها
+            <strong>تقلل من ربحك</strong>. احسب ما إذا كانت المبيعات المتزايدة
+            ستستحق التكلفة!
+          </div>
+
+          <div class="decision-card">
+            <h3 class="decision-title">3. هل ستوظف مساعدًا؟</h3>
+            <div class="decision-options">
+              <div class="option-card" onclick="selectStaffing('alone')">
+                <div class="option-title">العمل بمفردك</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$0.00/شهر</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>القدرة:</strong>
+                    <span>3-5 عملاء/ساعة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الإيجابيات:</strong>
+                    <span>لا تكاليف عمالة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>السلبيات:</strong>
+                    <span>قدرة مبيعات محدودة</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="option-card" onclick="selectStaffing('parttime')">
+                <div class="option-title">مساعد بدوام جزئي</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$40.00/شهر</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>القدرة:</strong>
+                    <span>8-10 عملاء/ساعة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الإيجابيات:</strong>
+                    <span>خدمة عملاء أفضل</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الإيجابيات:</strong>
+                    <span>يمكنه إعادة التخزين أثناء البيع</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="option-card" onclick="selectStaffing('fulltime')">
+                <div class="option-title">مساعد بدوام كامل</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$80.00/شهر</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>القدرة:</strong>
+                    <span>12-15 عميل/ساعة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الإيجابيات:</strong>
+                    <span>خدمة ممتازة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الإيجابيات:</strong>
+                    <span>يمكنه التعامل مع الذروة</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الإيجابيات:</strong>
+                    <span>التركيز على المبيعات الصعبة</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Pricing Strategy -->
+        <div class="scenario-section" id="section4">
+          <h2 class="scenario-title">
+            <span class="scenario-icon">💰</span>
+            استراتيجية التسعير
+          </h2>
+          <div class="scenario-description">
+            حدد أسعارك لكل فئة من فئات الألعاب. المنتجات المختلفة لها حساسيات
+            سعرية مختلفة.
+            <br /><br />
+            ضع في اعتبارك عملائك المستهدفين والمنافسة وجودة منتجاتك عند تحديد
+            الأسعار.
+          </div>
+
+          <div class="educational-note">
+            <strong>مفهوم رئيسي:</strong>
+            <strong>حساسية السعر تختلف حسب نوع المنتج</strong>. العناصر الفاخرة
+            يمكن أن تتحمل أسعارًا أعلى، بينما العناصر الأساسية أكثر حساسية
+            للسعر.
+          </div>
+
+          <div class="decision-card">
+            <h3 class="decision-title">
+              4. حدد أسعارك لكل فئة من فئات الألعاب:
+            </h3>
+
+            <div class="slider-container">
+              <div class="slider-label">
+                <span>كرات مطاطية (التكلفة: $1.00، المقترح: $4.00)</span>
+                <strong>$<span id="ballsPrice">4.00</span></strong>
+              </div>
+              <input
+                type="range"
+                class="price-slider"
+                id="ballsPriceSlider"
+                min="2"
+                max="8"
+                step="0.50"
+                value="4"
+                oninput="updatePrice('balls', this.value)"
+              />
+            </div>
+
+            <div class="slider-container">
+              <div class="slider-label">
+                <span>حيوانات محشوة (التكلفة: $5.00، المقترح: $18.00)</span>
+                <strong>$<span id="plushPrice">18.00</span></strong>
+              </div>
+              <input
+                type="range"
+                class="price-slider"
+                id="plushPriceSlider"
+                min="10"
+                max="30"
+                step="1"
+                value="18"
+                oninput="updatePrice('plush', this.value)"
+              />
+            </div>
+
+            <div class="slider-container">
+              <div class="slider-label">
+                <span>ألعاب طاولة (التكلفة: $12.00، المقترح: $35.00)</span>
+                <strong>$<span id="gamesPrice">35.00</span></strong>
+              </div>
+              <input
+                type="range"
+                class="price-slider"
+                id="gamesPriceSlider"
+                min="20"
+                max="55"
+                step="1"
+                value="35"
+                oninput="updatePrice('games', this.value)"
+              />
+            </div>
+
+            <div class="slider-container">
+              <div class="slider-label">
+                <span
+                  >سيارات بالتحكم عن بعد (التكلفة: $25.00، المقترح:
+                  $75.00)</span
+                >
+                <strong>$<span id="carsPrice">75.00</span></strong>
+              </div>
+              <input
+                type="range"
+                class="price-slider"
+                id="carsPriceSlider"
+                min="40"
+                max="120"
+                step="5"
+                value="75"
+                oninput="updatePrice('cars', this.value)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Marketing -->
+        <div class="scenario-section" id="section5">
+          <h2 class="scenario-title">
+            <span class="scenario-icon">📢</span>
+            التسويق والترويج
+          </h2>
+          <div class="scenario-description">
+            اختر نهج التسويق الخاص بك لجذب العملاء إلى متجر الألعاب الخاص بك.
+            <br /><br />
+            استراتيجيات التسويق المختلفة لها تكاليف وفعالية مختلفة. ضع في
+            اعتبارك ميزانيتك والعملاء المستهدفين.
+          </div>
+
+          <div class="decision-card">
+            <h3 class="decision-title">5. اختر نهج التسويق الخاص بك:</h3>
+            <div class="decision-options">
+              <div class="option-card" onclick="selectMarketing('window')">
+                <div class="option-title">عرض النافذة فقط</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$0.00</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>التأثير:</strong>
+                    <span>يجذب المارة فقط</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الأفضل لـ:</strong>
+                    <span>النهج منخفض التكلفة</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="option-card" onclick="selectMarketing('flyers')">
+                <div class="option-title">منشورات وكوبونات</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$25.00</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>التأثير:</strong>
+                    <span>خصم 10% يجذب المتسوقين الباحثين عن الصفقات</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الأفضل لـ:</strong>
+                    <span>المبيعات بالجملة</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="option-card" onclick="selectMarketing('event')">
+                <div class="option-title">حدث موضوعي</div>
+                <div class="option-details">
+                  <div class="option-property">
+                    <strong>التكلفة:</strong>
+                    <span>$50.00</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>التأثير:</strong>
+                    <span>يوم تجربة الألعاب - جذب كبير</span>
+                  </div>
+                  <div class="option-property">
+                    <strong>الأفضل لـ:</strong>
+                    <span>العناصر الغالية، المشترين الجادين</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="scenario-section" id="resultsSection">
+          <div class="results-container">
+            <h2 class="results-title">نتائج العمل</h2>
+            <h3
+              style="
+                text-align: center;
+                color: var(--text);
+                margin-bottom: 20px;
+              "
+            >
+              أداء متجر الألعاب الخاص بك
+            </h3>
+
+            <div class="results-metrics">
+              <div class="metric-card">
+                <div class="metric-value" id="totalRevenue">$0</div>
+                <div class="metric-label">إجمالي الإيرادات</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value" id="netProfit">$0</div>
+                <div class="metric-label">صافي الربح</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value" id="customersServed">0</div>
+                <div class="metric-label">العملاء المخدومون</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value" id="customerRating">0/5</div>
+                <div class="metric-label">تقييم العملاء</div>
+              </div>
+            </div>
+
+            <div class="product-performance">
+              <h3
+                style="
+                  color: var(--text);
+                  margin-bottom: 15px;
+                  text-align: center;
+                "
+              >
+                أداء المنتجات
+              </h3>
+              <div class="performance-header">
+                <div>المنتج</div>
+                <div>المباع</div>
+                <div>الإيرادات</div>
+                <div>الربح</div>
+              </div>
+              <div class="performance-row">
+                <div class="performance-name">كرات مطاطية</div>
+                <div class="performance-metric" id="ballsSold">0</div>
+                <div class="performance-metric" id="ballsRevenue">$0</div>
+                <div class="performance-metric" id="ballsProfit">$0</div>
+              </div>
+              <div class="performance-row">
+                <div class="performance-name">حيوانات محشوة</div>
+                <div class="performance-metric" id="plushSold">0</div>
+                <div class="performance-metric" id="plushRevenue">$0</div>
+                <div class="performance-metric" id="plushProfit">$0</div>
+              </div>
+              <div class="performance-row">
+                <div class="performance-name">ألعاب طاولة</div>
+                <div class="performance-metric" id="gamesSold">0</div>
+                <div class="performance-metric" id="gamesRevenue">$0</div>
+                <div class="performance-metric" id="gamesProfit">$0</div>
+              </div>
+              <div class="performance-row">
+                <div class="performance-name">سيارات بالتحكم</div>
+                <div class="performance-metric" id="carsSold">0</div>
+                <div class="performance-metric" id="carsRevenue">$0</div>
+                <div class="performance-metric" id="carsProfit">$0</div>
+              </div>
+            </div>
+
+            <div class="educational-note">
+              <strong>الدروس الرئيسية المستفادة:</strong>
+              <ul
+                id="lessonsLearned"
+                style="margin-top: 10px; margin-right: 20px; line-height: 2"
+              ></ul>
+            </div>
+
+            <div class="score-display">
+              <div class="score-label">نقاطك</div>
+              <div class="score-value" id="finalScore">0/100</div>
+            </div>
+
+            <div class="action-buttons">
+              <button
+                class="action-button secondary"
+                onclick="returnToDashboard()"
+              >
+                العودة إلى لوحة التحكم
+              </button>
+              <button class="action-button primary" onclick="tryAgain()">
+                حاول مرة أخرى
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="navigation-buttons">
+          <button
+            class="nav-button prev"
+            id="prevBtn"
+            onclick="previousSection()"
+            disabled=""
+          >
+            ← السابق
+          </button>
+          <button class="nav-button next" id="nextBtn" onclick="nextSection()">
+            التالي →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>روابط سريعة</h3>
+          <a href="#home">الرئيسية</a>
+          <a href="#about">من نحن</a>
+          <a href="#quiz">اختبار</a>
+          <a href="#contact">اتصل بنا</a>
+        </div>
+        <div class="footer-section">
+          <h3>معلومات قانونية</h3>
+          <a href="#privacy">سياسة الخصوصية</a>
+          <a href="#terms">الشروط والأحكام</a>
+          <a href="#faq">الأسئلة الشائعة</a>
+        </div>
+        <div class="footer-section">
+          <h3>تواصل معنا</h3>
+          <p>📞 +47 961 78 807</p>
+          <p>✉️ Info@BizVentureKids.no</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Game State
+      const gameState = {
+        currentSection: 1,
+        location: null,
+        locationCost: 0,
+        maxSpace: 0,
+        inventory: {
+          balls: 0,
+          plush: 0,
+          games: 0,
+          cars: 0,
+        },
+        prices: {
+          balls: 4.0,
+          plush: 18.0,
+          games: 35.0,
+          cars: 75.0,
+        },
+        staffing: null,
+        staffingCost: 0,
+        marketing: null,
+        marketingCost: 0,
+        results: {
+          revenue: 0,
+          profit: 0,
+          customers: 0,
+          rating: 0,
+          productSales: {
+            balls: { sold: 0, revenue: 0, profit: 0 },
+            plush: { sold: 0, revenue: 0, profit: 0 },
+            games: { sold: 0, revenue: 0, profit: 0 },
+            cars: { sold: 0, revenue: 0, profit: 0 },
+          },
+        },
+      };
+
+      const productCosts = {
+        balls: 1.0,
+        plush: 5.0,
+        games: 12.0,
+        cars: 25.0,
+      };
+
+      // Location Selection
+      function selectLocation(location) {
+        // Remove previous selection
+        document.querySelectorAll("#section1 .option-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+
+        // Add selection to clicked card
+        event.currentTarget.classList.add("selected");
+
+        // Update game state
+        gameState.location = location;
+
+        if (location === "park") {
+          gameState.locationCost = 20;
+          gameState.maxSpace = 50;
+        } else if (location === "strip") {
+          gameState.locationCost = 60;
+          gameState.maxSpace = 100;
+        } else if (location === "mall") {
+          gameState.locationCost = 120;
+          gameState.maxSpace = 200;
+        }
+
+        document.getElementById("maxSpace").textContent = gameState.maxSpace;
+        document.getElementById("nextBtn").disabled = false;
+      }
+
+      // Inventory Update
+      function updateInventory() {
+        const balls = parseInt(document.getElementById("balls").value) || 0;
+        const plush = parseInt(document.getElementById("plush").value) || 0;
+        const games = parseInt(document.getElementById("games").value) || 0;
+        const cars = parseInt(document.getElementById("cars").value) || 0;
+
+        gameState.inventory = { balls, plush, games, cars };
+
+        const totalCost =
+          balls * productCosts.balls +
+          plush * productCosts.plush +
+          games * productCosts.games +
+          cars * productCosts.cars;
+
+        const totalItems = balls + plush + games + cars;
+        const remainingBudget = 200 - totalCost;
+
+        document.getElementById("totalCost").textContent =
+          "$" + totalCost.toFixed(2);
+        document.getElementById("remainingBudget").textContent =
+          "$" + remainingBudget.toFixed(2);
+        document.getElementById("itemsPurchased").textContent = totalItems;
+        document.getElementById("spaceUsed").textContent = totalItems;
+
+        // Check warnings
+        const budgetWarning = document.getElementById("budgetWarning");
+        const spaceWarning = document.getElementById("spaceWarning");
+
+        if (totalCost > 200) {
+          budgetWarning.classList.add("show");
+          document.getElementById("remainingBudget").classList.add("negative");
+          document.getElementById("nextBtn").disabled = true;
+        } else {
+          budgetWarning.classList.remove("show");
+          document
+            .getElementById("remainingBudget")
+            .classList.remove("negative");
+        }
+
+        if (totalItems > gameState.maxSpace) {
+          spaceWarning.classList.add("show");
+          document.getElementById("nextBtn").disabled = true;
+        } else {
+          spaceWarning.classList.remove("show");
+        }
+
+        if (
+          totalCost <= 200 &&
+          totalItems <= gameState.maxSpace &&
+          totalItems > 0
+        ) {
+          document.getElementById("nextBtn").disabled = false;
+        }
+      }
+
+      // Staffing Selection
+      function selectStaffing(staffing) {
+        document.querySelectorAll("#section3 .option-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+
+        event.currentTarget.classList.add("selected");
+        gameState.staffing = staffing;
+
+        if (staffing === "alone") {
+          gameState.staffingCost = 0;
+        } else if (staffing === "parttime") {
+          gameState.staffingCost = 40;
+        } else if (staffing === "fulltime") {
+          gameState.staffingCost = 80;
+        }
+
+        document.getElementById("nextBtn").disabled = false;
+      }
+
+      // Price Update
+      function updatePrice(product, value) {
+        gameState.prices[product] = parseFloat(value);
+        document.getElementById(product + "Price").textContent =
+          parseFloat(value).toFixed(2);
+      }
+
+      // Marketing Selection
+      function selectMarketing(marketing) {
+        document.querySelectorAll("#section5 .option-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+
+        event.currentTarget.classList.add("selected");
+        gameState.marketing = marketing;
+
+        if (marketing === "window") {
+          gameState.marketingCost = 0;
+        } else if (marketing === "flyers") {
+          gameState.marketingCost = 25;
+        } else if (marketing === "event") {
+          gameState.marketingCost = 50;
+        }
+
+        document.getElementById("nextBtn").disabled = false;
+      }
+
+      // Navigation
+      function nextSection() {
+        if (gameState.currentSection < 5) {
+          document
+            .getElementById("section" + gameState.currentSection)
+            .classList.remove("active");
+          gameState.currentSection++;
+          document
+            .getElementById("section" + gameState.currentSection)
+            .classList.add("active");
+
+          // Update progress
+          for (let i = 1; i <= 5; i++) {
+            const step = document.getElementById("step" + i);
+            if (i < gameState.currentSection) {
+              step.classList.add("completed");
+              step.classList.remove("active");
+            } else if (i === gameState.currentSection) {
+              step.classList.add("active");
+              step.classList.remove("completed");
+            } else {
+              step.classList.remove("active", "completed");
+            }
+          }
+
+          document.getElementById("progressPercent").textContent =
+            (((gameState.currentSection - 1) / 5) * 100).toFixed(0) + "%";
+
+          // Update buttons
+          document.getElementById("prevBtn").disabled = false;
+          document.getElementById("nextBtn").disabled = true;
+
+          if (gameState.currentSection === 5) {
+            document.getElementById("nextBtn").textContent = "عرض النتائج →";
+          }
+        } else {
+          // Calculate and show results
+          calculateResults();
+          document.getElementById("section5").classList.remove("active");
+          document.getElementById("resultsSection").classList.add("active");
+          document.getElementById("step5").classList.add("completed");
+          document.getElementById("progressPercent").textContent = "100%";
+          document.getElementById("nextBtn").style.display = "none";
+          document.getElementById("prevBtn").style.display = "none";
+        }
+      }
+
+      function previousSection() {
+        if (gameState.currentSection > 1) {
+          document
+            .getElementById("section" + gameState.currentSection)
+            .classList.remove("active");
+          gameState.currentSection--;
+          document
+            .getElementById("section" + gameState.currentSection)
+            .classList.add("active");
+
+          // Update progress
+          for (let i = 1; i <= 5; i++) {
+            const step = document.getElementById("step" + i);
+            if (i < gameState.currentSection) {
+              step.classList.add("completed");
+              step.classList.remove("active");
+            } else if (i === gameState.currentSection) {
+              step.classList.add("active");
+              step.classList.remove("completed");
+            } else {
+              step.classList.remove("active", "completed");
+            }
+          }
+
+          document.getElementById("progressPercent").textContent =
+            (((gameState.currentSection - 1) / 5) * 100).toFixed(0) + "%";
+
+          if (gameState.currentSection === 1) {
+            document.getElementById("prevBtn").disabled = true;
+          }
+
+          document.getElementById("nextBtn").disabled = false;
+          document.getElementById("nextBtn").textContent = "التالي →";
+        }
+      }
+
+      // Calculate Results
+      function calculateResults() {
+        let totalRevenue = 0;
+        let totalCost =
+          gameState.locationCost +
+          gameState.staffingCost +
+          gameState.marketingCost;
+        let customers = 0;
+
+        // Calculate sales based on decisions
+        const locationMultiplier =
+          gameState.location === "mall"
+            ? 1.5
+            : gameState.location === "strip"
+            ? 1.2
+            : 1.0;
+        const staffingMultiplier =
+          gameState.staffing === "fulltime"
+            ? 1.4
+            : gameState.staffing === "parttime"
+            ? 1.2
+            : 1.0;
+        const marketingMultiplier =
+          gameState.marketing === "event"
+            ? 1.3
+            : gameState.marketing === "flyers"
+            ? 1.15
+            : 1.0;
+
+        // Simulate sales for each product
+        Object.keys(gameState.inventory).forEach((product) => {
+          const quantity = gameState.inventory[product];
+          const price = gameState.prices[product];
+          const cost = productCosts[product];
+
+          // Calculate sold quantity (simplified simulation)
+          let sellRate = 0.6; // Base sell rate
+
+          // Adjust based on price sensitivity
+          const suggestedPrices = { balls: 4, plush: 18, games: 35, cars: 75 };
+          const priceRatio = price / suggestedPrices[product];
+          if (priceRatio > 1.2) sellRate *= 0.7;
+          else if (priceRatio < 0.9) sellRate *= 1.3;
+
+          sellRate *=
+            locationMultiplier * staffingMultiplier * marketingMultiplier;
+
+          const sold = Math.min(quantity, Math.floor(quantity * sellRate));
+          const revenue = sold * price;
+          const productCost = quantity * cost;
+          const profit = revenue - productCost;
+
+          totalRevenue += revenue;
+          totalCost += productCost;
+          customers += sold;
+
+          gameState.results.productSales[product] = {
+            sold: sold,
+            revenue: revenue,
+            profit: profit,
+          };
+        });
+
+        const netProfit = totalRevenue - totalCost;
+        const rating = Math.min(
+          5,
+          Math.max(1, Math.round(netProfit / 100 + 3))
+        );
+
+        gameState.results.revenue = totalRevenue;
+        gameState.results.profit = netProfit;
+        gameState.results.customers = customers;
+        gameState.results.rating = rating;
+
+        // Display results
+        document.getElementById("totalRevenue").textContent =
+          "$" + totalRevenue.toFixed(2);
+        document.getElementById("netProfit").textContent =
+          "$" + netProfit.toFixed(2);
+        document.getElementById("netProfit").className =
+          "metric-value " + (netProfit >= 0 ? "positive" : "negative");
+        document.getElementById("customersServed").textContent = customers;
+        document.getElementById("customerRating").textContent = rating + "/5";
+
+        // Display product performance
+        Object.keys(gameState.results.productSales).forEach((product) => {
+          const data = gameState.results.productSales[product];
+          const productNames = {
+            balls: "كرات مطاطية",
+            plush: "حيوانات محشوة",
+            games: "ألعاب طاولة",
+            cars: "سيارات بالتحكم",
+          };
+
+          document.getElementById(product + "Sold").textContent = data.sold;
+          document.getElementById(product + "Revenue").textContent =
+            "$" + data.revenue.toFixed(2);
+          document.getElementById(product + "Profit").textContent =
+            "$" + data.profit.toFixed(2);
+          document.getElementById(product + "Profit").className =
+            "performance-metric " +
+            (data.profit >= 0 ? "positive" : "negative");
+        });
+
+        // Calculate score
+        const score = Math.min(
+          100,
+          Math.max(0, Math.round(netProfit / 3 + 50))
+        );
+        document.getElementById("finalScore").textContent = score + "/100";
+
+        // Generate lessons learned
+        const lessons = [];
+
+        if (netProfit > 0) {
+          lessons.push(
+            "أحسنت! حققت ربحًا إيجابيًا من خلال الإدارة الحكيمة لمتجرك."
+          );
+        } else {
+          lessons.push(
+            "التكاليف الثابتة (الإيجار والعمالة) تأكل الأرباح عندما تكون المبيعات منخفضة."
+          );
+        }
+
+        if (gameState.marketing === "event") {
+          lessons.push("الاستثمار في التسويق يمكن أن يزيد المبيعات بشكل كبير.");
+        }
+
+        const bestProduct = Object.keys(gameState.results.productSales).reduce(
+          (a, b) =>
+            gameState.results.productSales[a].profit >
+            gameState.results.productSales[b].profit
+              ? a
+              : b
+        );
+        const productNames = {
+          balls: "الكرات المطاطية",
+          plush: "الحيوانات المحشوة",
+          games: "ألعاب الطاولة",
+          cars: "السيارات بالتحكم",
+        };
+        lessons.push(`كان أفضل منتج لديك: ${productNames[bestProduct]}`);
+
+        if (gameState.staffing === "fulltime" && customers < 50) {
+          lessons.push("ربما كانت العمالة بدوام كامل مكلفة جدًا لحجم عملك.");
+        }
+
+        const lessonsHTML = lessons
+          .map((lesson) => `<li>${lesson}</li>`)
+          .join("");
+        document.getElementById("lessonsLearned").innerHTML = lessonsHTML;
+      }
+
+      // Action Functions
+      function returnToDashboard() {
+        alert("العودة إلى لوحة التحكم...");
+        // In real app, would navigate to dashboard
+      }
+
+      function tryAgain() {
+        location.reload();
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("🧸 محاكاة قطب متجر الألعاب جاهزة!");
+      });
+    </script>
+  </body>
+</html>

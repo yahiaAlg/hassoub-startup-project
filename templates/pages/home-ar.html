@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}الصفحة الرئيسية{% endblock title %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+{% endblock extra_css %}
+{% block content %}
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="floating-icons icon-1">💵</div>
+      <div class="floating-icons icon-2">🏪</div>
+      <div class="floating-icons icon-3">🎯</div>
+      <div class="floating-icons icon-4">⭐</div>
+
+      <div class="hero-content">
+        <h1>مغامرات المال للأطفال!</h1>
+        <p class="hero-tagline">
+          ★ العب. قرر. انمو: الطريقة الآمنة لتعلم مهارات المال الحقيقية! ★
+        </p>
+        <p>
+          تعلم مهارات المال من خلال اللعب! قم بإدارة عملك الافتراضي الخاص، واتخذ
+          خيارات ذكية، واكسب المكافآت—كل ذلك في بيئة آمنة وممتعة.
+        </p>
+        <button class="cta-button">ابدأ مغامرتك 🚀</button>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-icon">🎮</div>
+      </div>
+    </section>
+
+    <!-- Extra Good Offers Section -->
+    <section class="offers-section">
+      <h2 class="offers-title">
+        <span class="section-icon">✨</span>
+        عروض رائعة جداً
+        <span class="section-icon">✨</span>
+      </h2>
+      <div class="offers-slider">
+        <button class="slider-arrow left-arrow">‹</button>
+        <div class="offers-container">
+          <div class="offer-card">
+            <div class="offer-badge">-25%</div>
+            <div class="offer-image">🍋</div>
+            <div class="offer-category">الأعمال الافتراضية</div>
+            <div class="offer-name">كشك الليمون المميز</div>
+            <div class="offer-price">
+              <span class="old-price">$750</span>
+              <span class="new-price">$560</span>
+            </div>
+            <button class="offer-cart">🛒</button>
+            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
+          </div>
+
+          <div class="offer-card">
+            <div class="offer-badge">-15%</div>
+            <div class="offer-image">🏅</div>
+            <div class="offer-category">شارات ومكافآت</div>
+            <div class="offer-name">شارة سيد المال</div>
+            <div class="offer-price">
+              <span class="old-price">$350</span>
+              <span class="new-price">$300</span>
+            </div>
+            <button class="offer-cart">🛒</button>
+            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
+          </div>
+
+          <div class="offer-card">
+            <div class="offer-badge">-30%</div>
+            <div class="offer-image">🗺️</div>
+            <div class="offer-category">الألعاب والأدوات</div>
+            <div class="offer-name">خريطة مغامرة الأعمال</div>
+            <div class="offer-price">
+              <span class="old-price">$1026</span>
+              <span class="new-price">$720</span>
+            </div>
+            <button class="offer-cart">🛒</button>
+            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
+          </div>
+
+          <div class="offer-card">
+            <div class="offer-badge">-20%</div>
+            <div class="offer-image">🧸</div>
+            <div class="offer-category">مكافآت</div>
+            <div class="offer-name">دمية المدخر الخارق</div>
+            <div class="offer-price">
+              <span class="old-price">$637</span>
+              <span class="new-price">$510</span>
+            </div>
+            <button class="offer-cart">🛒</button>
+            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+        <button class="slider-arrow right-arrow">›</button>
+      </div>
+    </section>
+
+    <!-- Features Grid Section -->
+    <section class="features-grid-section">
+      <h2 class="features-title">
+        <span class="section-icon">❤️</span>
+        لماذا يحب الأطفال والآباء بيزفينتشر!
+        <span class="section-icon">❤️</span>
+      </h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🏪</div>
+          <h3 class="feature-title">إدارة الأعمال الافتراضية</h3>
+          <p class="feature-description">
+            يدير الأطفال أكشاك الليمون الخاصة بهم، أو متاجر الألعاب، أو المخابز
+            الافتراضية. يتعلمون مهارات الأعمال الحقيقية في بيئة خالية من
+            المخاطر!
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3 class="feature-title">كسب وإدارة الأموال</h3>
+          <p class="feature-description">
+            اكسب العملات الافتراضية، حدد الأسعار، واتخذ خيارات إنفاق ذكية. تعلم
+            قيمة الادخار والاستثمار!
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎁</div>
+          <h3 class="feature-title">فتح المكافآت</h3>
+          <p class="feature-description">
+            أكمل التحديات وافتح الشارات والمستويات والعناصر الخاصة. احتفل بكل
+            إنجاز!
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3 class="feature-title">آمن وتعليمي</h3>
+          <p class="feature-description">
+            لا يوجد أموال حقيقية متورطة. يتعلم الأطفال في بيئة آمنة وخالية من
+            الإعلانات صممها المعلمون والآباء.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">تتبع التقدم</h3>
+          <p class="feature-description">
+            شاهد عملك ينمو مع رسوم بيانية وتقارير سهلة الفهم. تعلم كيف تؤثر
+            القرارات على النجاح!
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">👨‍👩‍👧‍👦</div>
+          <h3 class="feature-title">متعة عائلية</h3>
+          <p class="feature-description">
+            يمكن للآباء والأطفال اللعب معاً. ناقش خيارات المال واحتفل بالإنجازات
+            كعائلة!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <h2 class="section-title">
+        <span class="section-icon">🎯</span>
+        كيف يعمل: ابدأ مغامرتك في 3 خطوات سهلة!
+        <span class="section-icon">🎯</span>
+      </h2>
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon">✍️</div>
+          <h3 class="step-title">سجل مجاناً</h3>
+          <p class="step-description">
+            أنشئ حساباً مجانياً لك ولطفلك. اختر صورة رمزية ممتعة واسم مستخدم
+            للبدء!
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon">🏬</div>
+          <h3 class="step-title">اختر عملك</h3>
+          <p class="step-description">
+            اختر من بين مجموعة متنوعة من الأعمال الافتراضية مثل كشك الليمون أو
+            متجر الألعاب أو المخبز. كل واحد له تحدياته ومكافآته الخاصة!
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon">🎮</div>
+          <h3 class="step-title">العب وتعلم</h3>
+          <p class="step-description">
+            ابدأ اللعب! اتخذ القرارات، واكسب العملات، وافتح المكافآت. تعلم
+            مهارات المال الحقيقية أثناء الاستمتاع!
+          </p>
+        </div>
+      </div>
+      <button class="cta-button">ابدأ مغامرتك الآن! 🌟</button>
+    </section>
+
+    <!-- Age Group Selector -->
+    <section class="age-selector">
+      <h2 class="age-title">
+        <span class="section-icon">🎨</span>
+        اختر مغامرتك حسب العمر!
+        <span class="section-icon">🎨</span>
+      </h2>
+      <p class="age-subtitle">اختر مغامرة المال المثالية لفئتك العمرية</p>
+      <div class="age-cards">
+        <div class="age-card">
+          <div class="age-icon">🧒</div>
+          <h3 class="age-group">الأعمار 5-7</h3>
+          <p class="age-description">
+            ألعاب بسيطة للتعرف على العملات والادخار والمشاركة!
+          </p>
+          <button class="age-button">استكشف 🔍</button>
+        </div>
+
+        <div class="age-card">
+          <div class="age-icon">👧</div>
+          <h3 class="age-group">الأعمار 8-10</h3>
+          <p class="age-description">
+            أدر كشك الليمون، واكسب المكافآت، واتخذ خيارات ذكية!
+          </p>
+          <button class="age-button">استكشف 🔍</button>
+        </div>
+
+        <div class="age-card">
+          <div class="age-icon">👦</div>
+          <h3 class="age-group">الأعمار 11-13</h3>
+          <p class="age-description">
+            ألعاب متقدمة: الميزانية، الاستثمار، وتخطيط الأعمال!
+          </p>
+          <button class="age-button">استكشف 🔍</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sign Up CTA Section -->
+    <section class="signup-cta">
+      <h2 class="cta-title">
+        <span class="section-icon">🎉</span>
+        هل أنت مستعد لبدء مغامرة المال الخاصة بك؟
+        <span class="section-icon">🎉</span>
+      </h2>
+      <p class="cta-subtitle">سجل الآن ودع المتعة تبدأ!</p>
+      <button class="signup-button">سجل مجاناً! 🚀</button>
+    </section>
+
+{% endblock content %}
+
+
+{% block extra_js %}
+    <script>
+      // Slider functionality
+      const leftArrow = document.querySelector(".left-arrow");
+      const rightArrow = document.querySelector(".right-arrow");
+      const offersContainer = document.querySelector(".offers-container");
+
+      leftArrow.addEventListener("click", () => {
+        offersContainer.scrollBy({ left: -250, behavior: "smooth" });
+      });
+
+      rightArrow.addEventListener("click", () => {
+        offersContainer.scrollBy({ left: 250, behavior: "smooth" });
+      });
+    </script>
+{% endblock extra_js %}

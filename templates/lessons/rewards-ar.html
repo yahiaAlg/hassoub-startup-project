@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إنجازاتك - بيزفينتشر كيدز</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="rewards.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Main Header -->
+    <header class="main-header">
+      <div>
+        <div class="logo">
+          <span class="logo-icon">💰</span>
+          المحاسب الصغير
+        </div>
+        <div class="tagline">
+          ★ العب. قرر. انمُ: الطريقة الآمنة لتعلم المهارات المالية الحقيقية! ★
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#quiz">اختبار</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>إنجازاتك</h1>
+        <p>
+          احتفل بإنجازاتك! شاهد الشارات التي حصلت عليها واكتشف ما يمكنك تحقيقه
+          في رحلة تعليمك المالي.
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Statistics Summary -->
+        <div class="stats-summary">
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value">8</div>
+            <div class="stat-label">الشارات المكتسبة</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">إجمالي المتاح</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-value">1,200</div>
+            <div class="stat-label">XP من الشارات</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-value">6</div>
+            <div class="stat-label">قريباً جداً!</div>
+          </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <h2 class="section-title">جميع الشارات</h2>
+        <div class="category-tabs">
+          <div class="tab active" data-category="all">الكل</div>
+          <div class="tab" data-category="earned">المكتسبة</div>
+          <div class="tab" data-category="almost">قريباً جداً</div>
+          <div class="tab" data-category="locked">مقفلة</div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+          <input type="text" class="search-box" placeholder="ابحث عن شارة..." />
+          <div class="sort-options">
+            <label for="sort-select">الترتيب حسب:</label>
+            <select id="sort-select">
+              <option value="recent">الأحدث</option>
+              <option value="name">الاسم</option>
+              <option value="difficulty">الصعوبة</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Business Basics Category -->
+        <div class="category-header">
+          <h3 class="category-title">📚 أساسيات الأعمال</h3>
+          <span class="category-count">4 من 8 شارات مكتسبة</span>
+        </div>
+        <div class="badges-grid">
+          <div
+            class="badge-card earned"
+            onclick="showBadgeModal('📖', 'الدرس الأول', 'أكمل درسك الأول', 'earned', 100)"
+          >
+            <div class="badge-icon earned">📖</div>
+            <div class="badge-title">الدرس الأول</div>
+            <div class="badge-description">أكمل درسك الأول</div>
+            <div class="unlock-animation"></div>
+          </div>
+
+          <div
+            class="badge-card earned"
+            onclick="showBadgeModal('✅', 'سيد الاختبارات', 'احصل على 100٪ في 3 اختبارات', 'earned', 100)"
+          >
+            <div class="badge-icon earned">✅</div>
+            <div class="badge-title">سيد الاختبارات</div>
+            <div class="badge-description">احصل على 100٪ في 3 اختبارات</div>
+            <div class="unlock-animation"></div>
+          </div>
+
+          <div
+            class="badge-card almost"
+            onclick="showBadgeModal('💰', 'محترف الأرباح', 'احسب الربح بشكل صحيح 5 مرات', 'almost', 60)"
+          >
+            <div class="badge-icon almost">💰</div>
+            <div class="badge-title">محترف الأرباح</div>
+            <div class="badge-description">احسب الربح بشكل صحيح 5 مرات</div>
+            <div class="badge-progress">3/5 مكتملة</div>
+          </div>
+
+          <div
+            class="badge-card earned"
+            onclick="showBadgeModal('💵', 'مبتدئ الميزانية', 'أنشئ ميزانيتك الأولى', 'earned', 100)"
+          >
+            <div class="badge-icon earned">💵</div>
+            <div class="badge-title">مبتدئ الميزانية</div>
+            <div class="badge-description">أنشئ ميزانيتك الأولى</div>
+            <div class="unlock-animation"></div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'المتنبئ المالي', 'تنبأ بـ 3 أشهر من الأموال', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">المتنبئ المالي</div>
+            <div class="badge-description">تنبأ بـ 3 أشهر من الأموال</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'مخطط الأعمال', 'أكمل 5 خطط عمل', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">مخطط الأعمال</div>
+            <div class="badge-description">أكمل 5 خطط عمل</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'باحث السوق', 'حلل 3 سيناريوهات سوق', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">باحث السوق</div>
+            <div class="badge-description">حلل 3 سيناريوهات سوق</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'استراتيجي الأعمال', 'طور 3 استراتيجيات عمل', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">استراتيجي الأعمال</div>
+            <div class="badge-description">طور 3 استراتيجيات عمل</div>
+          </div>
+        </div>
+
+        <!-- Simulation Success Category -->
+        <div class="category-header">
+          <h3 class="category-title">🎮 نجاح المحاكاة</h3>
+          <span class="category-count">3 من 6 شارات مكتسبة</span>
+        </div>
+        <div class="badges-grid">
+          <div
+            class="badge-card earned"
+            onclick="showBadgeModal('🏆', 'أول محاكاة', 'أكمل أول محاكاة عمل', 'earned', 100)"
+          >
+            <div class="badge-icon earned">🏆</div>
+            <div class="badge-title">أول محاكاة</div>
+            <div class="badge-description">أكمل أول محاكاة عمل</div>
+            <div class="unlock-animation"></div>
+          </div>
+
+          <div
+            class="badge-card earned"
+            onclick="showBadgeModal('💰', 'سيد الربح', 'حقق ربح 100$+ في محاكاة', 'earned', 100)"
+          >
+            <div class="badge-icon earned">💰</div>
+            <div class="badge-title">سيد الربح</div>
+            <div class="badge-description">حقق ربح 100$+ في محاكاة</div>
+            <div class="unlock-animation"></div>
+          </div>
+
+          <div
+            class="badge-card almost"
+            onclick="showBadgeModal('😊', 'نجم خدمة العملاء', 'احصل على تقييم 5 نجوم في 3 محاكاات', 'almost', 66)"
+          >
+            <div class="badge-icon almost">😊</div>
+            <div class="badge-title">نجم خدمة العملاء</div>
+            <div class="badge-description">
+              احصل على تقييم 5 نجوم في 3 محاكاات
+            </div>
+            <div class="badge-progress">2/3 مكتملة</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'قطب الأعمال', 'اكسب ربح 500$+ في محاكاة', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">قطب الأعمال</div>
+            <div class="badge-description">اكسب ربح 500$+ في محاكاة</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'النتيجة المثالية', 'احصل على 100٪ في أي محاكاة', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">النتيجة المثالية</div>
+            <div class="badge-description">احصل على 100٪ في أي محاكاة</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'ماراثون المحاكاة', 'أكمل 5 محاكاات مختلفة', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">ماراثون المحاكاة</div>
+            <div class="badge-description">أكمل 5 محاكاات مختلفة</div>
+          </div>
+        </div>
+
+        <!-- Learning Streaks Category -->
+        <div class="category-header">
+          <h3 class="category-title">🔥 سلاسل التعلم</h3>
+          <span class="category-count">1 من 4 شارات مكتسبة</span>
+        </div>
+        <div class="badges-grid">
+          <div
+            class="badge-card earned"
+            onclick="showBadgeModal('🔥', 'أول سلسلة', 'تعلم 3 أيام على التوالي', 'earned', 100)"
+          >
+            <div class="badge-icon earned">🔥</div>
+            <div class="badge-title">أول سلسلة</div>
+            <div class="badge-description">تعلم 3 أيام على التوالي</div>
+            <div class="unlock-animation"></div>
+          </div>
+
+          <div
+            class="badge-card almost"
+            onclick="showBadgeModal('📅', 'المتعلم الأسبوعي', 'تعلم 5 أيام في أسبوع واحد', 'almost', 60)"
+          >
+            <div class="badge-icon almost">📅</div>
+            <div class="badge-title">المتعلم الأسبوعي</div>
+            <div class="badge-description">تعلم 5 أيام في أسبوع واحد</div>
+            <div class="badge-progress">3/5 أيام</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'السيد الشهري', 'تعلم 20 يوماً في شهر واحد', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">السيد الشهري</div>
+            <div class="badge-description">تعلم 20 يوماً في شهر واحد</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'المتعلم المخلص', 'سلسلة تعلم مدتها 30 يوماً', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">المتعلم المخلص</div>
+            <div class="badge-description">سلسلة تعلم مدتها 30 يوماً</div>
+          </div>
+        </div>
+
+        <!-- Financial Expertise Category -->
+        <div class="category-header">
+          <h3 class="category-title">💼 الخبرة المالية</h3>
+          <span class="category-count">0 من 6 شارات مكتسبة</span>
+        </div>
+        <div class="badges-grid">
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'بطل الادخار', 'وفر 1,000$ في حسابات افتراضية', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">بطل الادخار</div>
+            <div class="badge-description">وفر 1,000$ في حسابات افتراضية</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'مبتدئ الاستثمار', 'قم بأول استثمار افتراضي', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">مبتدئ الاستثمار</div>
+            <div class="badge-description">قم بأول استثمار افتراضي</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'حكيم الائتمان', 'افهم درجات الائتمان', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">حكيم الائتمان</div>
+            <div class="badge-description">افهم درجات الائتمان</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'ملم بالضرائب', 'أكمل درس الضرائب', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">ملم بالضرائب</div>
+            <div class="badge-description">أكمل درس الضرائب</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'خبير التأمين', 'تعلم عن 3 أنواع تأمين', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">خبير التأمين</div>
+            <div class="badge-description">تعلم عن 3 أنواع تأمين</div>
+          </div>
+
+          <div
+            class="badge-card locked"
+            onclick="showBadgeModal('🔒', 'جاهز للتقاعد', 'خطط للتقاعد الافتراضي', 'locked', 0)"
+          >
+            <div class="badge-icon locked">
+              <span class="badge-lock">🔒</span>
+            </div>
+            <div class="badge-title">جاهز للتقاعد</div>
+            <div class="badge-description">خطط للتقاعد الافتراضي</div>
+          </div>
+        </div>
+
+        <!-- Recent Achievements -->
+        <h2 class="section-title">🎉 الإنجازات الأخيرة</h2>
+        <div class="recent-achievements">
+          <div class="achievement-item">
+            <div class="achievement-icon earned">🏆</div>
+            <div class="achievement-content">
+              <div class="achievement-title">اكتملت أول محاكاة</div>
+              <div class="achievement-meta">قطب متجر الألعاب بربح 120$</div>
+            </div>
+            <div class="achievement-time">منذ يومين</div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-icon earned">✅</div>
+            <div class="achievement-content">
+              <div class="achievement-title">سيد الاختبارات</div>
+              <div class="achievement-meta">
+                درجات مثالية في 3 اختبارات محاسبة
+              </div>
+            </div>
+            <div class="achievement-time">منذ 5 أيام</div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-icon earned">🔥</div>
+            <div class="achievement-content">
+              <div class="achievement-title">سلسلة تعلم 5 أيام</div>
+              <div class="achievement-meta">
+                تعلم متواصل لمدة 5 أيام متتالية
+              </div>
+            </div>
+            <div class="achievement-time">منذ أسبوع</div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-icon earned">📖</div>
+            <div class="achievement-content">
+              <div class="achievement-title">اكتمل الدرس الأول</div>
+              <div class="achievement-meta">مقدمة في أساسيات الأعمال</div>
+            </div>
+            <div class="achievement-time">منذ أسبوعين</div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-icon earned">💰</div>
+            <div class="achievement-content">
+              <div class="achievement-title">سيد الربح</div>
+              <div class="achievement-meta">
+                حصلت على ربح 100$+ في محاكاة متجر الألعاب
+              </div>
+            </div>
+            <div class="achievement-time">منذ أسبوعين</div>
+          </div>
+        </div>
+
+        <!-- Next Achievements to Unlock -->
+        <h2 class="section-title">🎯 الإنجازات التالية لفتحها</h2>
+        <div class="recent-achievements">
+          <div class="achievement-item">
+            <div
+              class="achievement-icon almost"
+              style="
+                background: linear-gradient(135deg, var(--accent), #f57c00);
+              "
+            >
+              💰
+            </div>
+            <div class="achievement-content">
+              <div class="achievement-title">محترف الأرباح</div>
+              <div class="achievement-meta">
+                احسب الربح بشكل صحيح 5 مرات - 3/5 مكتملة
+              </div>
+            </div>
+          </div>
+
+          <div class="achievement-item">
+            <div
+              class="achievement-icon almost"
+              style="
+                background: linear-gradient(135deg, var(--accent), #f57c00);
+              "
+            >
+              📅
+            </div>
+            <div class="achievement-content">
+              <div class="achievement-title">المتعلم الأسبوعي</div>
+              <div class="achievement-meta">
+                تعلم 5 أيام في أسبوع واحد - 3/5 أيام
+              </div>
+            </div>
+          </div>
+
+          <div class="achievement-item">
+            <div
+              class="achievement-icon almost"
+              style="
+                background: linear-gradient(135deg, var(--accent), #f57c00);
+              "
+            >
+              😊
+            </div>
+            <div class="achievement-content">
+              <div class="achievement-title">نجم خدمة العملاء</div>
+              <div class="achievement-meta">
+                احصل على تقييم 5 نجوم في 3 محاكاات - 2/3 مكتملة
+              </div>
+            </div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-icon locked" style="background-color: #ccc">
+              🔒
+            </div>
+            <div class="achievement-content">
+              <div class="achievement-title">قطب الأعمال</div>
+              <div class="achievement-meta">اكسب ربح 500$+ في محاكاة</div>
+            </div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-icon locked" style="background-color: #ccc">
+              🔒
+            </div>
+            <div class="achievement-content">
+              <div class="achievement-title">المتنبئ المالي</div>
+              <div class="achievement-meta">تنبأ بـ 3 أشهر من الأموال</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="badgeModal">
+      <div class="modal">
+        <span class="modal-close" onclick="closeBadgeModal()">×</span>
+        <div class="modal-icon" id="modalIcon">🏆</div>
+        <h2 class="modal-title" id="modalTitle">الإنجاز مفتوح!</h2>
+        <p class="modal-description" id="modalDescription">
+          لقد حصلت على هذه الشارة من خلال إكمال تحديات معينة في رحلة التعلم
+          الخاصة بك.
+        </p>
+        <div class="modal-details">
+          <div class="detail-item">
+            <span class="detail-label">المتطلبات</span>
+            <span class="detail-value" id="modalRequirements"
+              >إكمال مهام محددة</span
+            >
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">التقدم</span>
+            <span class="detail-value" id="modalProgress">100% مكتمل</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">تم الحصول عليها</span>
+            <span class="detail-value" id="modalEarned">15 ديسمبر 2024</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">مكافأة XP</span>
+            <span class="detail-value" id="modalXP">+100 XP</span>
+          </div>
+        </div>
+        <div class="modal-progress">
+          <div class="modal-progress-bar" id="modalProgressBar"></div>
+        </div>
+        <div class="share-buttons">
+          <div class="share-button" title="شارك على فيسبوك">📘</div>
+          <div class="share-button" title="شارك على تويتر">🐦</div>
+          <div class="share-button" title="شارك على واتساب">💬</div>
+          <div class="share-button" title="نسخ الرابط">🔗</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>روابط سريعة</h3>
+          <a href="#home">الرئيسية</a>
+          <a href="#about">من نحن</a>
+          <a href="#quiz">اختبار</a>
+          <a href="#contact">اتصل بنا</a>
+        </div>
+        <div class="footer-section">
+          <h3>معلومات قانونية</h3>
+          <a href="#privacy">سياسة الخصوصية</a>
+          <a href="#terms">الشروط والأحكام</a>
+          <a href="#faq">الأسئلة الشائعة</a>
+        </div>
+        <div class="footer-section">
+          <h3>تواصل معنا</h3>
+          <p>📞 +47 961 78 807</p>
+          <p>✉️ Info@BizVentureKids.no</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Badge Modal Functions
+      function showBadgeModal(icon, title, description, status, progress) {
+        const modal = document.getElementById("badgeModal");
+        const modalIcon = document.getElementById("modalIcon");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalDescription = document.getElementById("modalDescription");
+        const modalProgress = document.getElementById("modalProgress");
+        const modalEarned = document.getElementById("modalEarned");
+        const modalProgressBar = document.getElementById("modalProgressBar");
+        const modalRequirements = document.getElementById("modalRequirements");
+
+        modalIcon.textContent = icon;
+        modalTitle.textContent = title;
+        modalDescription.textContent = description;
+
+        if (status === "earned") {
+          modalIcon.style.background =
+            "linear-gradient(135deg, var(--primary), var(--primary-dark))";
+          modalProgress.textContent = "100% مكتمل";
+          modalEarned.textContent = "15 ديسمبر 2024";
+          modalRequirements.textContent = "إكمال مهام محددة";
+        } else if (status === "almost") {
+          modalIcon.style.background =
+            "linear-gradient(135deg, var(--accent), #f57c00)";
+          modalProgress.textContent = progress + "% مكتمل";
+          modalEarned.textContent = "لم يتم الحصول عليها بعد";
+          modalRequirements.textContent = "قريب من الإكمال";
+        } else {
+          modalIcon.style.background = "#ccc";
+          modalProgress.textContent = "0% مكتمل";
+          modalEarned.textContent = "مقفل";
+          modalRequirements.textContent = "أكمل المتطلبات السابقة";
+        }
+
+        modal.classList.add("show");
+
+        // Animate progress bar
+        setTimeout(() => {
+          modalProgressBar.style.width = progress + "%";
+        }, 300);
+      }
+
+      function closeBadgeModal() {
+        const modal = document.getElementById("badgeModal");
+        modal.classList.remove("show");
+      }
+
+      // Close modal when clicking outside
+      document
+        .getElementById("badgeModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeBadgeModal();
+          }
+        });
+
+      // Tab Filtering
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", function () {
+          // Remove active class from all tabs
+          document
+            .querySelectorAll(".tab")
+            .forEach((t) => t.classList.remove("active"));
+          // Add active class to clicked tab
+          this.classList.add("active");
+
+          const category = this.getAttribute("data-category");
+          const badges = document.querySelectorAll(".badge-card");
+
+          badges.forEach((badge) => {
+            if (category === "all") {
+              badge.style.display = "block";
+            } else if (
+              category === "earned" &&
+              badge.classList.contains("earned")
+            ) {
+              badge.style.display = "block";
+            } else if (
+              category === "almost" &&
+              badge.classList.contains("almost")
+            ) {
+              badge.style.display = "block";
+            } else if (
+              category === "locked" &&
+              badge.classList.contains("locked")
+            ) {
+              badge.style.display = "block";
+            } else {
+              badge.style.display = "none";
+            }
+          });
+        });
+      });
+
+      // Search Functionality
+      document
+        .querySelector(".search-box")
+        .addEventListener("input", function (e) {
+          const searchTerm = e.target.value.toLowerCase();
+          const badges = document.querySelectorAll(".badge-card");
+
+          badges.forEach((badge) => {
+            const title = badge
+              .querySelector(".badge-title")
+              .textContent.toLowerCase();
+            const description = badge
+              .querySelector(".badge-description")
+              .textContent.toLowerCase();
+
+            if (
+              title.includes(searchTerm) ||
+              description.includes(searchTerm)
+            ) {
+              badge.style.display = "block";
+            } else {
+              badge.style.display = "none";
+            }
+          });
+        });
+
+      // Sort Functionality
+      document
+        .getElementById("sort-select")
+        .addEventListener("change", function (e) {
+          console.log("Sorting by:", e.target.value);
+          // Sorting functionality would be implemented here
+          alert(
+            "الترتيب حسب: " + e.target.options[e.target.selectedIndex].text
+          );
+        });
+
+      // Share Button Functionality
+      document.querySelectorAll(".share-button").forEach((button) => {
+        button.addEventListener("click", function () {
+          const title = document.getElementById("modalTitle").textContent;
+          alert("🎉 مشاركة الإنجاز: " + title);
+        });
+      });
+
+      // Animation on load
+      window.addEventListener("load", function () {
+        console.log(
+          "%c مرحباً بك في صفحة الإنجازات! 🏅",
+          "color: #4caf50; font-size: 20px; font-weight: bold;"
+        );
+        console.log(
+          "%c استمر في العمل الرائع! 🌟",
+          "color: #ff9800; font-size: 14px;"
+        );
+
+        // Animate badges on scroll
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.animation = "fadeInUp 0.5s ease-out";
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll(".badge-card").forEach((badge) => {
+          observer.observe(badge);
+        });
+      });
+
+      // Add fadeInUp animation
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+      document.head.appendChild(style);
+    </script>
+  </body>
+</html>

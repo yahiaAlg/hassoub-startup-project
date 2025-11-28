@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بوابة أولياء الأمور - بيزفينتشر كيدز</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="parent-dashboard.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Main Header -->
+    <header class="main-header">
+      <div>
+        <div class="logo">
+          <span class="logo-icon">💰</span>
+          المحاسب الصغير
+        </div>
+        <div class="tagline">
+          ★ العب. قرر. انمُ: الطريقة الآمنة لتعلم المهارات المالية الحقيقية! ★
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#quiz">اختبار</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="dashboard-container fade-in">
+      <!-- Header Section -->
+      <div class="header">
+        <div class="welcome-message">مرحباً، سارة! 👋</div>
+        <div class="subtitle">راقبي تقدم أحمد وأسندي له محتوى تعليمي جديد</div>
+        <div class="header-meta">
+          <div class="child-selector">
+            <label for="child-select">اختر الطفل:</label>
+            <select id="child-select" onchange="changeChild(this.value)">
+              <option value="johnny">أحمد (10 سنوات)</option>
+              <option value="emily">ليلى (8 سنوات)</option>
+            </select>
+          </div>
+          <div class="notifications" onclick="showNotifications()">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-count">2 إشعارات جديدة</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="card-title">إجمالي الدروس المكتملة</div>
+          <div class="card-value">12</div>
+          <div class="card-change positive">4 هذا الشهر</div>
+        </div>
+        <div class="summary-card">
+          <div class="card-title">متوسط درجة التعلم</div>
+          <div class="card-value">87%</div>
+          <div class="card-change positive">5% من الشهر الماضي</div>
+        </div>
+        <div class="summary-card">
+          <div class="card-title">الوقت المستغرق في التعلم</div>
+          <div class="card-value">8س 25د</div>
+          <div class="card-change positive">2س هذا الأسبوع</div>
+        </div>
+        <div class="summary-card">
+          <div class="card-title">السلسلة الحالية</div>
+          <div class="card-value">5 أيام</div>
+          <div class="card-change positive">🔥 استمر في التقدم!</div>
+        </div>
+      </div>
+
+      <!-- Content Sections -->
+      <div class="content-sections">
+        <!-- Learning Progress -->
+        <div class="section">
+          <h2 class="section-title">📚 تقدم التعلم</h2>
+          <div style="overflow-x: auto">
+            <table class="progress-table">
+              <thead>
+                <tr>
+                  <th>الدرس</th>
+                  <th>الحالة</th>
+                  <th>الدرجة</th>
+                  <th>الوقت المستغرق</th>
+                  <th>الإجراء</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>مقدمة عن المال</td>
+                  <td class="status-completed">✓ مكتمل</td>
+                  <td>95%</td>
+                  <td>28 دقيقة</td>
+                  <td>
+                    <button
+                      class="review-button"
+                      onclick="reviewLesson('intro-money')"
+                    >
+                      مراجعة
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>الادخار مقابل الإنفاق</td>
+                  <td class="status-completed">✓ مكتمل</td>
+                  <td>88%</td>
+                  <td>35 دقيقة</td>
+                  <td>
+                    <button
+                      class="review-button"
+                      onclick="reviewLesson('saving-spending')"
+                    >
+                      مراجعة
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>الميزانية الأساسية</td>
+                  <td class="status-completed">✓ مكتمل</td>
+                  <td>92%</td>
+                  <td>42 دقيقة</td>
+                  <td>
+                    <button
+                      class="review-button"
+                      onclick="reviewLesson('basic-budgeting')"
+                    >
+                      مراجعة
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>محاكاة كشك الليمون</td>
+                  <td class="status-completed">✓ مكتمل</td>
+                  <td>90%</td>
+                  <td>55 دقيقة</td>
+                  <td>
+                    <button
+                      class="review-button"
+                      onclick="reviewLesson('lemonade-stand')"
+                    >
+                      مراجعة
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>متجر الألعاب الكبير</td>
+                  <td class="status-inprogress">⏳ قيد التنفيذ</td>
+                  <td>75%</td>
+                  <td>48 دقيقة</td>
+                  <td>
+                    <button
+                      class="continue-button"
+                      onclick="continueLesson('toy-shop')"
+                    >
+                      متابعة
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>فهم الربح</td>
+                  <td class="status-notstarted">⏸ لم يبدأ</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>
+                    <button
+                      class="assign-button"
+                      onclick="assignLesson('understanding-profit')"
+                    >
+                      إسناد
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>مقدمة إلى الخدمات المصرفية</td>
+                  <td class="status-notstarted">⏸ لم يبدأ</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>
+                    <button
+                      class="assign-button"
+                      onclick="assignLesson('intro-banking')"
+                    >
+                      إسناد
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Skill Development -->
+        <div class="section">
+          <h2 class="section-title">🎯 تطوير المهارات</h2>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-name">الثقافة المالية</div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 75%"></div>
+              </div>
+              <div class="progress-percentage">75% متقن</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">إدارة الأعمال</div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 60%"></div>
+              </div>
+              <div class="progress-percentage">60% متقن</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">اتخاذ القرار</div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 80%"></div>
+              </div>
+              <div class="progress-percentage">80% متقن</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reports & Insights -->
+        <div class="section">
+          <h2 class="section-title">📊 التقارير والرؤى</h2>
+          <div class="reports-section">
+            <div class="report-card" onclick="viewReport('progress')">
+              <div class="report-icon">📈</div>
+              <div class="report-title">تقرير التقدم</div>
+            </div>
+            <div class="report-card" onclick="viewReport('activity')">
+              <div class="report-icon">📋</div>
+              <div class="report-title">سجل النشاط</div>
+            </div>
+            <div class="report-card" onclick="viewReport('skill')">
+              <div class="report-icon">🧠</div>
+              <div class="report-title">تحليل المهارات</div>
+            </div>
+            <div class="report-card" onclick="viewReport('peer')">
+              <div class="report-icon">🔄</div>
+              <div class="report-title">مقارنة الأقران</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Content -->
+        <div class="section">
+          <h2 class="section-title">💡 محتوى موصى به</h2>
+          <div class="recommendations">
+            <div class="recommendation-card">
+              <div class="recommendation-icon">💳</div>
+              <div class="recommendation-content">
+                <div class="recommendation-title">
+                  مقدمة إلى الخدمات المصرفية
+                </div>
+                <div class="recommendation-description">
+                  تعلم عن الحسابات المصرفية والفوائد وكيف تساعد البنوك في إدارة
+                  الأموال. مثالي للبناء على المعرفة المالية الحالية لأحمد.
+                </div>
+                <div class="recommendation-meta">
+                  <div class="recommendation-duration">⏱️ ساعة واحدة</div>
+                  <button
+                    class="recommend-button"
+                    onclick="assignContent('banking-intro')"
+                  >
+                    إسناد الدرس
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="recommendation-card">
+              <div class="recommendation-icon">📊</div>
+              <div class="recommendation-content">
+                <div class="recommendation-title">تحدي الميزانية المتقدمة</div>
+                <div class="recommendation-description">
+                  انتقل بمهارات الميزانية إلى المستوى التالي مع هذا السيناريو
+                  الصعب. أظهر أحمد مهارات قوية في الميزانية في الدروس السابقة.
+                </div>
+                <div class="recommendation-meta">
+                  <div class="recommendation-duration">⏱️ ساعة ونصف</div>
+                  <button
+                    class="recommend-button"
+                    onclick="assignContent('advanced-budgeting')"
+                  >
+                    إسناد السيناريو
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="recommendation-card">
+              <div class="recommendation-icon">🏢</div>
+              <div class="recommendation-content">
+                <div class="recommendation-title">ورشة التخطيط التجاري</div>
+                <div class="recommendation-description">
+                  تعلم كيفية إنشاء خطة عمل شاملة. رائع لتطوير المهارات الريادية
+                  لأحمد.
+                </div>
+                <div class="recommendation-meta">
+                  <div class="recommendation-duration">⏱️ ساعتان</div>
+                  <button
+                    class="recommend-button"
+                    onclick="assignContent('business-planning')"
+                  >
+                    إسناد الورشة
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>روابط سريعة</h3>
+          <a href="#home">الرئيسية</a>
+          <a href="#about">من نحن</a>
+          <a href="#quiz">اختبار</a>
+          <a href="#contact">اتصل بنا</a>
+        </div>
+        <div class="footer-section">
+          <h3>معلومات قانونية</h3>
+          <a href="#privacy">سياسة الخصوصية</a>
+          <a href="#terms">الشروط والأحكام</a>
+          <a href="#faq">الأسئلة الشائعة</a>
+        </div>
+        <div class="footer-section">
+          <h3>تواصل معنا</h3>
+          <p>📞 +47 961 78 807</p>
+          <p>✉️ Info@BizVentureKids.no</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Change child function
+      function changeChild(childId) {
+        console.log("Changing to child:", childId);
+        alert(`جاري تحميل بيانات ${childId === "johnny" ? "أحمد" : "ليلى"}...`);
+        // In real application, this would load different child's data
+      }
+
+      // Show notifications
+      function showNotifications() {
+        alert(
+          'الإشعارات الجديدة:\n\n1. أحمد أكمل درس "محاكاة كشك الليمون" بنجاح! 🎉\n2. توصية جديدة: "مقدمة إلى الخدمات المصرفية" متاحة الآن 💳'
+        );
+      }
+
+      // Review lesson
+      function reviewLesson(lessonId) {
+        console.log("Reviewing lesson:", lessonId);
+        alert(
+          `عرض تفاصيل الدرس: ${lessonId}\n\nستتمكن من رؤية:\n- إجابات الطفل\n- الدرجة التفصيلية\n- الوقت المستغرق\n- نقاط القوة والضعف`
+        );
+      }
+
+      // Continue lesson
+      function continueLesson(lessonId) {
+        console.log("Continuing lesson:", lessonId);
+        alert(
+          `تذكير أحمد بمتابعة: ${lessonId}\n\nسيتم إرسال إشعار للطفل لاستكمال الدرس.`
+        );
+      }
+
+      // Assign lesson
+      function assignLesson(lessonId) {
+        console.log("Assigning lesson:", lessonId);
+        const confirmed = confirm(
+          `هل تريدين إسناد هذا الدرس لأحمد؟\n\nالدرس: ${lessonId}\n\nسيظهر في قائمة الدروس المتاحة للطفل.`
+        );
+        if (confirmed) {
+          alert(
+            "✅ تم إسناد الدرس بنجاح!\n\nسيتلقى أحمد إشعاراً بالدرس الجديد."
+          );
+        }
+      }
+
+      // View report
+      function viewReport(reportType) {
+        console.log("Viewing report:", reportType);
+        const reportNames = {
+          progress: "تقرير التقدم",
+          activity: "سجل النشاط",
+          skill: "تحليل المهارات",
+          peer: "مقارنة الأقران",
+        };
+        alert(
+          `عرض ${reportNames[reportType]}...\n\nسيتم فتح تقرير مفصل يحتوي على:\n- رسوم بيانية تفاعلية\n- تحليل مفصل\n- توصيات مخصصة`
+        );
+      }
+
+      // Assign recommended content
+      function assignContent(contentId) {
+        console.log("Assigning content:", contentId);
+        const contentNames = {
+          "banking-intro": "مقدمة إلى الخدمات المصرفية",
+          "advanced-budgeting": "تحدي الميزانية المتقدمة",
+          "business-planning": "ورشة التخطيط التجاري",
+        };
+        const confirmed = confirm(
+          `هل تريدين إسناد "${contentNames[contentId]}" لأحمد؟\n\nهذا المحتوى موصى به بناءً على أداء أحمد وتقدمه الحالي.`
+        );
+        if (confirmed) {
+          alert(
+            "✅ تم إسناد المحتوى بنجاح!\n\nسيظهر في لوحة تحكم أحمد كتوصية مخصصة."
+          );
+        }
+      }
+
+      // Animate progress bars on page load
+      window.addEventListener("load", () => {
+        const progressBars = document.querySelectorAll(".progress-bar-fill");
+        progressBars.forEach((bar) => {
+          const targetWidth = bar.style.width;
+          bar.style.width = "0%";
+          setTimeout(() => {
+            bar.style.width = targetWidth;
+          }, 300);
+        });
+
+        // Animate summary cards
+        const summaryCards = document.querySelectorAll(".summary-card");
+        summaryCards.forEach((card, index) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(20px)";
+          setTimeout(() => {
+            card.style.transition = "all 0.5s ease";
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }, 100 * index);
+        });
+      });
+
+      // Add smooth scroll behavior
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Console welcome message
+      console.log(
+        "%c مرحباً بك في بوابة أولياء الأمور! 👨‍👩‍👧‍👦",
+        "color: #4caf50; font-size: 20px; font-weight: bold;"
+      );
+      console.log(
+        "%c راقب تقدم أطفالك وساعدهم في رحلتهم التعليمية! 📚",
+        "color: #ff9800; font-size: 14px;"
+      );
+    </script>
+  </body>
+</html>
