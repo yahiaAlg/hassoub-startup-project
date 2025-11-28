@@ -1,6 +1,15 @@
 https://poe.com/s/TxRBAouDiiWc2KNsBqQG
 
 
+```bash
+# Create the directory structure first
+mkdir -p pages/management/commands
+touch pages/management/__init__.py
+touch pages/management/commands/__init__.py
+
+# Then run the command
+python manage.py populate_pages
+```
 
 ```
 templates/

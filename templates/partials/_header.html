@@ -6,10 +6,10 @@
       </div>
       <nav>
         <ul>
-          <li><a href="#home">الرئيسية</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#quiz">اختبار</a></li>
-          <li><a href="#contact">اتصل بنا</a></li>
+          <li><a href="{% url "pages:index" %}">الرئيسية</a></li>
+          <li><a href="{% url "pages:about" %}">من نحن</a></li>
+          <li><a href="{% url "lessons:learning_path" %}">اختبار</a></li>
+          <li><a href="{% url "pages:contact" %}">اتصل بنا</a></li>
         </ul>
       </nav>
     </header>

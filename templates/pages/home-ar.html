@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}الصفحة الرئيسية{% endblock title %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'css/pages/index.css' %}" />
 {% endblock extra_css %}
 {% block content %}
 
@@ -14,9 +14,9 @@
       <div class="floating-icons icon-4">⭐</div>
 
       <div class="hero-content">
-        <h1>مغامرات المال للأطفال!</h1>
+        <h1>{{ site_settings.site_name_ar }}</h1>
         <p class="hero-tagline">
-          ★ العب. قرر. انمو: الطريقة الآمنة لتعلم مهارات المال الحقيقية! ★
+          ★ {{ site_settings.tagline_ar }} ★
         </p>
         <p>
           تعلم مهارات المال من خلال اللعب! قم بإدارة عملك الافتراضي الخاص، واتخذ
@@ -31,76 +31,45 @@
     </section>
 
     <!-- Extra Good Offers Section -->
-    <section class="offers-section">
-      <h2 class="offers-title">
-        <span class="section-icon">✨</span>
-        عروض رائعة جداً
-        <span class="section-icon">✨</span>
-      </h2>
-      <div class="offers-slider">
-        <button class="slider-arrow left-arrow">‹</button>
-        <div class="offers-container">
-          <div class="offer-card">
-            <div class="offer-badge">-25%</div>
-            <div class="offer-image">🍋</div>
-            <div class="offer-category">الأعمال الافتراضية</div>
-            <div class="offer-name">كشك الليمون المميز</div>
-            <div class="offer-price">
-              <span class="old-price">$750</span>
-              <span class="new-price">$560</span>
+    {% if offers %}
+      <section class="offers-section">
+        <h2 class="offers-title">
+          <span class="section-icon">✨</span>
+          عروض رائعة جداً
+          <span class="section-icon">✨</span>
+        </h2>
+        <div class="offers-slider">
+          <button class="slider-arrow left-arrow">‹</button>
+          <div class="offers-container">
+            {% for offer in offers %}
+            <div class="offer-card">
+              <div class="offer-badge">-{{ offer.discount_percentage }}%</div>
+              <div class="offer-image">{{ offer.icon }}</div>
+              <div class="offer-category">{{ offer.category_ar }}</div>
+              <div class="offer-name">{{ offer.name_ar }}</div>
+              <div class="offer-price">
+                <span class="old-price">${{ offer.old_price }}</span>
+                <span class="new-price">${{ offer.new_price }}</span>
+              </div>
+              <button class="offer-cart">🛒</button>
+              <div class="offer-rating">
+                {% for i in "12345" %}
+                  {% if forloop.counter <= offer.rating %}⭐{% endif %}
+                {% endfor %}
+              </div>
             </div>
-            <button class="offer-cart">🛒</button>
-            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
+            {% endfor %}
           </div>
-
-          <div class="offer-card">
-            <div class="offer-badge">-15%</div>
-            <div class="offer-image">🏅</div>
-            <div class="offer-category">شارات ومكافآت</div>
-            <div class="offer-name">شارة سيد المال</div>
-            <div class="offer-price">
-              <span class="old-price">$350</span>
-              <span class="new-price">$300</span>
-            </div>
-            <button class="offer-cart">🛒</button>
-            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
-          </div>
-
-          <div class="offer-card">
-            <div class="offer-badge">-30%</div>
-            <div class="offer-image">🗺️</div>
-            <div class="offer-category">الألعاب والأدوات</div>
-            <div class="offer-name">خريطة مغامرة الأعمال</div>
-            <div class="offer-price">
-              <span class="old-price">$1026</span>
-              <span class="new-price">$720</span>
-            </div>
-            <button class="offer-cart">🛒</button>
-            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
-          </div>
-
-          <div class="offer-card">
-            <div class="offer-badge">-20%</div>
-            <div class="offer-image">🧸</div>
-            <div class="offer-category">مكافآت</div>
-            <div class="offer-name">دمية المدخر الخارق</div>
-            <div class="offer-price">
-              <span class="old-price">$637</span>
-              <span class="new-price">$510</span>
-            </div>
-            <button class="offer-cart">🛒</button>
-            <div class="offer-rating">⭐⭐⭐⭐⭐</div>
-          </div>
+          <button class="slider-arrow right-arrow">›</button>
         </div>
-        <button class="slider-arrow right-arrow">›</button>
-      </div>
-    </section>
+      </section>
+    {% endif %}
 
     <!-- Features Grid Section -->
     <section class="features-grid-section">
       <h2 class="features-title">
         <span class="section-icon">❤️</span>
-        لماذا يحب الأطفال والآباء بيزفينتشر!
+        لماذا يحب الأطفال والآباء {{ site_settings.site_name_ar }}!
         <span class="section-icon">❤️</span>
       </h2>
       <div class="features-grid">
@@ -240,6 +209,83 @@
       </div>
     </section>
 
+    <!-- Testimonials Section -->
+    {% if testimonials %}
+    <section class="testimonials-section">
+      <h2 class="section-title">
+        <span class="section-icon">💬</span>
+        ماذا يقول الآباء
+        <span class="section-icon">💬</span>
+      </h2>
+      <div class="testimonials-grid">
+        {% for testimonial in testimonials %}
+        <div class="testimonial-card">
+          {% if testimonial.avatar %}
+          <img src="{{ testimonial.avatar.url }}" alt="{{ testimonial.name }}" class="testimonial-avatar">
+          {% else %}
+          <div class="testimonial-avatar-placeholder">👤</div>
+          {% endif %}
+          <p class="testimonial-content">{{ testimonial.content_ar|default:testimonial.content }}</p>
+          <div class="testimonial-rating">
+            {% for i in "12345" %}
+              {% if forloop.counter <= testimonial.rating %}⭐{% endif %}
+            {% endfor %}
+          </div>
+          <h4 class="testimonial-name">{{ testimonial.name }}</h4>
+          <p class="testimonial-role">{{ testimonial.role_ar|default:testimonial.role }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- FAQ Section -->
+    {% if faqs %}
+    <section class="faq-section">
+      <h2 class="section-title">
+        <span class="section-icon">❓</span>
+        الأسئلة الشائعة
+        <span class="section-icon">❓</span>
+      </h2>
+      <div class="faq-container">
+        {% for faq in faqs %}
+        <div class="faq-item">
+          <h3 class="faq-question">{{ faq.question_ar }}</h3>
+          <p class="faq-answer">{{ faq.answer_ar }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Statistics Section -->
+    {% if statistics %}
+    <section class="statistics-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-number">{{ statistics.total_students }}</div>
+          <div class="stat-label">طالب نشط</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-number">{{ statistics.total_lessons }}</div>
+          <div class="stat-label">درس تفاعلي</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-number">{{ statistics.total_scenarios }}</div>
+          <div class="stat-label">سيناريو عملي</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-number">{{ statistics.certificates_issued }}</div>
+          <div class="stat-label">شهادة صادرة</div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
     <!-- Sign Up CTA Section -->
     <section class="signup-cta">
       <h2 class="cta-title">
@@ -261,12 +307,14 @@
       const rightArrow = document.querySelector(".right-arrow");
       const offersContainer = document.querySelector(".offers-container");
 
-      leftArrow.addEventListener("click", () => {
-        offersContainer.scrollBy({ left: -250, behavior: "smooth" });
-      });
+      if (leftArrow && rightArrow && offersContainer) {
+        leftArrow.addEventListener("click", () => {
+          offersContainer.scrollBy({ left: -250, behavior: "smooth" });
+        });
 
-      rightArrow.addEventListener("click", () => {
-        offersContainer.scrollBy({ left: 250, behavior: "smooth" });
-      });
+        rightArrow.addEventListener("click", () => {
+          offersContainer.scrollBy({ left: 250, behavior: "smooth" });
+        });
+      }
     </script>
 {% endblock extra_js %}

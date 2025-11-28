@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}
-من نحن
-{% endblock title %}
+{% block title %}من نحن{% endblock title %}
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/about.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/pages/about.css' %}" />
 {% endblock extra_css %}
 {% block content %}
     <div class="container">
@@ -29,32 +27,9 @@
             <span class="section-icon">🎯</span>
             مهمتنا
           </h2>
-          <p class="content-text">
-            في <span class="highlight">بيزفينتشر كيدز</span>، نؤمن بأن
-            <strong>الثقافة المالية هي واحدة من أهم المهارات الحياتية</strong>
-            التي يمكن للأطفال تعلمها. مهمتنا هي جعل التعليم المالي
-            <span class="highlight">جذاباً وعملياً وممتعاً</span>
-            للأطفال الذين تتراوح أعمارهم بين 8-15 سنة من خلال محاكاة الأعمال
-            التفاعلية.
-          </p>
-          <p class="content-text">
-            نقوم بإنشاء بيئات تعليمية آمنة قائمة على الألعاب حيث يمكن للأطفال:
-          </p>
-          <ul class="mission-list">
-            <li>إدارة الأعمال الافتراضية واتخاذ قرارات مالية حقيقية</li>
-            <li>
-              تعلم الإيرادات والنفقات والأرباح والخسائر في بيئة خالية من المخاطر
-            </li>
-            <li>تطوير مهارات التفكير النقدي وحل المشكلات</li>
-            <li>اكتساب الثقة في اتخاذ الخيارات المالية</li>
-            <li>فهم قيمة المال والموارد</li>
-          </ul>
-          <p class="content-text">
-            تم تصميم محاكاتنا لتكون
-            <span class="highlight">مناسبة للعمر، تعليمية، ومسلية</span>، مما
-            يساعد الأطفال على تطوير مهارات إدارة الأموال الأساسية التي ستخدمهم
-            طوال حياتهم.
-          </p>
+          <div class="content-text">
+            {{ site_settings.mission_ar|default:site_settings.mission|linebreaks }}
+          </div>
         </section>
 
         <!-- Story Section -->
@@ -63,19 +38,14 @@
             <span class="section-icon">📖</span>
             قصتنا
           </h2>
-          <p class="content-text">
-            تم تأسيس بيزفينتشر كيدز في عام 2020 من قبل فريق من المعلمين والآباء
-            والخبراء الماليين الذين لاحظوا وجود فجوة حرجة في التعليم المالي
-            للأطفال. بينما تعلم المدارس الرياضيات والاقتصاد الأساسي، يتخرج معظم
-            الأطفال دون فهم كيفية:
-          </p>
+          <div class="content-text">
+            {{ site_settings.about_text_ar|default:site_settings.about_text|linebreaks }}
+          </div>
 
           <div class="story-cards">
             <div class="story-card">
               <span class="story-card-icon">💸</span>
-              <span class="story-card-text"
-                >إدارة الأموال في المواقف الحياتية الحقيقية</span
-              >
+              <span class="story-card-text">إدارة الأموال في المواقف الحياتية الحقيقية</span>
             </div>
             <div class="story-card">
               <span class="story-card-icon">🛒</span>
@@ -105,22 +75,21 @@
               <div class="image-caption">تجربة عمل في العالم الحقيقي</div>
             </div>
           </div>
+        </section>
 
-          <p class="content-text">
-            شرعنا في إنشاء حل من شأنه أن يجعل التعليم المالي
-            <span class="highlight">تفاعلياً وجذاباً وملائماً</span> لحياة
-            الأطفال. تتيح محاكاتنا للأطفال تجربة إثارة إدارة عمل تجاري، وتحدي
-            اتخاذ قرارات مالية صعبة، والرضا برؤية جهودهم تؤتي ثمارها - كل ذلك في
-            بيئة آمنة تشبه اللعبة.
-          </p>
-          <p class="content-text">
-            منذ إطلاقنا، ساعدنا آلاف الأطفال في أكثر من 20 دولة على تطوير الثقة
-            المالية والفطنة التجارية. تستمر منصتنا في النمو مع محاكاات جديدة
-            ومسارات تعليمية وموارد تعليمية.
-          </p>
+        <!-- Vision Section -->
+        <section class="section">
+          <h2 class="section-title">
+            <span class="section-icon">🔭</span>
+            رؤيتنا
+          </h2>
+          <div class="content-text">
+            {{ site_settings.vision_ar|default:site_settings.vision|linebreaks }}
+          </div>
         </section>
 
         <!-- Team Section -->
+        {% if team_members %}
         <section class="section team-section">
           <h2 class="section-title">
             <span class="section-icon">👥</span>
@@ -131,47 +100,23 @@
             والتكنولوجيا لإنشاء أفضل تجربة تعليمية ممكنة للأطفال.
           </p>
           <div class="team-grid">
+            {% for member in team_members %}
             <div class="team-member">
-              <div class="team-photo">👩‍💼</div>
-              <div class="team-name">سارة جونسون</div>
-              <div class="team-role">المؤسس والرئيس التنفيذي</div>
+              {% if member.photo %}
+              <img src="{{ member.photo.url }}" alt="{{ member.user.get_full_name }}" class="team-photo">
+              {% else %}
+              <div class="team-photo">👤</div>
+              {% endif %}
+              <div class="team-name">{{ member.user.get_full_name }}</div>
+              <div class="team-role">{{ member.position_ar|default:member.position }}</div>
               <p class="team-bio">
-                معلمة سابقة في المدارس الابتدائية مع 15 عاماً من الخبرة في تعليم
-                الأطفال. متحمسة لجعل التعلم ممتعاً ومتاحاً.
+                {{ member.bio_ar|default:member.bio }}
               </p>
             </div>
-
-            <div class="team-member">
-              <div class="team-photo">👨‍💻</div>
-              <div class="team-name">مايكل تشن</div>
-              <div class="team-role">المدير التقني ومصمم الألعاب</div>
-              <p class="team-bio">
-                خبير في تطوير الألعاب مع خلفية في التكنولوجيا التعليمية. متخصص
-                في إنشاء تجارب تعليمية جذابة.
-              </p>
-            </div>
-
-            <div class="team-member">
-              <div class="team-photo">👩‍🏫</div>
-              <div class="team-name">إميلي رودريغيز</div>
-              <div class="team-role">مديرة المناهج</div>
-              <p class="team-bio">
-                مربية مالية حاصلة على ماجستير في تنمية الطفولة. تصمم دروسنا
-                المالية المناسبة للعمر.
-              </p>
-            </div>
-
-            <div class="team-member">
-              <div class="team-photo">👨‍💼</div>
-              <div class="team-name">ديفيد كيم</div>
-              <div class="team-role">خبير مالي</div>
-              <p class="team-bio">
-                مصرفي استثماري سابق أصبح معلماً. يضمن أن محاكاتنا تعكس المبادئ
-                المالية الحقيقية.
-              </p>
-            </div>
+            {% endfor %}
           </div>
         </section>
+        {% endif %}
 
         <!-- Values Section -->
         <section class="section values-section">
@@ -180,7 +125,7 @@
             قيمنا الأساسية
           </h2>
           <p class="content-text">
-            كل ما نقوم به في بيزفينتشر كيدز يسترشد بقيمنا الأساسية:
+            كل ما نقوم به في {{ site_settings.site_name_ar }} يسترشد بقيمنا الأساسية:
           </p>
           <div class="values-grid">
             <div class="value-card">
@@ -240,6 +185,7 @@
         </section>
 
         <!-- Impact Section -->
+        {% if statistics %}
         <section class="section">
           <h2 class="section-title">
             <span class="section-icon">🌟</span>
@@ -252,25 +198,23 @@
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon">👦</div>
-              <div class="stat-value">+12,000</div>
+              <div class="stat-value">+{{ statistics.total_students|floatformat:0 }}</div>
               <div class="stat-label">طفل يستخدم منصتنا</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon">🌍</div>
-              <div class="stat-value">+20</div>
-              <div class="stat-label">دولة تم الوصول إليها</div>
+              <div class="stat-icon">📚</div>
+              <div class="stat-value">{{ statistics.total_lessons }}</div>
+              <div class="stat-label">درس تفاعلي</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon">🏫</div>
-              <div class="stat-value">+500</div>
-              <div class="stat-label">مدرسة تستخدم منهجنا</div>
+              <div class="stat-icon">🎯</div>
+              <div class="stat-value">{{ statistics.total_scenarios }}</div>
+              <div class="stat-label">سيناريو عملي</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon">📊</div>
-              <div class="stat-value">85%</div>
-              <div class="stat-label">
-                من الآباء يبلغون عن تحسن الثقة المالية
-              </div>
+              <div class="stat-icon">🏆</div>
+              <div class="stat-value">{{ statistics.certificates_issued }}</div>
+              <div class="stat-label">شهادة صادرة</div>
             </div>
           </div>
 
@@ -291,54 +235,27 @@
             </div>
           </div>
         </section>
+        {% endif %}
 
         <!-- Testimonials Section -->
+        {% if testimonials %}
         <section class="section testimonials-section">
           <h2 class="section-title">
             <span class="section-icon">💬</span>
             ماذا يقول الناس
           </h2>
 
+          {% for testimonial in testimonials %}
           <div class="testimonial">
             <p class="testimonial-text">
-              لقد غيرت بيزفينتشر كيدز الطريقة التي يتفاعل بها طلابي مع المفاهيم
-              المالية. تجعل المحاكاات الأفكار المجردة ملموسة وممتعة. لقد رأيت
-              تحسناً ملحوظاً في فهمهم لإدارة الأموال!
+              {{ testimonial.content_ar|default:testimonial.content }}
             </p>
-            <div class="testimonial-author">السيدة طومسون</div>
-            <div class="testimonial-role">معلمة الصف الخامس، شيكاغو</div>
+            <div class="testimonial-author">{{ testimonial.name }}</div>
+            <div class="testimonial-role">{{ testimonial.role_ar|default:testimonial.role }}</div>
           </div>
-
-          <div class="testimonial">
-            <p class="testimonial-text">
-              كان ابني يعتقد أن المال مخصص للإنفاق فقط، ولكن بعد استخدام
-              بيزفينتشر كيدز، بدأ يتحدث عن الادخار والاستثمار وحتى بدء عمله
-              الصغير الخاص! التغيير في عقليته كان مذهلاً.
-            </p>
-            <div class="testimonial-author">كارلوس م.</div>
-            <div class="testimonial-role">ولي أمر، ميامي</div>
-          </div>
-
-          <div class="testimonial">
-            <p class="testimonial-text">
-              أحب كيف تتيح لي المحاكاات تجربة أفكار عمل مختلفة دون القلق بشأن
-              خسارة المال الحقيقي. لقد تعلمت الكثير عن كيفية عمل الشركات بالفعل
-              - إنه مثل امتلاك شركتي الخاصة!
-            </p>
-            <div class="testimonial-author">عائشة ك.</div>
-            <div class="testimonial-role">طالبة، العمر 12</div>
-          </div>
-
-          <div class="testimonial">
-            <p class="testimonial-text">
-              كمستشار مالي، أتمنى لو كان لدي شيء مثل بيزفينتشر كيدز عندما كنت
-              أكبر. إنه يعلم المهارات المالية العملية بطريقة جذابة فعلاً
-              للأطفال. أوصي به لجميع عملائي الذين لديهم أطفال.
-            </p>
-            <div class="testimonial-author">جيمس و.</div>
-            <div class="testimonial-role">مستشار مالي، نيويورك</div>
-          </div>
+          {% endfor %}
         </section>
+        {% endif %}
 
         <!-- Partners Section -->
         <section class="partners-section">
@@ -379,6 +296,4 @@
     </div>
 {% endblock content %}
 
-
-{% block extra_js %}
-{% endblock extra_js %}
+{% block extra_js %}{% endblock extra_js %}
