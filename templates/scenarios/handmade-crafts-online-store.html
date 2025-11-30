@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Handmade Crafts Online Store - BizKids Learning Platform</title>
+    <link rel="stylesheet" href="handmade-crafts-online-store.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Game Header -->
+    <header class="game-header">
+      <div class="header-content">
+        <div class="game-title">
+          <span style="font-size: 2rem">🎨</span>
+          <h1>Handmade Crafts Online Store</h1>
+        </div>
+        <a href="games.html" class="back-link">
+          <span>←</span>
+          <span>Back to Games</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-label">Cash</div>
+          <div class="stat-value">
+            <span>💵</span>
+            <span id="cashDisplay">$100.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Week</div>
+          <div class="stat-value">
+            <span>📅</span>
+            <span id="weekDisplay">Setup</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Total Profit</div>
+          <div class="stat-value">
+            <span>💰</span>
+            <span id="profitDisplay">$0.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Orders</div>
+          <div class="stat-value">
+            <span>📦</span>
+            <span id="ordersDisplay">0</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Shop Rating</div>
+          <div class="stat-value">
+            <span class="rating-stars">⭐</span>
+            <span id="ratingDisplay">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="game-container">
+      <!-- Setup Wizard -->
+      <div class="setup-wizard" id="setupWizard">
+        <!-- Wizard Steps Navigation -->
+        <div class="wizard-steps">
+          <div class="wizard-step active" data-step="1">
+            <div class="step-number">1</div>
+            <div class="step-label">Products</div>
+          </div>
+          <div class="wizard-step" data-step="2">
+            <div class="step-number">2</div>
+            <div class="step-label">Strategy</div>
+          </div>
+          <div class="wizard-step" data-step="3">
+            <div class="step-number">3</div>
+            <div class="step-label">Pricing</div>
+          </div>
+          <div class="wizard-step" data-step="4">
+            <div class="step-number">4</div>
+            <div class="step-label">Shop Setup</div>
+          </div>
+          <div class="wizard-step" data-step="5">
+            <div class="step-number">5</div>
+            <div class="step-label">Inventory</div>
+          </div>
+        </div>
+
+        <!-- Step 1: Product Selection -->
+        <div class="step-content active" data-step="1">
+          <h2 class="step-title">Choose Your Products</h2>
+          <p class="step-description">
+            Select 1-3 products to make and sell. Consider materials cost, time,
+            and market appeal.
+          </p>
+
+          <div class="products-grid" id="productsGrid">
+            <div class="product-card" data-product="bracelets">
+              <div class="product-icon">📿</div>
+              <div class="product-name">Friendship Bracelets</div>
+              <div class="product-stats">
+                <div class="stat-row">
+                  <span class="label">Materials:</span>
+                  <span class="value">$0.50</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Time:</span>
+                  <span class="value">20 min</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Market Value:</span>
+                  <span class="value">$5-8</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Shipping:</span>
+                  <span class="value">Easy</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card" data-product="rocks">
+              <div class="product-icon">🪨</div>
+              <div class="product-name">Painted Rocks</div>
+              <div class="product-stats">
+                <div class="stat-row">
+                  <span class="label">Materials:</span>
+                  <span class="value">$0.75</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Time:</span>
+                  <span class="value">30 min</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Market Value:</span>
+                  <span class="value">$8-12</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Shipping:</span>
+                  <span class="value">Moderate</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card" data-product="bookmarks">
+              <div class="product-icon">🔖</div>
+              <div class="product-name">Custom Bookmarks</div>
+              <div class="product-stats">
+                <div class="stat-row">
+                  <span class="label">Materials:</span>
+                  <span class="value">$0.30</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Time:</span>
+                  <span class="value">15 min</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Market Value:</span>
+                  <span class="value">$3-6</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Shipping:</span>
+                  <span class="value">Easy</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card" data-product="pots">
+              <div class="product-icon">🪴</div>
+              <div class="product-name">Painted Plant Pots</div>
+              <div class="product-stats">
+                <div class="stat-row">
+                  <span class="label">Materials:</span>
+                  <span class="value">$2.50</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Time:</span>
+                  <span class="value">45 min</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Market Value:</span>
+                  <span class="value">$15-20</span>
+                </div>
+                <div class="stat-row">
+                  <span class="label">Shipping:</span>
+                  <span class="value">Difficult</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Production Strategy -->
+        <div class="step-content" data-step="2">
+          <h2 class="step-title">Production Strategy</h2>
+          <p class="step-description">
+            How will you manage inventory? Each approach has tradeoffs.
+          </p>
+
+          <div class="strategy-options" id="productionStrategy">
+            <div class="strategy-option" data-strategy="stock">
+              <div class="strategy-header">
+                <div class="strategy-icon">📦</div>
+                <div class="strategy-name">Make-to-Stock</div>
+              </div>
+              <div class="strategy-description">
+                Create inventory first, then list items. Fast shipping but
+                inventory risk.
+              </div>
+              <div class="strategy-benefits">
+                <span class="benefit-badge">Fast Shipping</span>
+                <span class="benefit-badge">More Sales</span>
+                <span
+                  class="benefit-badge"
+                  style="background: var(--danger-color)"
+                  >Inventory Risk</span
+                >
+              </div>
+            </div>
+
+            <div class="strategy-option" data-strategy="order">
+              <div class="strategy-header">
+                <div class="strategy-icon">✏️</div>
+                <div class="strategy-name">Make-to-Order</div>
+              </div>
+              <div class="strategy-description">
+                List items, create only after orders arrive. No inventory risk
+                but slower fulfillment.
+              </div>
+              <div class="strategy-benefits">
+                <span class="benefit-badge">No Risk</span>
+                <span class="benefit-badge">Custom Options</span>
+                <span
+                  class="benefit-badge"
+                  style="background: var(--warning-color)"
+                  >5-7 Day Shipping</span
+                >
+              </div>
+            </div>
+
+            <div class="strategy-option" data-strategy="hybrid">
+              <div class="strategy-header">
+                <div class="strategy-icon">⚖️</div>
+                <div class="strategy-name">Hybrid Approach</div>
+              </div>
+              <div class="strategy-description">
+                Stock popular items, make custom pieces to order. Balanced but
+                complex.
+              </div>
+              <div class="strategy-benefits">
+                <span class="benefit-badge">Balanced Risk</span>
+                <span class="benefit-badge">Flexibility</span>
+                <span
+                  class="benefit-badge"
+                  style="background: var(--warning-color)"
+                  >Complex</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Pricing -->
+        <div class="step-content" data-step="3">
+          <h2 class="step-title">Set Your Prices</h2>
+          <p class="step-description">
+            Price your products considering materials, time, and market value.
+            Don't forget to pay yourself!
+          </p>
+
+          <div class="price-calculator">
+            <div class="calc-header">
+              <span>💵</span>
+              <span>Price Calculator</span>
+            </div>
+            <div class="price-grid" id="priceGrid">
+              <!-- Prices will be dynamically added here -->
+            </div>
+          </div>
+
+          <div
+            style="
+              background: rgba(236, 72, 153, 0.1);
+              padding: 1.5rem;
+              border-radius: 12px;
+              margin-top: 1.5rem;
+            "
+          >
+            <div style="font-weight: 700; margin-bottom: 0.5rem">
+              💡 Pricing Tips:
+            </div>
+            <ul style="margin-left: 1.5rem; color: var(--text-secondary)">
+              <li>Value your time at $10-15 per hour</li>
+              <li>Add 20-30% profit margin on top of costs</li>
+              <li>Research competitor prices on marketplace</li>
+              <li>Custom items can command premium pricing</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Step 4: Shop Setup -->
+        <div class="step-content" data-step="4">
+          <h2 class="step-title">Shop Setup &amp; Marketing</h2>
+          <p class="step-description">
+            Choose your shop presentation level. Better setup costs more but
+            attracts more customers.
+          </p>
+
+          <div class="strategy-options" id="shopSetup">
+            <div class="strategy-option" data-setup="basic">
+              <div class="strategy-header">
+                <div class="strategy-icon">📱</div>
+                <div class="strategy-name">Basic Listings</div>
+                <div class="strategy-cost">$0</div>
+              </div>
+              <div class="strategy-description">
+                Simple phone photos and basic descriptions. Free but lower
+                visibility.
+              </div>
+              <div class="strategy-benefits">
+                <span class="benefit-badge">Free</span>
+                <span
+                  class="benefit-badge"
+                  style="background: var(--text-secondary)"
+                  >20-30 views/week</span
+                >
+              </div>
+            </div>
+
+            <div class="strategy-option" data-setup="professional">
+              <div class="strategy-header">
+                <div class="strategy-icon">📸</div>
+                <div class="strategy-name">Professional Setup</div>
+                <div class="strategy-cost">$25</div>
+              </div>
+              <div class="strategy-description">
+                Quality photos with lighting, detailed descriptions, shop banner
+                and logo.
+              </div>
+              <div class="strategy-benefits">
+                <span class="benefit-badge">+30% Appeal</span>
+                <span class="benefit-badge">40-60 views/week</span>
+              </div>
+            </div>
+
+            <div class="strategy-option" data-setup="premium">
+              <div class="strategy-header">
+                <div class="strategy-icon">🚀</div>
+                <div class="strategy-name">Premium Marketing</div>
+                <div class="strategy-cost">$50</div>
+              </div>
+              <div class="strategy-description">
+                Professional setup plus featured listings and social media
+                advertising.
+              </div>
+              <div class="strategy-benefits">
+                <span class="benefit-badge">+70% Visibility</span>
+                <span class="benefit-badge">80-120 views/week</span>
+                <span class="benefit-badge">Featured Listings</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="strategy-options" style="margin-top: 2rem">
+            <div
+              style="
+                background: rgba(236, 72, 153, 0.1);
+                padding: 1.5rem;
+                border-radius: 12px;
+              "
+            >
+              <div style="font-weight: 700; margin-bottom: 0.5rem">
+                📦 Shipping Strategy
+              </div>
+              <div style="color: var(--text-secondary); margin-bottom: 1rem">
+                How will you handle shipping costs?
+              </div>
+
+              <div style="display: grid; gap: 1rem" id="shippingStrategy">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="radio"
+                    name="shipping"
+                    value="customer"
+                    style="width: 20px; height: 20px"
+                  />
+                  <div>
+                    <div style="font-weight: 700">Customer Pays Shipping</div>
+                    <div
+                      style="font-size: 0.875rem; color: var(--text-secondary)"
+                    >
+                      Customer sees actual cost - may reduce sales
+                    </div>
+                  </div>
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="radio"
+                    name="shipping"
+                    value="flat"
+                    checked=""
+                    style="width: 20px; height: 20px"
+                  />
+                  <div>
+                    <div style="font-weight: 700">Flat Rate $4.00</div>
+                    <div
+                      style="font-size: 0.875rem; color: var(--text-secondary)"
+                    >
+                      Simple for customers - you absorb differences
+                    </div>
+                  </div>
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="radio"
+                    name="shipping"
+                    value="free"
+                    style="width: 20px; height: 20px"
+                  />
+                  <div>
+                    <div style="font-weight: 700">
+                      Free Shipping (Built into Price)
+                    </div>
+                    <div
+                      style="font-size: 0.875rem; color: var(--text-secondary)"
+                    >
+                      Psychological appeal - increase product prices
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Initial Inventory -->
+        <div class="step-content" data-step="5">
+          <h2 class="step-title">Initial Production Run</h2>
+          <p class="step-description">
+            Create your starting inventory. You have 40 hours and your remaining
+            budget.
+          </p>
+
+          <div
+            style="
+              background: var(--background);
+              padding: 1.5rem;
+              border-radius: 12px;
+              margin-bottom: 2rem;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+              "
+            >
+              <div style="text-align: center">
+                <div style="font-size: 0.875rem; color: var(--text-secondary)">
+                  Budget Remaining
+                </div>
+                <div
+                  style="
+                    font-size: 1.75rem;
+                    font-weight: 800;
+                    color: var(--primary-color);
+                  "
+                  id="budgetRemaining"
+                >
+                  $100
+                </div>
+              </div>
+              <div style="text-align: center">
+                <div style="font-size: 0.875rem; color: var(--text-secondary)">
+                  Time Available
+                </div>
+                <div
+                  style="
+                    font-size: 1.75rem;
+                    font-weight: 800;
+                    color: var(--primary-color);
+                  "
+                  id="timeRemaining"
+                >
+                  40 hrs
+                </div>
+              </div>
+              <div style="text-align: center">
+                <div style="font-size: 0.875rem; color: var(--text-secondary)">
+                  Items to Make
+                </div>
+                <div
+                  style="
+                    font-size: 1.75rem;
+                    font-weight: 800;
+                    color: var(--primary-color);
+                  "
+                  id="totalItems"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="inventory-controls" id="inventoryControls">
+            <!-- Inventory controls will be added dynamically -->
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="wizard-navigation">
+          <button
+            class="btn btn-secondary"
+            id="prevBtn"
+            onclick="previousStep()"
+            style="display: none"
+          >
+            <span>←</span>
+            <span>Previous</span>
+          </button>
+          <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+            <span>Next</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Game Play Area (Hidden Initially) -->
+      <div id="gamePlay" class="hidden">
+        <!-- Week Progress -->
+        <div class="week-progress">
+          <div class="week-header">
+            <div class="week-title">Week <span id="currentWeek">1</span></div>
+            <div class="day-counter">
+              Day <span id="currentDay">1</span> of 7
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              id="weekProgress"
+              style="width: 14%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+          "
+        >
+          <!-- Orders Panel -->
+          <div class="orders-panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <span>📦</span>
+                <span>Today's Orders</span>
+              </div>
+              <button class="btn btn-primary" onclick="processDay()">
+                <span>⏭️</span>
+                <span>Process Day</span>
+              </button>
+            </div>
+            <div class="orders-list" id="ordersList">
+              <div
+                style="
+                  text-align: center;
+                  padding: 3rem;
+                  color: var(--text-secondary);
+                "
+              >
+                No orders yet. Click "Process Day" to see customer orders!
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Stats -->
+          <div>
+            <div class="analytics-card" style="margin-bottom: 1.5rem">
+              <div class="card-title">
+                <span>📊</span>
+                <span>Today's Stats</span>
+              </div>
+              <div style="display: grid; gap: 1rem">
+                <div
+                  style="
+                    background: var(--background);
+                    padding: 1rem;
+                    border-radius: 8px;
+                  "
+                >
+                  <div
+                    style="font-size: 0.875rem; color: var(--text-secondary)"
+                  >
+                    Shop Visitors
+                  </div>
+                  <div
+                    style="
+                      font-size: 2rem;
+                      font-weight: 800;
+                      color: var(--primary-color);
+                    "
+                    id="dailyVisitors"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  style="
+                    background: var(--background);
+                    padding: 1rem;
+                    border-radius: 8px;
+                  "
+                >
+                  <div
+                    style="font-size: 0.875rem; color: var(--text-secondary)"
+                  >
+                    Orders Received
+                  </div>
+                  <div
+                    style="
+                      font-size: 2rem;
+                      font-weight: 800;
+                      color: var(--primary-color);
+                    "
+                    id="dailyOrders"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  style="
+                    background: var(--background);
+                    padding: 1rem;
+                    border-radius: 8px;
+                  "
+                >
+                  <div
+                    style="font-size: 0.875rem; color: var(--text-secondary)"
+                  >
+                    Daily Revenue
+                  </div>
+                  <div
+                    style="
+                      font-size: 2rem;
+                      font-weight: 800;
+                      color: var(--primary-color);
+                    "
+                    id="dailyRevenue"
+                  >
+                    $0
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-card">
+              <div class="card-title">
+                <span>⏱️</span>
+                <span>Time Management</span>
+              </div>
+              <div
+                style="
+                  font-size: 0.875rem;
+                  color: var(--text-secondary);
+                  margin-bottom: 0.5rem;
+                "
+              >
+                Available: 15 hours/week
+              </div>
+              <div class="progress-bar" style="height: 20px">
+                <div
+                  class="progress-fill"
+                  id="timeProgress"
+                  style="width: 0%"
+                ></div>
+              </div>
+              <div
+                style="
+                  margin-top: 0.5rem;
+                  font-size: 0.875rem;
+                  color: var(--text-secondary);
+                "
+              >
+                Used: <span id="timeUsed">0</span> hours
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>⭐</span>
+              <span>Customer Reviews</span>
+            </div>
+          </div>
+          <div id="reviewsList">
+            <div
+              style="
+                text-align: center;
+                padding: 2rem;
+                color: var(--text-secondary);
+              "
+            >
+              No reviews yet. Complete orders to receive customer feedback!
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Summary -->
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <div class="card-title">
+              <span>📈</span>
+              <span>Weekly Revenue</span>
+            </div>
+            <div class="chart-container" id="revenueChart">
+              <div
+                style="
+                  text-align: center;
+                  width: 100%;
+                  color: var(--text-secondary);
+                  font-size: 0.875rem;
+                "
+              >
+                Start processing days to see your revenue!
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-card">
+            <div class="card-title">
+              <span>📦</span>
+              <span>Orders by Product</span>
+            </div>
+            <div id="productStats">
+              <div
+                style="
+                  text-align: center;
+                  padding: 2rem;
+                  color: var(--text-secondary);
+                  font-size: 0.875rem;
+                "
+              >
+                No sales data yet
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-card">
+            <div class="card-title">
+              <span>⭐</span>
+              <span>Rating Trend</span>
+            </div>
+            <div class="big-number" id="avgRating">-</div>
+            <div style="text-align: center; color: var(--text-secondary)">
+              <span id="totalReviews">0</span> reviews
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal" id="resultsModal">
+      <div class="modal-content">
+        <div class="modal-icon">🎉</div>
+        <h2 class="modal-title">6 Weeks Complete!</h2>
+        <div id="resultsContent"></div>
+      </div>
+    </div>
+
+    <script>
+      // Game State
+      const gameState = {
+        cash: 100,
+        week: 0,
+        day: 0,
+        totalProfit: 0,
+        totalOrders: 0,
+        rating: 0,
+        reviews: [],
+        selectedProducts: [],
+        productionStrategy: "",
+        prices: {},
+        shopSetup: "",
+        shippingStrategy: "flat",
+        inventory: {},
+        weeklyRevenue: [],
+        weeklyOrders: [],
+        productSales: {},
+        currentOrders: [],
+        timeUsedThisWeek: 0,
+        setupComplete: false,
+      };
+
+      // Product Database
+      const products = {
+        bracelets: {
+          name: "Friendship Bracelets",
+          icon: "📿",
+          materialCost: 0.5,
+          time: 20, // minutes
+          minPrice: 5,
+          maxPrice: 8,
+          shipping: 3.5,
+          difficulty: "easy",
+        },
+        rocks: {
+          name: "Painted Rocks",
+          icon: "🪨",
+          materialCost: 0.75,
+          time: 30,
+          minPrice: 8,
+          maxPrice: 12,
+          shipping: 5.0,
+          difficulty: "medium",
+        },
+        bookmarks: {
+          name: "Custom Bookmarks",
+          icon: "🔖",
+          materialCost: 0.3,
+          time: 15,
+          minPrice: 3,
+          maxPrice: 6,
+          shipping: 3.5,
+          difficulty: "easy",
+        },
+        pots: {
+          name: "Painted Plant Pots",
+          icon: "🪴",
+          materialCost: 2.5,
+          time: 45,
+          minPrice: 15,
+          maxPrice: 20,
+          shipping: 8.0,
+          difficulty: "hard",
+        },
+      };
+
+      let currentStep = 1;
+      const totalSteps = 5;
+
+      // Initialize
+      window.addEventListener("load", () => {
+        setupProductSelection();
+        setupStrategySelection();
+        updateDisplay();
+      });
+
+      // Product Selection
+      function setupProductSelection() {
+        const cards = document.querySelectorAll(".product-card");
+        cards.forEach((card) => {
+          card.addEventListener("click", () => {
+            const product = card.dataset.product;
+
+            if (card.classList.contains("selected")) {
+              card.classList.remove("selected");
+              gameState.selectedProducts = gameState.selectedProducts.filter(
+                (p) => p !== product
+              );
+            } else {
+              if (gameState.selectedProducts.length < 3) {
+                card.classList.add("selected");
+                gameState.selectedProducts.push(product);
+              } else {
+                alert("You can select up to 3 products only!");
+              }
+            }
+          });
+        });
+      }
+
+      // Strategy Selection
+      function setupStrategySelection() {
+        // Production Strategy
+        document
+          .querySelectorAll("#productionStrategy .strategy-option")
+          .forEach((option) => {
+            option.addEventListener("click", () => {
+              document
+                .querySelectorAll("#productionStrategy .strategy-option")
+                .forEach((o) => o.classList.remove("selected"));
+              option.classList.add("selected");
+              gameState.productionStrategy = option.dataset.strategy;
+            });
+          });
+
+        // Shop Setup
+        document
+          .querySelectorAll("#shopSetup .strategy-option")
+          .forEach((option) => {
+            option.addEventListener("click", () => {
+              document
+                .querySelectorAll("#shopSetup .strategy-option")
+                .forEach((o) => o.classList.remove("selected"));
+              option.classList.add("selected");
+              gameState.shopSetup = option.dataset.setup;
+            });
+          });
+      }
+
+      // Wizard Navigation
+      function nextStep() {
+        // Validation
+        if (currentStep === 1 && gameState.selectedProducts.length === 0) {
+          alert("Please select at least one product!");
+          return;
+        }
+        if (currentStep === 2 && !gameState.productionStrategy) {
+          alert("Please select a production strategy!");
+          return;
+        }
+        if (currentStep === 3) {
+          if (!validatePrices()) {
+            alert("Please set prices for all selected products!");
+            return;
+          }
+        }
+        if (currentStep === 4 && !gameState.shopSetup) {
+          alert("Please select a shop setup option!");
+          return;
+        }
+
+        if (currentStep < totalSteps) {
+          currentStep++;
+          updateWizardDisplay();
+
+          if (currentStep === 3) {
+            generatePricingInputs();
+          }
+          if (currentStep === 5) {
+            generateInventoryControls();
+            applyShopSetupCost();
+          }
+        } else {
+          // Start game
+          startGame();
+        }
+      }
+
+      function previousStep() {
+        if (currentStep > 1) {
+          currentStep--;
+          updateWizardDisplay();
+        }
+      }
+
+      function updateWizardDisplay() {
+        // Update step indicators
+        document.querySelectorAll(".wizard-step").forEach((step, index) => {
+          const stepNum = index + 1;
+          step.classList.remove("active", "completed");
+
+          if (stepNum === currentStep) {
+            step.classList.add("active");
+          } else if (stepNum < currentStep) {
+            step.classList.add("completed");
+          }
+        });
+
+        // Show/hide step content
+        document.querySelectorAll(".step-content").forEach((content, index) => {
+          content.classList.remove("active");
+          if (index + 1 === currentStep) {
+            content.classList.add("active");
+          }
+        });
+
+        // Update navigation buttons
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        prevBtn.style.display = currentStep === 1 ? "none" : "flex";
+        nextBtn.innerHTML =
+          currentStep === totalSteps
+            ? "<span>Start Business!</span><span>🚀</span>"
+            : "<span>Next</span><span>→</span>";
+      }
+
+      // Generate Pricing Inputs
+      function generatePricingInputs() {
+        const priceGrid = document.getElementById("priceGrid");
+        priceGrid.innerHTML = "";
+
+        gameState.selectedProducts.forEach((productId) => {
+          const product = products[productId];
+          const recommendedMin =
+            product.materialCost + (product.time / 60) * 10 + 1;
+          const recommendedMax =
+            product.materialCost + (product.time / 60) * 15 + 2;
+
+          priceGrid.innerHTML += `
+                    <div class="price-item">
+                        <div>
+                            <div style="font-weight: 700;">${product.icon} ${
+            product.name
+          }</div>
+                            <div class="recommended-price">
+                                Recommended: $${recommendedMin.toFixed(
+                                  2
+                                )} - $${recommendedMax.toFixed(2)}
+                            </div>
+                        </div>
+                        <input type="number" 
+                               class="price-input" 
+                               id="price-${productId}"
+                               min="${product.minPrice}" 
+                               max="${product.maxPrice * 2}"
+                               step="0.25"
+                               placeholder="$0.00">
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                            Materials: $${product.materialCost.toFixed(2)}<br>
+                            Time: ${product.time} min
+                        </div>
+                    </div>
+                `;
+        });
+      }
+
+      function validatePrices() {
+        let valid = true;
+        gameState.selectedProducts.forEach((productId) => {
+          const input = document.getElementById(`price-${productId}`);
+          const price = parseFloat(input.value);
+
+          if (!price || price <= 0) {
+            valid = false;
+          } else {
+            gameState.prices[productId] = price;
+          }
+        });
+        return valid;
+      }
+
+      // Generate Inventory Controls
+      function generateInventoryControls() {
+        const container = document.getElementById("inventoryControls");
+        container.innerHTML = "";
+
+        gameState.selectedProducts.forEach((productId) => {
+          const product = products[productId];
+
+          container.innerHTML += `
+                    <div class="inventory-item">
+                        <div class="item-header">
+                            <div class="item-icon">${product.icon}</div>
+                            <div class="item-name">${product.name}</div>
+                        </div>
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="adjustInventory('${productId}', -5)">-</button>
+                            <div class="qty-display" id="inv-${productId}">0</div>
+                            <button class="qty-btn" onclick="adjustInventory('${productId}', 5)">+</button>
+                        </div>
+                        <div class="item-costs">
+                            <div class="cost-breakdown">
+                                <span>Materials:</span>
+                                <span id="cost-${productId}">$0.00</span>
+                            </div>
+                            <div class="cost-breakdown">
+                                <span>Time:</span>
+                                <span id="time-${productId}">0 min</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+          gameState.inventory[productId] = 0;
+        });
+      }
+
+      function adjustInventory(productId, amount) {
+        const product = products[productId];
+        const currentQty = gameState.inventory[productId];
+        const newQty = Math.max(0, currentQty + amount);
+
+        const materialCost = newQty * product.materialCost;
+        const timeCost = newQty * product.time;
+
+        // Check budget
+        const setupCost = getShopSetupCost();
+        const totalMaterialCost = gameState.selectedProducts.reduce(
+          (sum, pid) => {
+            const qty = pid === productId ? newQty : gameState.inventory[pid];
+            return sum + qty * products[pid].materialCost;
+          },
+          0
+        );
+
+        if (100 - setupCost < totalMaterialCost && amount > 0) {
+          alert("Not enough budget!");
+          return;
+        }
+
+        // Check time
+        const totalTime = gameState.selectedProducts.reduce((sum, pid) => {
+          const qty = pid === productId ? newQty : gameState.inventory[pid];
+          return sum + qty * products[pid].time;
+        }, 0);
+
+        if (totalTime > 40 * 60 && amount > 0) {
+          alert("Not enough time! You only have 40 hours.");
+          return;
+        }
+
+        gameState.inventory[productId] = newQty;
+        updateInventoryDisplay();
+      }
+
+      function updateInventoryDisplay() {
+        const setupCost = getShopSetupCost();
+        let totalCost = 0;
+        let totalTime = 0;
+        let totalItems = 0;
+
+        gameState.selectedProducts.forEach((productId) => {
+          const product = products[productId];
+          const qty = gameState.inventory[productId];
+          const cost = qty * product.materialCost;
+          const time = qty * product.time;
+
+          totalCost += cost;
+          totalTime += time;
+          totalItems += qty;
+
+          document.getElementById(`inv-${productId}`).textContent = qty;
+          document.getElementById(`cost-${productId}`).textContent =
+            "$" + cost.toFixed(2);
+          document.getElementById(`time-${productId}`).textContent =
+            time + " min";
+        });
+
+        document.getElementById("budgetRemaining").textContent =
+          "$" + (100 - setupCost - totalCost).toFixed(2);
+        document.getElementById("timeRemaining").textContent =
+          (40 - totalTime / 60).toFixed(1) + " hrs";
+        document.getElementById("totalItems").textContent = totalItems;
+      }
+
+      function getShopSetupCost() {
+        if (gameState.shopSetup === "basic") return 0;
+        if (gameState.shopSetup === "professional") return 25;
+        if (gameState.shopSetup === "premium") return 50;
+        return 0;
+      }
+
+      function applyShopSetupCost() {
+        const cost = getShopSetupCost();
+        gameState.cash -= cost;
+
+        // Get shipping strategy
+        const shippingInputs = document.querySelectorAll(
+          'input[name="shipping"]'
+        );
+        shippingInputs.forEach((input) => {
+          if (input.checked) {
+            gameState.shippingStrategy = input.value;
+          }
+        });
+
+        updateInventoryDisplay();
+      }
+
+      // Start Game
+      function startGame() {
+        // Deduct initial inventory costs
+        let inventoryCost = 0;
+        gameState.selectedProducts.forEach((productId) => {
+          inventoryCost +=
+            gameState.inventory[productId] * products[productId].materialCost;
+        });
+
+        gameState.cash -= inventoryCost;
+        gameState.week = 1;
+        gameState.day = 1;
+        gameState.setupComplete = true;
+
+        // Initialize product sales tracking
+        gameState.selectedProducts.forEach((productId) => {
+          gameState.productSales[productId] = 0;
+        });
+
+        // Hide setup, show gameplay
+        document.getElementById("setupWizard").classList.add("hidden");
+        document.getElementById("gamePlay").classList.remove("hidden");
+
+        updateDisplay();
+      }
+
+      // Process Day
+      function processDay() {
+        if (gameState.timeUsedThisWeek >= 15 * 60) {
+          alert(
+            "You've used all your available time this week! Move to next week."
+          );
+          nextWeek();
+          return;
+        }
+
+        // Generate visitors and orders
+        const visitors = generateVisitors();
+        const orders = generateOrders(visitors);
+
+        // Process orders
+        let revenue = 0;
+        let timeUsed = 0;
+        const newOrders = [];
+
+        orders.forEach((order) => {
+          const product = products[order.product];
+          const price = gameState.prices[order.product];
+
+          // Calculate costs
+          const materialCost = product.materialCost;
+          const packagingCost = 0.5;
+          let shippingCost = product.shipping;
+
+          if (gameState.shippingStrategy === "flat") {
+            shippingCost = 4.0;
+          } else if (gameState.shippingStrategy === "free") {
+            shippingCost = 0; // Built into price
+          }
+
+          const platformFee = price * 0.05 + 0.2;
+
+          // Time calculation
+          let productionTime = 0;
+          if (
+            gameState.productionStrategy === "order" ||
+            (gameState.productionStrategy === "hybrid" &&
+              gameState.inventory[order.product] === 0)
+          ) {
+            productionTime = product.time;
+          } else if (gameState.inventory[order.product] > 0) {
+            gameState.inventory[order.product]--;
+          }
+
+          const adminTime = 25; // Process, package, ship, communicate
+          timeUsed += productionTime + adminTime;
+
+          // Revenue calculation
+          const orderRevenue =
+            price +
+            (gameState.shippingStrategy === "customer" ? shippingCost : 0);
+          const orderCost =
+            materialCost + packagingCost + product.shipping + platformFee;
+          const orderProfit = orderRevenue - orderCost;
+
+          revenue += orderRevenue;
+          gameState.cash += orderProfit;
+          gameState.totalProfit += orderProfit;
+          gameState.productSales[order.product]++;
+
+          newOrders.push({
+            id: `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            product: order.product,
+            price: price,
+            revenue: orderRevenue,
+            profit: orderProfit,
+            timeUsed: productionTime + adminTime,
+          });
+        });
+
+        gameState.currentOrders = newOrders;
+        gameState.totalOrders += orders.length;
+        gameState.timeUsedThisWeek += timeUsed;
+
+        // Generate reviews (30% chance per order)
+        orders.forEach((order) => {
+          if (Math.random() < 0.3) {
+            generateReview(order.product);
+          }
+        });
+
+        // Update displays
+        document.getElementById("dailyVisitors").textContent = visitors;
+        document.getElementById("dailyOrders").textContent = orders.length;
+        document.getElementById("dailyRevenue").textContent =
+          "$" + revenue.toFixed(2);
+
+        displayOrders(newOrders);
+        updateDisplay();
+
+        // Auto advance day
+        setTimeout(() => {
+          nextDay();
+        }, 2000);
+      }
+
+      function generateVisitors() {
+        let baseVisitors = 20;
+
+        if (gameState.shopSetup === "professional") baseVisitors = 50;
+        if (gameState.shopSetup === "premium") baseVisitors = 100;
+
+        // Rating bonus
+        if (gameState.rating >= 4.5) baseVisitors *= 1.5;
+        else if (gameState.rating >= 4.0) baseVisitors *= 1.25;
+        else if (gameState.rating < 3.5 && gameState.rating > 0)
+          baseVisitors *= 0.6;
+
+        // Random variation
+        const variation = 0.8 + Math.random() * 0.4;
+        return Math.floor(baseVisitors * variation);
+      }
+
+      function generateOrders(visitors) {
+        let conversionRate = 0.15;
+
+        // Pricing effect
+        gameState.selectedProducts.forEach((productId) => {
+          const product = products[productId];
+          const price = gameState.prices[productId];
+          const avgPrice = (product.minPrice + product.maxPrice) / 2;
+
+          if (price <= avgPrice) {
+            conversionRate += 0.05;
+          } else if (price > product.maxPrice) {
+            conversionRate -= 0.1;
+          }
+        });
+
+        // Shop setup bonus
+        if (gameState.shopSetup === "professional") conversionRate += 0.1;
+        if (gameState.shopSetup === "premium") conversionRate += 0.15;
+
+        // Shipping bonus
+        if (gameState.shippingStrategy === "free") conversionRate += 0.08;
+
+        // Rating bonus
+        if (gameState.rating >= 4.5) conversionRate += 0.15;
+        else if (gameState.rating >= 4.0) conversionRate += 0.08;
+
+        conversionRate = Math.max(0.05, Math.min(0.5, conversionRate));
+
+        const orderCount = Math.floor(visitors * conversionRate);
+        const orders = [];
+
+        for (let i = 0; i < orderCount; i++) {
+          const product =
+            gameState.selectedProducts[
+              Math.floor(Math.random() * gameState.selectedProducts.length)
+            ];
+          orders.push({ product });
+        }
+
+        return orders;
+      }
+
+      function displayOrders(orders) {
+        const container = document.getElementById("ordersList");
+
+        if (orders.length === 0) {
+          container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        No orders today. Keep marketing your shop!
+                    </div>
+                `;
+          return;
+        }
+
+        container.innerHTML = "";
+        orders.forEach((order) => {
+          const product = products[order.product];
+          container.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <div class="order-id">${order.id}</div>
+                                <div style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.25rem;">
+                                    ${product.icon} ${product.name}
+                                </div>
+                            </div>
+                            <div class="order-status status-shipped">Fulfilled</div>
+                        </div>
+                        <div class="order-details">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.875rem;">
+                                <div>
+                                    <div style="color: var(--text-secondary);">Revenue</div>
+                                    <div style="font-weight: 700; color: var(--success-color);">$${order.revenue.toFixed(
+                                      2
+                                    )}</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--text-secondary);">Profit</div>
+                                    <div style="font-weight: 700; color: ${
+                                      order.profit > 0
+                                        ? "var(--success-color)"
+                                        : "var(--danger-color)"
+                                    };">
+                                        $${order.profit.toFixed(2)}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--text-secondary);">Time</div>
+                                    <div style="font-weight: 700;">${
+                                      order.timeUsed
+                                    } min</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+        });
+      }
+
+      function generateReview(productId) {
+        const product = products[productId];
+
+        // Base rating
+        let rating = 5;
+
+        // Price fairness
+        const price = gameState.prices[productId];
+        const avgPrice = (product.minPrice + product.maxPrice) / 2;
+        if (price > product.maxPrice) rating -= 1;
+        else if (price > avgPrice * 1.3) rating -= 0.5;
+
+        // Random quality variation
+        if (Math.random() < 0.05) rating -= 1; // 5% defect rate
+
+        // Round to nearest 0.5
+        rating = Math.max(1, Math.min(5, Math.round(rating * 2) / 2));
+
+        const reviewTexts = {
+          5: [
+            `Beautiful ${product.name.toLowerCase()}! Exactly as described. Fast shipping! ⭐⭐⭐⭐⭐`,
+            `Absolutely love it! Great quality and perfect packaging. Highly recommend! 🎉`,
+            `Amazing work! Will definitely order again. Thank you! 💕`,
+          ],
+          4.5: [
+            `Very nice ${product.name.toLowerCase()}. Small delay in shipping but worth the wait!`,
+            `Good quality! Just wish it arrived a bit faster. Still happy with purchase.`,
+            `Pretty good! Exactly what I expected. Would buy again.`,
+          ],
+          4: [
+            `Nice ${product.name.toLowerCase()}. Met my expectations.`,
+            `Good product. Shipping took a while but item is nice.`,
+            `Satisfied with my purchase. Could be packaged better.`,
+          ],
+          3.5: [
+            `It's okay. Item arrived but colors were slightly off.`,
+            `Decent but not exactly what I hoped for. Average quality.`,
+            `Product is fine but expected more for the price.`,
+          ],
+          3: [
+            `Product arrived late and quality was just okay. 😐`,
+            `Not impressed. Expected better quality.`,
+            `It's fine I guess, but wouldn't order again.`,
+          ],
+          2: [
+            `Disappointed. Item not as described and shipping was slow. 👎`,
+            `Poor quality. Not worth the price.`,
+            `Would not recommend. Quality issues.`,
+          ],
+        };
+
+        const texts = reviewTexts[rating] || reviewTexts[3];
+        const reviewText = texts[Math.floor(Math.random() * texts.length)];
+
+        const review = {
+          product: productId,
+          rating: rating,
+          text: reviewText,
+          date: `Week ${gameState.week}, Day ${gameState.day}`,
+          customerName: generateCustomerName(),
+        };
+
+        gameState.reviews.push(review);
+        updateRating();
+        displayReviews();
+      }
+
+      function generateCustomerName() {
+        const firstNames = [
+          "Sarah",
+          "Emma",
+          "Michael",
+          "David",
+          "Jessica",
+          "Ashley",
+          "Chris",
+          "Amanda",
+          "John",
+          "Lisa",
+        ];
+        const lastInitials = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const last =
+          lastInitials[Math.floor(Math.random() * lastInitials.length)];
+
+        return `${first} ${last}.`;
+      }
+
+      function updateRating() {
+        if (gameState.reviews.length === 0) {
+          gameState.rating = 0;
+          return;
+        }
+
+        const sum = gameState.reviews.reduce(
+          (acc, review) => acc + review.rating,
+          0
+        );
+        gameState.rating = sum / gameState.reviews.length;
+      }
+
+      function displayReviews() {
+        const container = document.getElementById("reviewsList");
+
+        if (gameState.reviews.length === 0) {
+          container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        No reviews yet. Complete orders to receive customer feedback!
+                    </div>
+                `;
+          return;
+        }
+
+        container.innerHTML = "";
+
+        // Show last 5 reviews
+        const recentReviews = gameState.reviews.slice(-5).reverse();
+
+        recentReviews.forEach((review) => {
+          const product = products[review.product];
+          const stars =
+            "⭐".repeat(Math.floor(review.rating)) +
+            (review.rating % 1 >= 0.5 ? "✨" : "");
+
+          container.innerHTML += `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-name">${review.customerName}</div>
+                            <div class="review-stars">${stars}</div>
+                        </div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                            ${product.icon} ${product.name}
+                        </div>
+                        <div class="review-text">${review.text}</div>
+                        <div class="review-date">${review.date}</div>
+                    </div>
+                `;
+        });
+      }
+
+      // Day/Week Management
+      function nextDay() {
+        gameState.day++;
+
+        if (gameState.day > 7) {
+          nextWeek();
+        } else {
+          updateDisplay();
+          updateProgressBar();
+        }
+      }
+
+      function nextWeek() {
+        // Store week data
+        gameState.weeklyRevenue.push(calculateWeekRevenue());
+        gameState.weeklyOrders.push(gameState.totalOrders);
+
+        gameState.week++;
+        gameState.day = 1;
+        gameState.timeUsedThisWeek = 0;
+
+        if (gameState.week > 6) {
+          endGame();
+        } else {
+          updateDisplay();
+          updateProgressBar();
+          alert(
+            `Week ${gameState.week - 1} complete! Starting Week ${
+              gameState.week
+            }`
+          );
+        }
+      }
+
+      function calculateWeekRevenue() {
+        // This is simplified - in full version would track daily revenue
+        return gameState.cash; // Placeholder
+      }
+
+      function updateProgressBar() {
+        const progress = (gameState.day / 7) * 100;
+        document.getElementById("weekProgress").style.width = progress + "%";
+
+        const timeProgress = (gameState.timeUsedThisWeek / (15 * 60)) * 100;
+        document.getElementById("timeProgress").style.width =
+          Math.min(100, timeProgress) + "%";
+        document.getElementById("timeUsed").textContent = (
+          gameState.timeUsedThisWeek / 60
+        ).toFixed(1);
+      }
+
+      // Update Display
+      function updateDisplay() {
+        document.getElementById("cashDisplay").textContent =
+          "$" + gameState.cash.toFixed(2);
+        document.getElementById("weekDisplay").textContent =
+          gameState.setupComplete ? gameState.week : "Setup";
+        document.getElementById("profitDisplay").textContent =
+          "$" + gameState.totalProfit.toFixed(2);
+        document.getElementById("ordersDisplay").textContent =
+          gameState.totalOrders;
+        document.getElementById("ratingDisplay").textContent =
+          gameState.rating > 0 ? gameState.rating.toFixed(1) : "-";
+
+        if (gameState.setupComplete) {
+          document.getElementById("currentWeek").textContent = gameState.week;
+          document.getElementById("currentDay").textContent = gameState.day;
+          document.getElementById("avgRating").textContent =
+            gameState.rating > 0 ? gameState.rating.toFixed(1) : "-";
+          document.getElementById("totalReviews").textContent =
+            gameState.reviews.length;
+        }
+      }
+
+      // End Game
+      function endGame() {
+        const score = calculateScore();
+        const resultsHTML = generateResultsHTML(score);
+
+        document.getElementById("resultsContent").innerHTML = resultsHTML;
+        document.getElementById("resultsModal").classList.add("active");
+      }
+
+      function calculateScore() {
+        let score = 0;
+
+        // Financial (30 points)
+        if (gameState.totalProfit > 300) score += 30;
+        else if (gameState.totalProfit > 200) score += 25;
+        else if (gameState.totalProfit > 120) score += 20;
+        else if (gameState.totalProfit > 50) score += 15;
+        else score += 10;
+
+        // Rating (25 points)
+        if (gameState.rating >= 4.8) score += 25;
+        else if (gameState.rating >= 4.5) score += 20;
+        else if (gameState.rating >= 4.0) score += 15;
+        else if (gameState.rating >= 3.5) score += 10;
+        else score += 5;
+
+        // Orders (25 points)
+        if (gameState.totalOrders > 150) score += 25;
+        else if (gameState.totalOrders > 100) score += 20;
+        else if (gameState.totalOrders > 60) score += 15;
+        else if (gameState.totalOrders > 30) score += 10;
+        else score += 5;
+
+        // Reviews (20 points)
+        if (gameState.reviews.length > 40) score += 20;
+        else if (gameState.reviews.length > 25) score += 15;
+        else if (gameState.reviews.length > 15) score += 10;
+        else score += 5;
+
+        return Math.min(100, score);
+      }
+
+      function generateResultsHTML(score) {
+        let grade = "F";
+        let message = "";
+
+        if (score >= 90) {
+          grade = "A+";
+          message = "Outstanding! You built a thriving handmade business!";
+        } else if (score >= 80) {
+          grade = "A";
+          message = "Excellent work! Your shop was very successful!";
+        } else if (score >= 70) {
+          grade = "B";
+          message = "Good job! You ran a profitable business!";
+        } else if (score >= 60) {
+          grade = "C";
+          message = "Not bad! You learned valuable lessons.";
+        } else {
+          grade = "D";
+          message = "Challenging start, but experience gained!";
+        }
+
+        return `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="font-size: 4rem; font-weight: 800; color: var(--primary-color);">${grade}</div>
+                    <div style="font-size: 1.25rem; color: var(--text-secondary);">${message}</div>
+                    <div style="font-size: 1rem; margin-top: 0.5rem;">Score: ${score}/100</div>
+                </div>
+                
+                <div style="background: var(--background); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <div style="font-weight: 800; margin-bottom: 1rem;">📊 Business Summary</div>
+                    <div style="display: grid; gap: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Total Revenue:</span>
+                            <span style="font-weight: 700;">$${(
+                              gameState.cash + gameState.totalProfit
+                            ).toFixed(2)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Total Profit:</span>
+                            <span style="font-weight: 700; color: var(--success-color);">$${gameState.totalProfit.toFixed(
+                              2
+                            )}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Orders Fulfilled:</span>
+                            <span style="font-weight: 700;">${
+                              gameState.totalOrders
+                            }</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Shop Rating:</span>
+                            <span style="font-weight: 700;">${gameState.rating.toFixed(
+                              1
+                            )} ⭐</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Total Reviews:</span>
+                            <span style="font-weight: 700;">${
+                              gameState.reviews.length
+                            }</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--background); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <div style="font-weight: 800; margin-bottom: 1rem;">💡 Key Insights</div>
+                    ${generateInsights()}
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="location.reload()" style="flex: 1;">
+                        <span>↺</span>
+                        <span>Play Again</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='games.html'" style="flex: 1;">
+                        <span>🎮</span>
+                        <span>More Games</span>
+                    </button>
+                </div>
+            `;
+      }
+
+      function generateInsights() {
+        const insights = [];
+
+        if (gameState.rating >= 4.5) {
+          insights.push(
+            "✅ Excellent customer service built strong reputation!"
+          );
+        }
+
+        if (gameState.totalProfit > 200) {
+          insights.push("✅ Pricing strategy was profitable!");
+        } else {
+          insights.push(
+            "💡 Consider raising prices to increase profit margins."
+          );
+        }
+
+        if (gameState.shopSetup === "premium") {
+          insights.push("✅ Premium marketing investment paid off!");
+        }
+
+        const avgOrderValue =
+          gameState.totalProfit / Math.max(1, gameState.totalOrders);
+        if (avgOrderValue > 5) {
+          insights.push("✅ Strong profit per order!");
+        } else {
+          insights.push(
+            "💡 Focus on higher-margin products for better profitability."
+          );
+        }
+
+        return insights
+          .map((i) => `<div style="padding: 0.5rem 0;">${i}</div>`)
+          .join("");
+      }
+    </script>
+  </body>
+</html>

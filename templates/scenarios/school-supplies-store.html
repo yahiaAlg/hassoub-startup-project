@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Supplies Store Simulation - BizKids Learning Platform</title>
+    <link rel="stylesheet" href="school-supplies-store.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="game-header">
+      <div class="header-content">
+        <div class="game-title">
+          <div>
+            <div style="display: flex; align-items: center; gap: 1rem">
+              <span style="font-size: 2rem">📚</span>
+              <h1>School Supplies Store Simulation</h1>
+            </div>
+            <p class="game-subtitle">
+              Back-to-school season is here! Run your pop-up shop for 4 weeks.
+            </p>
+          </div>
+        </div>
+        <a href="games.html" class="back-link">
+          <span>←</span>
+          <span>Back to Games</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Progress Section -->
+    <div class="progress-section">
+      <div class="progress-container">
+        <div class="progress-steps">
+          <div class="progress-line">
+            <div
+              class="progress-line-fill"
+              id="progressFill"
+              style="width: 0%"
+            ></div>
+          </div>
+          <div class="progress-step">
+            <div class="step-circle active" id="step1Circle">1</div>
+            <div class="step-label active">Inventory</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-circle" id="step2Circle">2</div>
+            <div class="step-label">Location</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-circle" id="step3Circle">3</div>
+            <div class="step-label">Pricing</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-circle" id="step4Circle">4</div>
+            <div class="step-label">Marketing</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-circle" id="step5Circle">5</div>
+            <div class="step-label">Strategy</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-circle" id="step6Circle">6</div>
+            <div class="step-label">Simulation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="main-container">
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-label">Budget</div>
+          <div class="stat-value">
+            <span>💰</span>
+            <span id="budgetDisplay">$300.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Spent</div>
+          <div class="stat-value">
+            <span>💸</span>
+            <span id="spentDisplay">$0.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Remaining</div>
+          <div class="stat-value">
+            <span>💵</span>
+            <span id="remainingDisplay">$300.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Current Week</div>
+          <div class="stat-value">
+            <span>📅</span>
+            <span id="weekDisplay">Prep</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 1: Product Selection -->
+      <div class="step-container active" id="step1">
+        <div class="step-header">
+          <h2 class="step-title">📦 Step 1: Stock Your Store</h2>
+          <p class="step-description">
+            Choose what products to buy for your school supplies store. Consider
+            demand, margins, and your budget!
+          </p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-box-title">
+            <span>💡</span>
+            <span>Shopping Tips</span>
+          </div>
+          <p>
+            Bulk buying saves money but ties up capital. High-demand items sell
+            fast but have low margins. Premium items have better margins but
+            slower sales. Plan wisely!
+          </p>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="goToStep(2)" id="step1Next">
+            <span>Continue to Location</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Location Selection -->
+      <div class="step-container" id="step2">
+        <div class="step-header">
+          <h2 class="step-title">📍 Step 2: Choose Your Location</h2>
+          <p class="step-description">
+            Where will you sell? Location affects foot traffic, costs, and
+            credibility.
+          </p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-box-title">
+            <span>💡</span>
+            <span>Location Strategy</span>
+          </div>
+          <p>
+            Better locations cost more but bring more customers. Fixed costs
+            must be covered whether you sell or not. Choose based on your budget
+            and inventory investment!
+          </p>
+        </div>
+
+        <div class="options-grid" id="locationGrid"></div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(1)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            onclick="goToStep(3)"
+            id="step2Next"
+            disabled=""
+          >
+            <span>Continue to Pricing</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Pricing Strategy -->
+      <div class="step-container" id="step3">
+        <div class="step-header">
+          <h2 class="step-title">💵 Step 3: Set Your Pricing Strategy</h2>
+          <p class="step-description">
+            Plan your prices for each week. Peak demand = higher prices, late
+            season = clearance!
+          </p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-box-title">
+            <span>💡</span>
+            <span>Dynamic Pricing</span>
+          </div>
+          <p>
+            Week 2 is peak demand - customers will pay more. Week 3 demand drops
+            - you may need to discount. Week 4 school has started - clearance
+            pricing moves remaining inventory!
+          </p>
+        </div>
+
+        <div class="pricing-table" id="pricingTable"></div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(2)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary" onclick="goToStep(4)" id="step3Next">
+            <span>Continue to Marketing</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Marketing -->
+      <div class="step-container" id="step4">
+        <div class="step-header">
+          <h2 class="step-title">📢 Step 4: Marketing Strategy</h2>
+          <p class="step-description">
+            How will you attract customers? Choose your marketing investments
+            wisely!
+          </p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-box-title">
+            <span>💡</span>
+            <span>Marketing ROI</span>
+          </div>
+          <p>
+            Marketing brings customers but costs money upfront. You can choose
+            multiple options, but watch your budget! The right mix can
+            significantly boost sales.
+          </p>
+        </div>
+
+        <div class="marketing-grid" id="marketingGrid"></div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(3)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary" onclick="goToStep(5)" id="step4Next">
+            <span>Continue to Strategy</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 5: Competitive Strategy -->
+      <div class="step-container" id="step5">
+        <div class="step-header">
+          <h2 class="step-title">🎯 Step 5: Competitive Advantage</h2>
+          <p class="step-description">
+            Big-box stores have lower prices. What's your competitive edge?
+          </p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-box-title">
+            <span>💡</span>
+            <span>Market Positioning</span>
+          </div>
+          <p>
+            You can't beat big stores on price alone. Focus on convenience,
+            quality, service, or bundles to win customers!
+          </p>
+        </div>
+
+        <div class="options-grid" id="strategyGrid"></div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(4)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            onclick="startSimulation()"
+            id="step5Next"
+            disabled=""
+          >
+            <span>Start Simulation</span>
+            <span>🚀</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Simulation Screen -->
+      <div class="simulation-screen" id="simulationScreen">
+        <div class="week-header" id="weekHeader">
+          <div class="week-title" id="weekTitle">Week 2: Peak Season!</div>
+          <div class="week-subtitle" id="weekSubtitle">
+            School starts soon - parents are shopping!
+          </div>
+        </div>
+
+        <div class="sales-dashboard">
+          <div class="sales-log">
+            <h3 class="log-title">
+              <span>💰</span>
+              <span>Sales Activity</span>
+            </h3>
+            <div id="salesLog"></div>
+          </div>
+
+          <div>
+            <div class="inventory-panel">
+              <h3 class="log-title">
+                <span>📦</span>
+                <span>Inventory</span>
+              </h3>
+              <div class="inventory-list" id="inventoryList"></div>
+            </div>
+
+            <div class="stats-bar" style="margin-top: 1.5rem">
+              <div class="stat-item">
+                <div class="stat-label">Revenue</div>
+                <div class="stat-value">
+                  <span>💵</span>
+                  <span id="revenueDisplay">$0</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Customers</div>
+                <div class="stat-value">
+                  <span>👥</span>
+                  <span id="customersDisplay">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button
+            class="btn btn-primary"
+            onclick="nextWeek()"
+            id="nextWeekBtn"
+            style="display: none"
+          >
+            <span>Continue to Next Week</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen -->
+      <div class="results-screen" id="resultsScreen">
+        <div class="results-hero">
+          <div class="results-icon" id="resultsIcon">🎉</div>
+          <h2 class="results-title" id="resultsTitle">Season Complete!</h2>
+          <div class="results-score" id="resultsScore">85/100</div>
+          <p class="results-message" id="resultsMessage">
+            Great job managing your seasonal business!
+          </p>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-label">Total Revenue</div>
+            <div class="result-value" id="totalRevenue">$0</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Total Profit</div>
+            <div class="result-value" id="totalProfit">$0</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">ROI</div>
+            <div class="result-value" id="roiValue">0%</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Customers Served</div>
+            <div class="result-value" id="totalCustomers">0</div>
+          </div>
+        </div>
+
+        <div class="results-section">
+          <h3 class="section-title">
+            <span>📊</span>
+            <span>Weekly Performance</span>
+          </h3>
+          <div class="chart-container">
+            <div class="bar-chart" id="weeklyChart"></div>
+          </div>
+        </div>
+
+        <div class="results-section">
+          <h3 class="section-title">
+            <span>📦</span>
+            <span>Inventory Analysis</span>
+          </h3>
+          <div id="inventoryAnalysis"></div>
+        </div>
+
+        <div class="results-section">
+          <h3 class="section-title">
+            <span>💡</span>
+            <span>Key Insights</span>
+          </h3>
+          <div id="insightsContainer"></div>
+        </div>
+
+        <div class="action-buttons">
+          <button
+            class="btn btn-secondary"
+            onclick="window.location.href='games.html'"
+          >
+            <span>Back to Games</span>
+          </button>
+          <button class="btn btn-primary" onclick="location.reload()">
+            <span>Play Again</span>
+            <span>↻</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-content">
+        <div class="loading-spinner">⏳</div>
+        <div class="loading-text" id="loadingText">Simulating sales...</div>
+      </div>
+    </div>
+
+    <script src="school-supplies-game.js"></script>
+  </body>
+</html>

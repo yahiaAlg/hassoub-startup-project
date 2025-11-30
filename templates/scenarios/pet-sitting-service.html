@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Sitting Service - BizKids Business Simulation</title>
+    <link rel="stylesheet" href="pet-sitting-service.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Game Header -->
+    <header class="game-header">
+      <div class="header-content">
+        <div class="game-title">
+          <span style="font-size: 3rem">🐾</span>
+          <div>
+            <h1>Pet Sitting Service</h1>
+            <p style="opacity: 0.9; font-size: 0.875rem">
+              Build your pet care business!
+            </p>
+          </div>
+        </div>
+        <a href="games.html" class="back-link">
+          <span>←</span>
+          <span>Back to Games</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar-wrapper">
+        <div class="progress-steps">
+          <div class="step active" data-step="1">
+            <div class="step-number">1</div>
+            <div class="step-label">Services</div>
+          </div>
+          <div class="step" data-step="2">
+            <div class="step-number">2</div>
+            <div class="step-label">Supplies</div>
+          </div>
+          <div class="step" data-step="3">
+            <div class="step-number">3</div>
+            <div class="step-label">Pricing</div>
+          </div>
+          <div class="step" data-step="4">
+            <div class="step-number">4</div>
+            <div class="step-label">Pet Types</div>
+          </div>
+          <div class="step" data-step="5">
+            <div class="step-number">5</div>
+            <div class="step-label">Schedule</div>
+          </div>
+          <div class="step" data-step="6">
+            <div class="step-number">6</div>
+            <div class="step-label">Results</div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Step 1: Service Selection -->
+      <div class="step-container active" id="step1">
+        <div class="step-content">
+          <div class="step-header">
+            <h2 class="step-title">
+              <span>🐕</span>
+              <span>Choose Your Services</span>
+            </h2>
+            <p class="step-description">
+              Select which pet sitting services you'll offer. You can choose
+              multiple services!
+            </p>
+          </div>
+
+          <div class="service-grid">
+            <div class="service-card" onclick="toggleService('dogWalking')">
+              <div class="service-icon">🦮</div>
+              <div class="service-name">Dog Walking</div>
+              <div class="service-details">
+                Take dogs for walks around the neighborhood
+              </div>
+              <div class="service-stats">
+                <div class="stat-row">
+                  <span class="stat-label">Time per walk:</span>
+                  <span class="stat-value">30 mins</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Price range:</span>
+                  <span class="stat-value">$12-$15</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Demand:</span>
+                  <span class="stat-value">Very High</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Effort:</span>
+                  <span class="stat-value">Medium</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="service-card" onclick="toggleService('dailyVisits')">
+              <div class="service-icon">🐱</div>
+              <div class="service-name">Daily Pet Visits</div>
+              <div class="service-details">
+                Feed, water, play with pets at their home
+              </div>
+              <div class="service-stats">
+                <div class="stat-row">
+                  <span class="stat-label">Time per visit:</span>
+                  <span class="stat-value">20 mins</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Price range:</span>
+                  <span class="stat-value">$15-$20</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Demand:</span>
+                  <span class="stat-value">High</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Effort:</span>
+                  <span class="stat-value">Low</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="service-card" onclick="toggleService('overnight')">
+              <div class="service-icon">🌙</div>
+              <div class="service-name">Overnight Sitting</div>
+              <div class="service-details">
+                Stay overnight at client's home for complete pet care
+              </div>
+              <div class="service-stats">
+                <div class="stat-row">
+                  <span class="stat-label">Time commitment:</span>
+                  <span class="stat-value">All night</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Price range:</span>
+                  <span class="stat-value">$50-$60</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Demand:</span>
+                  <span class="stat-value">Medium</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Effort:</span>
+                  <span class="stat-value">High</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="service-card" onclick="toggleService('grooming')">
+              <div class="service-icon">✂️</div>
+              <div class="service-name">Basic Grooming</div>
+              <div class="service-details">
+                Brush, bathe, and trim nails for pets
+              </div>
+              <div class="service-stats">
+                <div class="stat-row">
+                  <span class="stat-label">Time per session:</span>
+                  <span class="stat-value">60-90 mins</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Price range:</span>
+                  <span class="stat-value">$35-$40</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Demand:</span>
+                  <span class="stat-value">Low</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Effort:</span>
+                  <span class="stat-value">Very High</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <div>
+              <strong>Pro Tip:</strong> Different services require different
+              time and effort. Higher effort services usually pay more per hour,
+              but you can do fewer of them. Consider what fits your schedule and
+              skills!
+            </div>
+          </div>
+
+          <div class="navigation-buttons">
+            <button
+              class="btn btn-primary"
+              onclick="nextStep()"
+              id="step1Next"
+              disabled=""
+            >
+              <span>Next</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Supplies -->
+      <div class="step-container" id="step2">
+        <div class="step-content">
+          <div class="step-header">
+            <h2 class="step-title">
+              <span>🛒</span>
+              <span>Buy Supplies</span>
+            </h2>
+            <p class="step-description">
+              Choose which supplies to purchase. You have $40 to spend wisely!
+            </p>
+          </div>
+
+          <div class="budget-display">
+            <div class="budget-item">
+              <div class="budget-label">Starting Budget</div>
+              <div class="budget-value">$40.00</div>
+            </div>
+            <div class="budget-item">
+              <div class="budget-label">Spent</div>
+              <div class="budget-value" id="spentAmount">$0.00</div>
+            </div>
+            <div class="budget-item">
+              <div class="budget-label">Remaining</div>
+              <div class="budget-value" id="remainingBudget">$40.00</div>
+            </div>
+          </div>
+
+          <div class="supply-grid">
+            <div class="supply-item" onclick="toggleSupply('firstAid', 15)">
+              <div class="supply-checkbox"></div>
+              <div class="supply-info">
+                <div class="supply-name">🏥 Pet First Aid Kit</div>
+                <div class="supply-description">
+                  Emergency supplies for pet safety (recommended)
+                </div>
+                <div class="supply-cost">$15</div>
+              </div>
+            </div>
+
+            <div class="supply-item" onclick="toggleSupply('leashes', 8)">
+              <div class="supply-checkbox"></div>
+              <div class="supply-info">
+                <div class="supply-name">🦴 Leashes &amp; Waste Bags</div>
+                <div class="supply-description">
+                  Required for dog walking service
+                </div>
+                <div class="supply-cost">$8</div>
+              </div>
+            </div>
+
+            <div class="supply-item" onclick="toggleSupply('toys', 10)">
+              <div class="supply-checkbox"></div>
+              <div class="supply-info">
+                <div class="supply-name">🎾 Pet Toys &amp; Treats</div>
+                <div class="supply-description">
+                  Helps with difficult pets and builds rapport
+                </div>
+                <div class="supply-cost">$10</div>
+              </div>
+            </div>
+
+            <div class="supply-item" onclick="toggleSupply('grooming', 15)">
+              <div class="supply-checkbox"></div>
+              <div class="supply-info">
+                <div class="supply-name">✂️ Grooming Supplies</div>
+                <div class="supply-description">
+                  Required for grooming service
+                </div>
+                <div class="supply-cost">$15</div>
+              </div>
+            </div>
+
+            <div class="supply-item" onclick="toggleSupply('camera', 20)">
+              <div class="supply-checkbox"></div>
+              <div class="supply-info">
+                <div class="supply-name">📸 Pet Camera Collar</div>
+                <div class="supply-description">
+                  Send photos to owners (premium feature)
+                </div>
+                <div class="supply-cost">$20</div>
+              </div>
+            </div>
+
+            <div class="supply-item" onclick="toggleSupply('marketing', 5)">
+              <div class="supply-checkbox"></div>
+              <div class="supply-info">
+                <div class="supply-name">📇 Business Cards &amp; Flyers</div>
+                <div class="supply-description">Attract more customers</div>
+                <div class="supply-cost">$5</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <div>
+              <strong>Smart Investing:</strong> Buy supplies that support your
+              chosen services and help build trust with customers. The right
+              tools can help you provide better service and charge premium
+              prices!
+            </div>
+          </div>
+
+          <div class="navigation-buttons">
+            <button class="btn btn-secondary" onclick="prevStep()">
+              <span>←</span>
+              <span>Back</span>
+            </button>
+            <button class="btn btn-primary" onclick="nextStep()">
+              <span>Next</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Pricing Strategy -->
+      <div class="step-container" id="step3">
+        <div class="step-content">
+          <div class="step-header">
+            <h2 class="step-title">
+              <span>💰</span>
+              <span>Set Your Prices</span>
+            </h2>
+            <p class="step-description">
+              Choose how to price each service you're offering
+            </p>
+          </div>
+
+          <div class="pricing-grid" id="pricingGrid">
+            <!-- Pricing options will be dynamically inserted here -->
+          </div>
+
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <div>
+              <strong>Pricing Strategy:</strong> Your price sends a message
+              about quality. Budget pricing attracts more customers but lower
+              margins. Premium pricing requires excellent service but higher
+              profits. Find the right balance!
+            </div>
+          </div>
+
+          <div class="navigation-buttons">
+            <button class="btn btn-secondary" onclick="prevStep()">
+              <span>←</span>
+              <span>Back</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              onclick="nextStep()"
+              id="step3Next"
+              disabled=""
+            >
+              <span>Next</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Pet Types -->
+      <div class="step-container" id="step4">
+        <div class="step-content">
+          <div class="step-header">
+            <h2 class="step-title">
+              <span>🐕</span>
+              <span>Choose Pet Types</span>
+            </h2>
+            <p class="step-description">
+              Decide which types of pets you'll accept as clients
+            </p>
+          </div>
+
+          <div class="radio-options">
+            <div class="radio-option" onclick="selectPetType('all')">
+              <div class="radio-circle"></div>
+              <div class="radio-content">
+                <div class="radio-title">🌟 All Pets Welcome</div>
+                <div class="radio-description">
+                  Accept any type of pet, including large dogs and exotic
+                  animals
+                </div>
+                <div class="radio-features">
+                  <div class="feature-item feature-positive">
+                    ✓ Maximum market size and customer base
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ More booking opportunities
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ May face difficult or unpredictable pets
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ Higher stress and physical demands
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="radio-option" onclick="selectPetType('smallMedium')">
+              <div class="radio-circle"></div>
+              <div class="radio-content">
+                <div class="radio-title">🐕 Small &amp; Medium Pets Only</div>
+                <div class="radio-description">
+                  Focus on smaller, more manageable pets (no large dogs or
+                  exotic animals)
+                </div>
+                <div class="radio-features">
+                  <div class="feature-item feature-positive">
+                    ✓ Moderate market size
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Easier to handle physically
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Lower risk of injury or problems
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ Some customers excluded
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="radio-option" onclick="selectPetType('selective')">
+              <div class="radio-circle"></div>
+              <div class="radio-content">
+                <div class="radio-title">
+                  ⭐ Selective Clients (Interview First)
+                </div>
+                <div class="radio-description">
+                  Meet pets and owners before accepting jobs - only take
+                  well-behaved animals
+                </div>
+                <div class="radio-features">
+                  <div class="feature-item feature-positive">
+                    ✓ Easiest and most enjoyable work
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Highest customer satisfaction potential
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Build reputation faster
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ Smaller customer base
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ More time spent on screening
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <div>
+              <strong>Quality vs. Quantity:</strong> Being selective about
+              clients can make your work easier and build a better reputation,
+              but limits the number of customers you can serve. Choose what fits
+              your goals!
+            </div>
+          </div>
+
+          <div class="navigation-buttons">
+            <button class="btn btn-secondary" onclick="prevStep()">
+              <span>←</span>
+              <span>Back</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              onclick="nextStep()"
+              id="step4Next"
+              disabled=""
+            >
+              <span>Next</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: Schedule Strategy -->
+      <div class="step-container" id="step5">
+        <div class="step-content">
+          <div class="step-header">
+            <h2 class="step-title">
+              <span>📅</span>
+              <span>Plan Your Schedule</span>
+            </h2>
+            <p class="step-description">
+              How will you manage your time over the next 2 weeks?
+            </p>
+          </div>
+
+          <div
+            style="
+              background: linear-gradient(
+                135deg,
+                rgba(236, 72, 153, 0.1),
+                rgba(139, 92, 246, 0.1)
+              );
+              padding: 1.5rem;
+              border-radius: 12px;
+              margin-bottom: 2rem;
+            "
+          >
+            <h3 style="font-weight: 800; margin-bottom: 1rem">
+              ⚠️ Parent Rules
+            </h3>
+            <div style="display: grid; gap: 0.75rem; font-size: 0.875rem">
+              <div>✓ Must be home by 6pm for dinner every day</div>
+              <div>
+                ✓ Can't work on 3 family commitment days (randomly assigned)
+              </div>
+              <div>✓ Must do homework first on last 3 days (school prep)</div>
+              <div>✓ Maximum 1 overnight sitting per week</div>
+            </div>
+          </div>
+
+          <div class="radio-options">
+            <div class="radio-option" onclick="selectSchedule('packed')">
+              <div class="radio-circle"></div>
+              <div class="radio-content">
+                <div class="radio-title">🚀 Pack the Schedule</div>
+                <div class="radio-description">
+                  Accept maximum bookings - back-to-back appointments with no
+                  buffer time
+                </div>
+                <div class="radio-features">
+                  <div class="feature-item feature-positive">
+                    ✓ Highest revenue potential ($250-$350)
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Serve maximum number of clients
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ No buffer for emergencies or delays
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ High stress and fatigue risk
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ Quality issues if problems occur
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="radio-option" onclick="selectSchedule('balanced')">
+              <div class="radio-circle"></div>
+              <div class="radio-content">
+                <div class="radio-title">⚖️ Balanced Schedule</div>
+                <div class="radio-description">
+                  Comfortable pace with 15-20% buffer time for unexpected
+                  situations
+                </div>
+                <div class="radio-features">
+                  <div class="feature-item feature-positive">
+                    ✓ Good work-life balance
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Can handle emergencies without stress
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Moderate revenue ($180-$250)
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Sustainable long-term approach
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ Some potential revenue left on table
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="radio-option" onclick="selectSchedule('quality')">
+              <div class="radio-circle"></div>
+              <div class="radio-content">
+                <div class="radio-title">⭐ Quality-First Schedule</div>
+                <div class="radio-description">
+                  Fewer clients with plenty of buffer time (30-40%) for perfect
+                  service
+                </div>
+                <div class="radio-features">
+                  <div class="feature-item feature-positive">
+                    ✓ Highest quality service delivery
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Best customer satisfaction and reviews
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ Lowest stress levels
+                  </div>
+                  <div class="feature-item feature-positive">
+                    ✓ More referrals and repeat business
+                  </div>
+                  <div class="feature-item feature-negative">
+                    ✗ Lower immediate revenue ($120-$180)
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <div>
+              <strong>Time Management:</strong> Overbooking maximizes short-term
+              revenue but risks burnout and mistakes. Building a sustainable
+              business with happy customers often means leaving some buffer
+              time. What matters more to you?
+            </div>
+          </div>
+
+          <div class="navigation-buttons">
+            <button class="btn btn-secondary" onclick="prevStep()">
+              <span>←</span>
+              <span>Back</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              onclick="startSimulation()"
+              id="step5Next"
+              disabled=""
+            >
+              <span>Start 2-Week Simulation</span>
+              <span>🚀</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulation Running -->
+      <div class="step-container" id="stepSimulation">
+        <div class="step-content">
+          <div class="simulation-screen">
+            <div class="simulation-icon">🐾</div>
+            <h2 class="simulation-title">
+              Running Your Pet Sitting Business...
+            </h2>
+            <p class="simulation-message" id="simulationMessage">
+              Generating customer inquiries...
+            </p>
+            <div class="simulation-progress">
+              <div
+                class="simulation-progress-bar"
+                id="simulationProgressBar"
+              ></div>
+            </div>
+            <p class="simulation-status" id="simulationStatus">0%</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="step-container" id="step6">
+        <div class="step-content">
+          <div class="results-container">
+            <div class="results-hero">
+              <div class="results-icon" id="resultsIcon">🎉</div>
+              <h2 class="results-title" id="resultsTitle">
+                Business Complete!
+              </h2>
+              <p class="results-subtitle" id="resultsSubtitle">
+                Here's how your 2-week pet sitting business performed
+              </p>
+            </div>
+
+            <div class="results-grid">
+              <div class="result-card">
+                <div class="result-label">Total Profit</div>
+                <div class="result-value">
+                  <span>💰</span>
+                  <span id="totalProfit">$0</span>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Jobs Completed</div>
+                <div class="result-value">
+                  <span>✅</span>
+                  <span id="jobsCompleted">0</span>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Hourly Rate</div>
+                <div class="result-value">
+                  <span>⏰</span>
+                  <span id="hourlyRate">$0</span>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Final Rating</div>
+                <div class="result-value">
+                  <span>⭐</span>
+                  <span id="finalRating">0.0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h3 class="detail-header">
+                <span>⭐</span>
+                <span>Customer Reviews</span>
+              </h3>
+              <div class="rating-display">
+                <div class="star-rating" id="starDisplay">⭐⭐⭐⭐⭐</div>
+                <div class="rating-number" id="ratingNumber">5.0</div>
+              </div>
+              <div class="reviews-list" id="reviewsList">
+                <!-- Reviews will be inserted here -->
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h3 class="detail-header">
+                <span>📊</span>
+                <span>Service Breakdown</span>
+              </h3>
+              <div id="serviceBreakdown">
+                <!-- Service stats will be inserted here -->
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h3 class="detail-header">
+                <span>📖</span>
+                <span>Event Log</span>
+              </h3>
+              <div class="event-log" id="eventLog">
+                <!-- Events will be inserted here -->
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h3 class="detail-header">
+                <span>🚀</span>
+                <span>Growth Insights</span>
+              </h3>
+              <div id="growthInsights">
+                <!-- Growth projection will be inserted here -->
+              </div>
+            </div>
+
+            <div class="navigation-buttons">
+              <button
+                class="btn btn-secondary"
+                onclick="location.href='games.html'"
+              >
+                <span>🏠</span>
+                <span>Back to Games</span>
+              </button>
+              <button class="btn btn-primary" onclick="location.reload()">
+                <span>🔄</span>
+                <span>Play Again</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Game State
+      const gameState = {
+        currentStep: 1,
+        selectedServices: [],
+        selectedSupplies: [],
+        spentAmount: 0,
+        budget: 40,
+        pricing: {},
+        petTypes: null,
+        schedule: null,
+        results: {
+          profit: 0,
+          revenue: 0,
+          expenses: 0,
+          jobsCompleted: 0,
+          hoursWorked: 0,
+          reputation: 3.0,
+          reviews: [],
+          events: [],
+          serviceStats: {},
+          repeatCustomers: 0,
+          referrals: 0,
+        },
+      };
+
+      // Service definitions
+      const services = {
+        dogWalking: {
+          name: "Dog Walking",
+          icon: "🦮",
+          time: 30,
+          prices: { budget: 12, market: 13.5, premium: 15 },
+          demand: "very-high",
+        },
+        dailyVisits: {
+          name: "Daily Pet Visits",
+          icon: "🐱",
+          time: 20,
+          prices: { budget: 15, market: 17.5, premium: 20 },
+          demand: "high",
+        },
+        overnight: {
+          name: "Overnight Sitting",
+          icon: "🌙",
+          time: 480,
+          prices: { budget: 50, market: 55, premium: 60 },
+          demand: "medium",
+        },
+        grooming: {
+          name: "Basic Grooming",
+          icon: "✂️",
+          time: 75,
+          prices: { budget: 35, market: 37.5, premium: 40 },
+          demand: "low",
+        },
+      };
+
+      // Toggle service selection
+      function toggleService(serviceId) {
+        const card = event.currentTarget;
+        const index = gameState.selectedServices.indexOf(serviceId);
+
+        if (index > -1) {
+          gameState.selectedServices.splice(index, 1);
+          card.classList.remove("selected");
+        } else {
+          gameState.selectedServices.push(serviceId);
+          card.classList.add("selected");
+        }
+
+        // Enable/disable next button
+        document.getElementById("step1Next").disabled =
+          gameState.selectedServices.length === 0;
+      }
+
+      // Toggle supply selection
+      function toggleSupply(supplyId, cost) {
+        const item = event.currentTarget;
+        const index = gameState.selectedSupplies.indexOf(supplyId);
+
+        if (index > -1) {
+          gameState.selectedSupplies.splice(index, 1);
+          gameState.spentAmount -= cost;
+          item.classList.remove("selected");
+        } else {
+          if (gameState.spentAmount + cost <= gameState.budget) {
+            gameState.selectedSupplies.push(supplyId);
+            gameState.spentAmount += cost;
+            item.classList.add("selected");
+          } else {
+            alert("Not enough budget!");
+            return;
+          }
+        }
+
+        updateBudgetDisplay();
+      }
+
+      // Update budget display
+      function updateBudgetDisplay() {
+        document.getElementById("spentAmount").textContent =
+          "$" + gameState.spentAmount.toFixed(2);
+        document.getElementById("remainingBudget").textContent =
+          "$" + (gameState.budget - gameState.spentAmount).toFixed(2);
+      }
+
+      // Build pricing grid
+      function buildPricingGrid() {
+        const grid = document.getElementById("pricingGrid");
+        grid.innerHTML = "";
+
+        gameState.selectedServices.forEach((serviceId) => {
+          const service = services[serviceId];
+          const div = document.createElement("div");
+          div.className = "pricing-service";
+          div.innerHTML = `
+                    <div class="pricing-header">
+                        <div class="pricing-service-name">
+                            <span>${service.icon}</span>
+                            <span>${service.name}</span>
+                        </div>
+                    </div>
+                    <div class="pricing-options">
+                        <div class="pricing-option" onclick="selectPricing('${serviceId}', 'budget')">
+                            <div class="pricing-tier">Budget</div>
+                            <div class="pricing-amount">$${service.prices.budget}</div>
+                            <div class="pricing-description">Below market average<br>90% acceptance rate</div>
+                        </div>
+                        <div class="pricing-option" onclick="selectPricing('${serviceId}', 'market')">
+                            <div class="pricing-tier">Market Rate</div>
+                            <div class="pricing-amount">$${service.prices.market}</div>
+                            <div class="pricing-description">Average pricing<br>75% acceptance rate</div>
+                        </div>
+                        <div class="pricing-option" onclick="selectPricing('${serviceId}', 'premium')">
+                            <div class="pricing-tier">Premium</div>
+                            <div class="pricing-amount">$${service.prices.premium}</div>
+                            <div class="pricing-description">Above market average<br>50% acceptance rate</div>
+                        </div>
+                    </div>
+                `;
+          grid.appendChild(div);
+        });
+
+        checkPricingComplete();
+      }
+
+      // Select pricing
+      function selectPricing(serviceId, tier) {
+        gameState.pricing[serviceId] = tier;
+
+        // Update UI
+        const serviceDiv = event.currentTarget.closest(".pricing-service");
+        serviceDiv
+          .querySelectorAll(".pricing-option")
+          .forEach((opt) => opt.classList.remove("selected"));
+        event.currentTarget.classList.add("selected");
+
+        checkPricingComplete();
+      }
+
+      // Check if all services have pricing
+      function checkPricingComplete() {
+        const allPriced = gameState.selectedServices.every(
+          (s) => gameState.pricing[s]
+        );
+        document.getElementById("step3Next").disabled = !allPriced;
+      }
+
+      // Select pet type
+      function selectPetType(type) {
+        gameState.petTypes = type;
+
+        document
+          .querySelectorAll("#step4 .radio-option")
+          .forEach((opt) => opt.classList.remove("selected"));
+        event.currentTarget.classList.add("selected");
+
+        document.getElementById("step4Next").disabled = false;
+      }
+
+      // Select schedule
+      function selectSchedule(schedule) {
+        gameState.schedule = schedule;
+
+        document
+          .querySelectorAll("#step5 .radio-option")
+          .forEach((opt) => opt.classList.remove("selected"));
+        event.currentTarget.classList.add("selected");
+
+        document.getElementById("step5Next").disabled = false;
+      }
+
+      // Navigation
+      function nextStep() {
+        const currentStep = gameState.currentStep;
+
+        if (currentStep === 2) {
+          // Check for required supplies
+          if (
+            gameState.selectedServices.includes("dogWalking") &&
+            !gameState.selectedSupplies.includes("leashes")
+          ) {
+            alert("You need leashes and waste bags for dog walking!");
+            return;
+          }
+          if (
+            gameState.selectedServices.includes("grooming") &&
+            !gameState.selectedSupplies.includes("grooming")
+          ) {
+            alert("You need grooming supplies for the grooming service!");
+            return;
+          }
+        }
+
+        if (currentStep === 2) {
+          buildPricingGrid();
+        }
+
+        document
+          .getElementById("step" + currentStep)
+          .classList.remove("active");
+        gameState.currentStep++;
+        document
+          .getElementById("step" + gameState.currentStep)
+          .classList.add("active");
+
+        updateProgress();
+      }
+
+      function prevStep() {
+        document
+          .getElementById("step" + gameState.currentStep)
+          .classList.remove("active");
+        gameState.currentStep--;
+        document
+          .getElementById("step" + gameState.currentStep)
+          .classList.add("active");
+
+        updateProgress();
+      }
+
+      function updateProgress() {
+        const progress = ((gameState.currentStep - 1) / 5) * 100;
+        document.getElementById("progressFill").style.width = progress + "%";
+
+        document.querySelectorAll(".step").forEach((step, index) => {
+          if (index + 1 < gameState.currentStep) {
+            step.classList.add("completed");
+            step.classList.remove("active");
+          } else if (index + 1 === gameState.currentStep) {
+            step.classList.add("active");
+            step.classList.remove("completed");
+          } else {
+            step.classList.remove("active", "completed");
+          }
+        });
+      }
+
+      // Start simulation
+      function startSimulation() {
+        document.getElementById("step5").classList.remove("active");
+        document.getElementById("stepSimulation").classList.add("active");
+
+        runSimulation();
+      }
+
+      // Run simulation
+      async function runSimulation() {
+        const steps = [
+          "Generating customer inquiries...",
+          "Scheduling appointments...",
+          "Week 1: Completing jobs...",
+          "Processing customer feedback...",
+          "Week 2: Serving clients...",
+          "Calculating results...",
+          "Finalizing reports...",
+        ];
+
+        for (let i = 0; i < steps.length; i++) {
+          document.getElementById("simulationMessage").textContent = steps[i];
+          const progress = ((i + 1) / steps.length) * 100;
+          document.getElementById("simulationProgressBar").style.width =
+            progress + "%";
+          document.getElementById("simulationStatus").textContent =
+            Math.round(progress) + "%";
+
+          await new Promise((resolve) => setTimeout(resolve, 800));
+        }
+
+        calculateResults();
+        showResults();
+      }
+
+      // Calculate simulation results
+      function calculateResults() {
+        let revenue = 0;
+        let expenses = gameState.spentAmount;
+        let jobsCompleted = 0;
+        let hoursWorked = 0;
+        let totalRating = 0;
+        let ratingCount = 0;
+
+        // Marketing effect
+        const baseInquiries = gameState.selectedSupplies.includes("marketing")
+          ? Math.floor(Math.random() * 5) + 8
+          : Math.floor(Math.random() * 3) + 3;
+
+        // Schedule modifier
+        const scheduleModifiers = {
+          packed: { jobs: 1.5, quality: 0.7, stress: 1.3 },
+          balanced: { jobs: 1.0, quality: 1.0, stress: 1.0 },
+          quality: { jobs: 0.7, quality: 1.3, stress: 0.7 },
+        };
+        const schedMod = scheduleModifiers[gameState.schedule];
+
+        // Pet type modifier
+        const petTypeModifiers = {
+          all: { market: 1.0, quality: 0.8 },
+          smallMedium: { market: 0.8, quality: 1.0 },
+          selective: { market: 0.6, quality: 1.2 },
+        };
+        const petMod = petTypeModifiers[gameState.petTypes];
+
+        // Simulate each service
+        gameState.selectedServices.forEach((serviceId) => {
+          const service = services[serviceId];
+          const priceTier = gameState.pricing[serviceId];
+          const price = service.prices[priceTier];
+
+          // Acceptance rate
+          const baseAcceptance =
+            priceTier === "budget" ? 0.9 : priceTier === "market" ? 0.75 : 0.5;
+
+          // Calculate jobs for this service
+          const potentialJobs = Math.floor(
+            baseInquiries * schedMod.jobs * petMod.market * 0.3
+          );
+          const acceptedJobs = Math.floor(potentialJobs * baseAcceptance);
+
+          jobsCompleted += acceptedJobs;
+          revenue += acceptedJobs * price;
+          hoursWorked += (acceptedJobs * service.time) / 60;
+
+          // Generate ratings
+          for (let i = 0; i < acceptedJobs; i++) {
+            let jobQuality = 0.8 * schedMod.quality * petMod.quality;
+
+            // Supply bonuses
+            if (gameState.selectedSupplies.includes("firstAid"))
+              jobQuality += 0.05;
+            if (gameState.selectedSupplies.includes("toys")) jobQuality += 0.05;
+            if (
+              gameState.selectedSupplies.includes("camera") &&
+              priceTier === "premium"
+            )
+              jobQuality += 0.1;
+
+            // Random events
+            const eventRoll = Math.random();
+            let eventImpact = 0;
+            let eventDesc = "";
+
+            if (eventRoll < 0.1) {
+              // Positive event
+              eventImpact = 0.15;
+              const positiveEvents = [
+                { desc: "Pet was super well-behaved!", bonus: 5 },
+                { desc: "Owner loved the service and tipped!", bonus: 5 },
+                { desc: "Got a glowing review!", bonus: 0 },
+              ];
+              const evt =
+                positiveEvents[
+                  Math.floor(Math.random() * positiveEvents.length)
+                ];
+              eventDesc = evt.desc;
+              revenue += evt.bonus;
+            } else if (eventRoll > 0.8) {
+              // Negative event
+              eventImpact = -0.2;
+              const negativeEvents = [
+                "Pet ran away briefly - stressful!",
+                "Pet made a mess - extra cleanup time",
+                "Pet was anxious and difficult",
+              ];
+              eventDesc =
+                negativeEvents[
+                  Math.floor(Math.random() * negativeEvents.length)
+                ];
+            }
+
+            jobQuality = Math.max(0.3, Math.min(1.0, jobQuality + eventImpact));
+
+            const rating =
+              jobQuality > 0.9
+                ? 5
+                : jobQuality > 0.8
+                ? 4
+                : jobQuality > 0.7
+                ? 3
+                : jobQuality > 0.6
+                ? 2
+                : 1;
+
+            totalRating += rating;
+            ratingCount++;
+
+            // Store review
+            if (Math.random() < 0.3) {
+              const reviewTexts = {
+                5: [
+                  "Amazing service! My pet loved them!",
+                  "Best pet sitter ever!",
+                  "Professional and caring!",
+                ],
+                4: [
+                  "Great service, very reliable",
+                  "Good experience overall",
+                  "Happy with the care",
+                ],
+                3: [
+                  "Okay service, nothing special",
+                  "Did the job adequately",
+                  "Average experience",
+                ],
+                2: [
+                  "Service was rushed",
+                  "Pet seemed stressed",
+                  "Not very attentive",
+                ],
+                1: [
+                  "Disappointed with service",
+                  "Pet was not happy",
+                  "Would not recommend",
+                ],
+              };
+              gameState.results.reviews.push({
+                rating: rating,
+                text: reviewTexts[rating][
+                  Math.floor(Math.random() * reviewTexts[rating].length)
+                ],
+                client: "Client " + ratingCount,
+              });
+            }
+
+            // Store event
+            if (eventDesc) {
+              gameState.results.events.push({
+                day: Math.floor(Math.random() * 14) + 1,
+                service: service.name,
+                description: eventDesc,
+              });
+            }
+          }
+
+          gameState.results.serviceStats[serviceId] = {
+            name: service.name,
+            icon: service.icon,
+            jobs: acceptedJobs,
+            revenue: acceptedJobs * price,
+          };
+        });
+
+        // Calculate final stats
+        gameState.results.revenue = revenue;
+        gameState.results.expenses = expenses;
+        gameState.results.profit = revenue - expenses;
+        gameState.results.jobsCompleted = jobsCompleted;
+        gameState.results.hoursWorked = Math.round(hoursWorked * 10) / 10;
+        gameState.results.reputation =
+          ratingCount > 0 ? totalRating / ratingCount : 3.0;
+        gameState.results.repeatCustomers = Math.floor(
+          jobsCompleted * (gameState.results.reputation / 5) * 0.6
+        );
+        gameState.results.referrals = Math.floor(
+          jobsCompleted *
+            (Math.max(0, gameState.results.reputation - 3) / 2) *
+            0.4
+        );
+      }
+
+      // Show results
+      function showResults() {
+        document.getElementById("stepSimulation").classList.remove("active");
+        document.getElementById("step6").classList.add("active");
+        gameState.currentStep = 6;
+        updateProgress();
+
+        const results = gameState.results;
+
+        // Results hero
+        if (results.profit > 200 && results.reputation > 4.5) {
+          document.getElementById("resultsIcon").textContent = "🏆";
+          document.getElementById("resultsTitle").textContent =
+            "Outstanding Success!";
+          document.getElementById("resultsSubtitle").textContent =
+            "You built an amazing pet sitting business!";
+        } else if (results.profit > 150 && results.reputation > 4.0) {
+          document.getElementById("resultsIcon").textContent = "🎉";
+          document.getElementById("resultsTitle").textContent = "Great Job!";
+          document.getElementById("resultsSubtitle").textContent =
+            "Your business was very successful!";
+        } else if (results.profit > 100) {
+          document.getElementById("resultsIcon").textContent = "👍";
+          document.getElementById("resultsTitle").textContent = "Good Work!";
+          document.getElementById("resultsSubtitle").textContent =
+            "You made a decent profit!";
+        } else if (results.profit > 0) {
+          document.getElementById("resultsIcon").textContent = "😊";
+          document.getElementById("resultsTitle").textContent = "Nice Try!";
+          document.getElementById("resultsSubtitle").textContent =
+            "You made some money, but there's room to improve!";
+        } else {
+          document.getElementById("resultsIcon").textContent = "😔";
+          document.getElementById("resultsTitle").textContent =
+            "Learning Experience";
+          document.getElementById("resultsSubtitle").textContent =
+            "Better luck next time! Review your strategy.";
+        }
+
+        // Main stats
+        document.getElementById("totalProfit").textContent =
+          "$" + results.profit.toFixed(2);
+        document.getElementById("jobsCompleted").textContent =
+          results.jobsCompleted;
+        document.getElementById("hourlyRate").textContent =
+          results.hoursWorked > 0
+            ? "$" + (results.revenue / results.hoursWorked).toFixed(2)
+            : "$0";
+        document.getElementById("finalRating").textContent =
+          results.reputation.toFixed(1);
+
+        // Star display
+        const stars = Math.round(results.reputation);
+        document.getElementById("starDisplay").textContent =
+          "⭐".repeat(stars) + "☆".repeat(5 - stars);
+        document.getElementById("ratingNumber").textContent =
+          results.reputation.toFixed(1);
+
+        // Reviews
+        const reviewsList = document.getElementById("reviewsList");
+        reviewsList.innerHTML = "";
+        results.reviews.slice(0, 5).forEach((review) => {
+          const div = document.createElement("div");
+          div.className = "review-item";
+          div.innerHTML = `
+                    <div class="review-header">
+                        <div class="review-client">${review.client}</div>
+                        <div class="review-stars">${"⭐".repeat(
+                          review.rating
+                        )}</div>
+                    </div>
+                    <div class="review-text">"${review.text}"</div>
+                `;
+          reviewsList.appendChild(div);
+        });
+
+        // Service breakdown
+        const serviceBreakdown = document.getElementById("serviceBreakdown");
+        serviceBreakdown.innerHTML = "";
+        Object.values(results.serviceStats).forEach((stat) => {
+          const div = document.createElement("div");
+          div.style.cssText =
+            "display: flex; justify-content: space-between; padding: 1rem; background: var(--background); border-radius: 8px; margin-bottom: 0.75rem;";
+          div.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 2rem;">${stat.icon}</span>
+                        <div>
+                            <div style="font-weight: 700;">${stat.name}</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">${
+                              stat.jobs
+                            } jobs completed</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary-color);">$${stat.revenue.toFixed(
+                          2
+                        )}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">revenue</div>
+                    </div>
+                `;
+          serviceBreakdown.appendChild(div);
+        });
+
+        // Event log
+        const eventLog = document.getElementById("eventLog");
+        eventLog.innerHTML = "";
+        results.events.slice(0, 10).forEach((event) => {
+          const div = document.createElement("div");
+          div.className = "event-item";
+          div.innerHTML = `
+                    <div class="event-day">Day ${event.day}</div>
+                    <div class="event-content">
+                        <div class="event-title">${event.service}</div>
+                        <div class="event-description">${event.description}</div>
+                    </div>
+                `;
+          eventLog.appendChild(div);
+        });
+
+        // Growth insights
+        const monthlyProjection = (results.profit / 2) * 4;
+        const potentialPrice =
+          results.reputation > 4.5
+            ? 1.15
+            : results.reputation > 4.0
+            ? 1.1
+            : 1.0;
+
+        document.getElementById("growthInsights").innerHTML = `
+                <div style="display: grid; gap: 1rem;">
+                    <div style="background: var(--background); padding: 1.5rem; border-radius: 12px;">
+                        <div style="font-weight: 700; margin-bottom: 0.5rem;">📈 Monthly Projection</div>
+                        <div style="font-size: 1.25rem; color: var(--primary-color);">At this rate, you could earn $${monthlyProjection.toFixed(
+                          2
+                        )} per month!</div>
+                    </div>
+                    <div style="background: var(--background); padding: 1.5rem; border-radius: 12px;">
+                        <div style="font-weight: 700; margin-bottom: 0.5rem;">💎 Pricing Power</div>
+                        <div style="font-size: 1.25rem; color: var(--primary-color);">With your ${results.reputation.toFixed(
+                          1
+                        )}-star rating, you could ${
+          potentialPrice > 1
+            ? "charge " + ((potentialPrice - 1) * 100).toFixed(0) + "% more"
+            : "maintain current prices"
+        }</div>
+                    </div>
+                    <div style="background: var(--background); padding: 1.5rem; border-radius: 12px;">
+                        <div style="font-weight: 700; margin-bottom: 0.5rem;">🔄 Repeat Business</div>
+                        <div style="font-size: 1.25rem; color: var(--primary-color);">${
+                          results.repeatCustomers
+                        } customers want to book again + ${
+          results.referrals
+        } referrals received</div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Initialize
+      updateProgress();
+    </script>
+  </body>
+</html>

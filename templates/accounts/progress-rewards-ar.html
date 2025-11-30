@@ -1,0 +1,446 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+تقدمك وإنجازاتك
+{% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/accounts/progress-rewards-ar.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>تقدمك وإنجازاتك</h1>
+        <p>
+          تتبع رحلة تعلمك، احتفل بإنجازاتك، واكتشف ما ينتظرك في مغامرة التعليم المالي الخاصة بك!
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Statistics Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-value">المستوى {{ profile.level }}</div>
+            <div class="stat-label">المستوى الحالي</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-value">{{ profile.total_points }}</div>
+            <div class="stat-label">نقاط الخبرة</div>
+            <div class="stat-sublabel">{{ next_level_points }} للمستوى التالي</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🪙</div>
+            <div class="stat-value">{{ profile.coins }}</div>
+            <div class="stat-label">العملات المكتسبة</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value">{{ achievements_data|length }}</div>
+            <div class="stat-label">الشارات المكتسبة</div>
+          </div>
+        </div>
+
+        <!-- Level Progress Bar -->
+        <div class="progress-section">
+          <h2 class="section-title">📈 تقدم المستوى</h2>
+          <div class="level-progress-container">
+            <div class="level-info">
+              <div class="current-level">
+                <span class="level-badge">المستوى {{ profile.level }}</span>
+                <span class="level-points">{{ profile.total_points }} نقطة</span>
+              </div>
+              <div class="next-level">
+                <span class="level-badge next">المستوى {{ profile.level|add:1 }}</span>
+                <span class="level-points">{{ next_level_points }} نقطة</span>
+              </div>
+            </div>
+            <div class="level-progress-bar">
+              <div class="level-progress-fill" style="width: {{ progress_percentage }}%">
+                <span class="progress-text">{{ progress_percentage }}%</span>
+              </div>
+            </div>
+            <p class="progress-hint">
+              {{ next_level_points|add:"-"|add:profile.total_points }} نقطة متبقية للوصول إلى المستوى التالي
+            </p>
+          </div>
+        </div>
+
+        <!-- Daily Streak -->
+        {% if streak %}
+        <div class="progress-section">
+          <h2 class="section-title">🔥 سلسلة الأيام المتتالية</h2>
+          <div class="streak-container">
+            <div class="streak-card">
+              <div class="streak-icon">🔥</div>
+              <div class="streak-info">
+                <div class="streak-value">{{ streak.current_streak }} يوم</div>
+                <div class="streak-label">السلسلة الحالية</div>
+              </div>
+            </div>
+            <div class="streak-card">
+              <div class="streak-icon">🏅</div>
+              <div class="streak-info">
+                <div class="streak-value">{{ streak.longest_streak }} يوم</div>
+                <div class="streak-label">أطول سلسلة</div>
+              </div>
+            </div>
+            <div class="streak-message">
+              {% if streak.current_streak >= 7 %}
+                <p>🎉 رائع! لقد حافظت على سلسلتك لأكثر من أسبوع!</p>
+              {% elif streak.current_streak >= 3 %}
+                <p>👏 استمر! أنت تبني عادة رائعة!</p>
+              {% else %}
+                <p>💪 ابدأ سلسلتك اليوم! سجل الدخول يومياً للحفاظ عليها.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Badges/Achievements Section -->
+        <h2 class="section-title">🏆 إنجازاتك وشاراتك</h2>
+        
+        <!-- Statistics Summary -->
+        <div class="stats-summary">
+          {% with earned_count=achievements_data|length total_count=achievements_data|length %}
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value">
+              {% for item in achievements_data %}
+                {% if item.is_earned %}{{ forloop.counter0 }}{% endif %}
+              {% endfor %}
+            </div>
+            <div class="stat-label">الشارات المكتسبة</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-value">{{ achievements_data|length }}</div>
+            <div class="stat-label">إجمالي المتاح</div>
+          </div>
+          {% endwith %}
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-value">
+              {% for item in recent_achievements %}
+                {{ item.achievement.points_reward }}
+              {% endfor %}
+            </div>
+            <div class="stat-label">XP من الشارات</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-value">
+              {% for item in achievements_data %}
+                {% if not item.is_earned %}{{ forloop.counter0 }}{% endif %}
+              {% endfor %}
+            </div>
+            <div class="stat-label">قريباً جداً!</div>
+          </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+          <div class="tab active" data-category="all">الكل</div>
+          <div class="tab" data-category="earned">المكتسبة</div>
+          <div class="tab" data-category="locked">مقفلة</div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+          <input type="text" class="search-box" placeholder="ابحث عن شارة..." />
+          <div class="sort-options">
+            <label for="sort-select">الترتيب حسب:</label>
+            <select id="sort-select">
+              <option value="recent">الأحدث</option>
+              <option value="name">الاسم</option>
+              <option value="type">النوع</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Badges Grid -->
+        <div class="badges-container">
+          {% regroup achievements_data by achievement.get_achievement_type_display as achievement_groups %}
+          
+          {% for group in achievement_groups %}
+          <div class="category-section">
+            <div class="category-header">
+              <h3 class="category-title">{{ group.grouper }}</h3>
+              <span class="category-count">
+                {% with earned=group.list|length %}
+                  {{ earned }} شارة متاحة
+                {% endwith %}
+              </span>
+            </div>
+            
+            <div class="badges-grid">
+              {% for item in group.list %}
+              <div class="badge-card {% if item.is_earned %}earned{% else %}locked{% endif %}" 
+                   data-achievement-id="{{ item.achievement.id }}"
+                   onclick="showBadgeModal(
+                     '{{ item.achievement.icon }}', 
+                     '{{ item.achievement.name }}', 
+                     '{{ item.achievement.description }}', 
+                     '{% if item.is_earned %}earned{% else %}locked{% endif %}',
+                     {{ item.achievement.points_required }},
+                     {{ item.achievement.points_reward }},
+                     {{ item.achievement.coins_reward }}
+                   )">
+                <div class="badge-icon {% if item.is_earned %}earned{% else %}locked{% endif %}">
+                  {% if item.is_earned %}
+                    {{ item.achievement.icon }}
+                  {% else %}
+                    <span class="badge-lock">🔒</span>
+                  {% endif %}
+                </div>
+                <div class="badge-title">{{ item.achievement.name }}</div>
+                <div class="badge-description">{{ item.achievement.description }}</div>
+                {% if item.is_earned %}
+                <div class="badge-earned-mark">✓ مكتسبة</div>
+                {% else %}
+                <div class="badge-requirements">
+                  {{ item.achievement.points_required }} نقطة مطلوبة
+                </div>
+                {% endif %}
+                <div class="badge-rewards">
+                  <span>+{{ item.achievement.points_reward }} XP</span>
+                  <span>+{{ item.achievement.coins_reward }} 🪙</span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="progress-section">
+          <h2 class="section-title">🔔 النشاط الأخير</h2>
+          <ul class="recent-activity">
+            {% for achievement in recent_achievements %}
+            <li class="activity-item">
+              <div class="activity-icon">{{ achievement.achievement.icon }}</div>
+              <div class="activity-content">
+                <div class="activity-title">حصلت على شارة "{{ achievement.achievement.name }}"</div>
+                <div class="activity-meta">
+                  +{{ achievement.achievement.points_reward }} نقطة، +{{ achievement.achievement.coins_reward }} عملة
+                </div>
+              </div>
+              <div class="activity-time">{{ achievement.earned_at|timesince }} مضت</div>
+            </li>
+            {% empty %}
+            <li class="activity-item">
+              <div class="activity-icon">📚</div>
+              <div class="activity-content">
+                <div class="activity-title">ابدأ رحلتك التعليمية</div>
+                <div class="activity-meta">لا توجد إنجازات حتى الآن</div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Motivation Quote -->
+        <div class="motivation-quote">
+          <div class="quote-text">
+            "النجاح هو مجموع الجهود الصغيرة المتكررة يوماً بعد يوم."
+          </div>
+          <div class="quote-author">— روبرت كوليير</div>
+        </div>
+
+        <!-- Achievement Tips -->
+        <div class="progress-section">
+          <h2 class="section-title">💡 نصائح لكسب المزيد من الشارات</h2>
+          <div class="tips-container">
+            <div class="tip-card">
+              <div class="tip-icon">📚</div>
+              <div class="tip-title">أكمل الدروس</div>
+              <div class="tip-description">أكمل الدروس في مسارات التعلم المختلفة لكسب شارات الإكمال</div>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🎯</div>
+              <div class="tip-title">احصل على درجات عالية</div>
+              <div class="tip-description">اجتاز الاختبارات بدرجة 100% لكسب شارات التميز</div>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🔥</div>
+              <div class="tip-title">حافظ على السلسلة</div>
+              <div class="tip-description">سجل الدخول يومياً وحافظ على سلسلتك لكسب شارات المثابرة</div>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🎮</div>
+              <div class="tip-title">جرب السيناريوهات</div>
+              <div class="tip-description">أكمل السيناريوهات التفاعلية لكسب شارات خاصة</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="badgeModal">
+      <div class="modal">
+        <span class="modal-close" onclick="closeBadgeModal()">×</span>
+        <div class="modal-icon" id="modalIcon">🏆</div>
+        <h2 class="modal-title" id="modalTitle">شارة الإنجاز</h2>
+        <p class="modal-description" id="modalDescription">
+          وصف الشارة يظهر هنا
+        </p>
+        <div class="modal-details">
+          <div class="detail-item">
+            <span class="detail-label">النقاط المطلوبة</span>
+            <span class="detail-value" id="modalRequirements">0 نقطة</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">مكافأة النقاط</span>
+            <span class="detail-value" id="modalPointsReward">+0 XP</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">مكافأة العملات</span>
+            <span class="detail-value" id="modalCoinsReward">+0 🪙</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">الحالة</span>
+            <span class="detail-value" id="modalStatus">مقفلة</span>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn" onclick="closeBadgeModal()">إغلاق</button>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+      // Animate progress bars on load
+      window.addEventListener("load", function () {
+        const progressBars = document.querySelectorAll(".level-progress-fill");
+        progressBars.forEach((bar) => {
+          const width = bar.style.width;
+          bar.style.width = "0%";
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 100);
+        });
+
+        // Animate badges on scroll
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.animation = "fadeInUp 0.5s ease-out";
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll(".badge-card").forEach((badge) => {
+          observer.observe(badge);
+        });
+      });
+
+      // Badge Modal Functions
+      function showBadgeModal(icon, title, description, status, pointsRequired, pointsReward, coinsReward) {
+        const modal = document.getElementById("badgeModal");
+        const modalIcon = document.getElementById("modalIcon");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalDescription = document.getElementById("modalDescription");
+        const modalRequirements = document.getElementById("modalRequirements");
+        const modalPointsReward = document.getElementById("modalPointsReward");
+        const modalCoinsReward = document.getElementById("modalCoinsReward");
+        const modalStatus = document.getElementById("modalStatus");
+
+        modalIcon.textContent = status === "earned" ? icon : "🔒";
+        modalTitle.textContent = title;
+        modalDescription.textContent = description;
+        modalRequirements.textContent = pointsRequired + " نقطة";
+        modalPointsReward.textContent = "+" + pointsReward + " XP";
+        modalCoinsReward.textContent = "+" + coinsReward + " 🪙";
+
+        if (status === "earned") {
+          modalIcon.style.background = "linear-gradient(135deg, var(--primary), var(--primary-dark))";
+          modalStatus.textContent = "✓ مكتسبة";
+          modalStatus.style.color = "var(--primary)";
+        } else {
+          modalIcon.style.background = "#ccc";
+          modalStatus.textContent = "🔒 مقفلة";
+          modalStatus.style.color = "#999";
+        }
+
+        modal.classList.add("show");
+      }
+
+      function closeBadgeModal() {
+        document.getElementById("badgeModal").classList.remove("show");
+      }
+
+      // Close modal when clicking outside
+      document.getElementById("badgeModal").addEventListener("click", function (e) {
+        if (e.target === this) closeBadgeModal();
+      });
+
+      // Tab Filtering
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", function () {
+          document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+          this.classList.add("active");
+
+          const category = this.getAttribute("data-category");
+          const badges = document.querySelectorAll(".badge-card");
+
+          badges.forEach((badge) => {
+            if (category === "all") {
+              badge.style.display = "block";
+            } else if (category === "earned" && badge.classList.contains("earned")) {
+              badge.style.display = "block";
+            } else if (category === "locked" && badge.classList.contains("locked")) {
+              badge.style.display = "block";
+            } else {
+              badge.style.display = "none";
+            }
+          });
+        });
+      });
+
+      // Search Functionality
+      document.querySelector(".search-box").addEventListener("input", function (e) {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll(".badge-card").forEach((badge) => {
+          const title = badge.querySelector(".badge-title").textContent.toLowerCase();
+          const description = badge.querySelector(".badge-description").textContent.toLowerCase();
+          badge.style.display = (title.includes(searchTerm) || description.includes(searchTerm)) ? "block" : "none";
+        });
+      });
+
+      // Sort Functionality
+      document.getElementById("sort-select").addEventListener("change", function(e) {
+        const sortBy = e.target.value;
+        const container = document.querySelector(".badges-container");
+        const sections = Array.from(container.querySelectorAll(".category-section"));
+        
+        if (sortBy === "name") {
+          sections.forEach(section => {
+            const grid = section.querySelector(".badges-grid");
+            const badges = Array.from(grid.querySelectorAll(".badge-card"));
+            badges.sort((a, b) => {
+              const titleA = a.querySelector(".badge-title").textContent;
+              const titleB = b.querySelector(".badge-title").textContent;
+              return titleA.localeCompare(titleB, 'ar');
+            });
+            badges.forEach(badge => grid.appendChild(badge));
+          });
+        }
+      });
+    </script>
+{% endblock extra_js %}

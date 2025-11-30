@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farm Fresh Stand - Business Simulation</title>
+    <link rel="stylesheet" href="farm-fresh-stand.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Game Header -->
+    <header class="game-header">
+      <div class="header-content">
+        <div class="game-title">
+          <span style="font-size: 3rem">🌾</span>
+          <div>
+            <h1>Farm Fresh Stand</h1>
+            <p class="game-subtitle">
+              Advanced Business Simulation • Ages 11-15 • 20-25 minutes
+            </p>
+          </div>
+        </div>
+        <a href="games.html" class="back-link">
+          <span>←</span>
+          <span>Exit Game</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-label">Cash</div>
+          <div class="stat-value">
+            <span>💵</span>
+            <span id="cashDisplay">$100.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Week</div>
+          <div class="stat-value">
+            <span>📅</span>
+            <span id="weekDisplay">1 of 8</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Total Revenue</div>
+          <div class="stat-value">
+            <span>💰</span>
+            <span id="revenueDisplay">$0.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Total Profit</div>
+          <div class="stat-value">
+            <span>📈</span>
+            <span id="profitDisplay">$0.00</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Plots Used</div>
+          <div class="stat-value">
+            <span>🌱</span>
+            <span id="plotsDisplay">0 / 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Game Container -->
+      <div id="gameContainer"></div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal" id="resultsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-icon" id="resultIcon">🏆</div>
+          <h2 class="modal-title" id="resultTitle">Game Complete!</h2>
+        </div>
+        <div id="resultsContent"></div>
+      </div>
+    </div>
+
+    <script>
+      // Game State
+      const gameState = {
+        cash: 100,
+        initialCash: 100,
+        week: 1,
+        totalWeeks: 8,
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+        phase: "crop-selection",
+
+        // Crops database
+        crops: {
+          lettuce: {
+            name: "Lettuce",
+            icon: "🥬",
+            type: "Fast Crop",
+            seedCost: 5,
+            growTime: 1,
+            yield: 10,
+            priceRange: [2.5, 4.0],
+            risk: "low",
+            demand: 1.0,
+            weatherResistant: true,
+          },
+          tomatoes: {
+            name: "Tomatoes",
+            icon: "🍅",
+            type: "Medium Crop",
+            seedCost: 8,
+            growTime: 3,
+            yield: 20,
+            priceRange: [2.0, 3.0],
+            risk: "medium",
+            demand: 1.2,
+            rainSensitive: true,
+          },
+          pumpkins: {
+            name: "Pumpkins",
+            icon: "🎃",
+            type: "Slow Crop",
+            seedCost: 15,
+            growTime: 6,
+            yield: 5,
+            priceRange: [12.0, 15.0],
+            risk: "medium",
+            demand: 1.0,
+            fallBonus: 1.5,
+          },
+          strawberries: {
+            name: "Strawberries",
+            icon: "🍓",
+            type: "Premium Crop",
+            seedCost: 12,
+            growTime: 4,
+            yield: 30,
+            priceRange: [5.0, 7.0],
+            risk: "high",
+            demand: 1.3,
+            pestProne: true,
+          },
+        },
+
+        // Player selections
+        selectedCrops: {},
+        farmingMethod: null,
+        insurance: null,
+        strategy: null,
+
+        // Farm plots
+        plots: Array(10)
+          .fill(null)
+          .map((_, i) => ({
+            id: i,
+            crop: null,
+            weekPlanted: 0,
+            maturityWeek: 0,
+            quantity: 0,
+          })),
+
+        // Game history
+        weekHistory: [],
+        events: [],
+
+        // Harvest inventory
+        inventory: {},
+
+        // Farming methods
+        methods: {
+          conventional: {
+            name: "Conventional Farming",
+            costMultiplier: 1.0,
+            yieldMultiplier: 1.0,
+            pestRisk: 0.15,
+            priceMultiplier: 1.0,
+            weatherProof: false,
+          },
+          organic: {
+            name: "Organic Farming",
+            costMultiplier: 1.3,
+            yieldMultiplier: 1.0,
+            pestRisk: 0.3,
+            priceMultiplier: 1.4,
+            weatherProof: false,
+          },
+          hydroponic: {
+            name: "Hydroponic Farming",
+            costMultiplier: 1.6,
+            yieldMultiplier: 1.2,
+            pestRisk: 0.05,
+            priceMultiplier: 1.3,
+            weatherProof: true,
+          },
+        },
+
+        // Insurance options
+        insuranceOptions: {
+          none: { name: "No Insurance", cost: 0, coverage: 0 },
+          basic: { name: "Basic Insurance", cost: 15, coverage: 0.5 },
+          full: { name: "Full Insurance", cost: 30, coverage: 0.9 },
+        },
+      };
+
+      // Initialize game
+      function initGame() {
+        renderPhase();
+        updateDisplay();
+      }
+
+      // Render current phase
+      function renderPhase() {
+        const container = document.getElementById("gameContainer");
+
+        switch (gameState.phase) {
+          case "crop-selection":
+            container.innerHTML = renderCropSelection();
+            break;
+          case "farming-method":
+            container.innerHTML = renderFarmingMethod();
+            break;
+          case "insurance":
+            container.innerHTML = renderInsurance();
+            break;
+          case "strategy":
+            container.innerHTML = renderStrategy();
+            break;
+          case "simulation":
+            container.innerHTML = renderSimulation();
+            startSimulation();
+            break;
+          case "results":
+            showResults();
+            break;
+        }
+      }
+
+      // Render crop selection phase
+      function renderCropSelection() {
+        const totalPlots = gameState.selectedCrops
+          ? Object.values(gameState.selectedCrops).reduce((a, b) => a + b, 0)
+          : 0;
+
+        return `
+                <div class="phase-container slide-up">
+                    <div class="phase-header">
+                        <span class="phase-icon">🌱</span>
+                        <div>
+                            <h2 class="phase-title">Step 1: Choose Your Crops</h2>
+                            <p class="phase-description">Select which crops to plant across your 10 plots. Each crop has different costs, growing times, and profit potential.</p>
+                        </div>
+                    </div>
+
+                    <div class="options-grid">
+                        ${Object.entries(gameState.crops)
+                          .map(
+                            ([key, crop]) => `
+                            <div class="crop-card ${
+                              gameState.selectedCrops[key] > 0 ? "selected" : ""
+                            }" id="crop-${key}">
+                                <div class="crop-header">
+                                    <span class="crop-icon">${crop.icon}</span>
+                                    <div>
+                                        <div class="crop-name">${
+                                          crop.name
+                                        }</div>
+                                        <div class="crop-type">${
+                                          crop.type
+                                        }</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="crop-stats">
+                                    <div class="stat-row">
+                                        <span>Seed Cost:</span>
+                                        <strong>$${crop.seedCost.toFixed(
+                                          2
+                                        )}/plot</strong>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>Growing Time:</span>
+                                        <strong>${crop.growTime} week${
+                              crop.growTime > 1 ? "s" : ""
+                            }</strong>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>Yield:</span>
+                                        <strong>${crop.yield} units</strong>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>Sell Price:</span>
+                                        <strong>$${crop.priceRange[0].toFixed(
+                                          2
+                                        )} - $${crop.priceRange[1].toFixed(
+                              2
+                            )}</strong>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>Risk:</span>
+                                        <span class="badge badge-${
+                                          crop.risk
+                                        }">${crop.risk.toUpperCase()}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" onclick="adjustCropQuantity('${key}', -1)">-</button>
+                                    <div class="quantity-display">${
+                                      gameState.selectedCrops[key] || 0
+                                    }</div>
+                                    <button class="quantity-btn" onclick="adjustCropQuantity('${key}', 1)">+</button>
+                                </div>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+
+                    <div class="edu-note">
+                        <div class="edu-note-title">
+                            <span>💡</span>
+                            <span>Learning Point: Opportunity Cost</span>
+                        </div>
+                        <div class="edu-note-content">
+                            Fast crops give you quick money but less profit. Slow crops require waiting longer but offer bigger payoffs. This is called OPPORTUNITY COST - the value of what you give up when making a choice!
+                        </div>
+                    </div>
+
+                    <div class="summary-box">
+                        <div class="summary-title">Planting Summary</div>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <div class="summary-label">Plots Used</div>
+                                <div class="summary-value">${totalPlots} / 10</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-label">Seed Cost</div>
+                                <div class="summary-value">$${calculateSeedCost().toFixed(
+                                  2
+                                )}</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-label">Remaining Cash</div>
+                                <div class="summary-value">$${(
+                                  gameState.cash - calculateSeedCost()
+                                ).toFixed(2)}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="resetCropSelection()">
+                            <span>↺</span>
+                            <span>Reset</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="confirmCropSelection()" ${
+                          totalPlots === 0 ||
+                          calculateSeedCost() > gameState.cash
+                            ? "disabled"
+                            : ""
+                        }>
+                            <span>→</span>
+                            <span>Continue to Farming Method</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Render farming method phase
+      function renderFarmingMethod() {
+        return `
+                <div class="phase-container slide-up">
+                    <div class="phase-header">
+                        <span class="phase-icon">👨‍🌾</span>
+                        <div>
+                            <h2 class="phase-title">Step 2: Choose Farming Method</h2>
+                            <p class="phase-description">Different farming methods have different costs, risks, and potential returns.</p>
+                        </div>
+                    </div>
+
+                    <div class="options-grid">
+                        ${Object.entries(gameState.methods)
+                          .map(
+                            ([key, method]) => `
+                            <div class="option-card ${
+                              gameState.farmingMethod === key ? "selected" : ""
+                            }" onclick="selectFarmingMethod('${key}')">
+                                <div class="option-title">${method.name}</div>
+                                <div class="option-price">
+                                    ${
+                                      method.costMultiplier === 1.0
+                                        ? "Base Cost"
+                                        : `+${(
+                                            (method.costMultiplier - 1) *
+                                            100
+                                          ).toFixed(0)}% Cost`
+                                    }
+                                </div>
+                                <ul class="option-benefits">
+                                    ${
+                                      method.yieldMultiplier > 1.0
+                                        ? `<li>+${(
+                                            (method.yieldMultiplier - 1) *
+                                            100
+                                          ).toFixed(0)}% Yield</li>`
+                                        : ""
+                                    }
+                                    ${
+                                      method.priceMultiplier > 1.0
+                                        ? `<li>+${(
+                                            (method.priceMultiplier - 1) *
+                                            100
+                                          ).toFixed(0)}% Price Premium</li>`
+                                        : ""
+                                    }
+                                    ${
+                                      method.weatherProof
+                                        ? "<li>Weather-proof</li>"
+                                        : ""
+                                    }
+                                    ${
+                                      method.pestRisk < 0.2
+                                        ? "<li>Low Pest Risk</li>"
+                                        : method.pestRisk > 0.25
+                                        ? "<li>Higher Pest Risk</li>"
+                                        : "<li>Normal Pest Risk</li>"
+                                    }
+                                </ul>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+
+                    <div class="edu-note">
+                        <div class="edu-note-title">
+                            <span>💡</span>
+                            <span>Learning Point: Investment vs. Return</span>
+                        </div>
+                        <div class="edu-note-content">
+                            Different methods have different costs and risks. Higher investment can mean better returns, but also more upfront cost. Consider your budget and risk tolerance!
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="goToPhase('crop-selection')">
+                            <span>←</span>
+                            <span>Back</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="confirmFarmingMethod()" ${
+                          !gameState.farmingMethod ? "disabled" : ""
+                        }>
+                            <span>→</span>
+                            <span>Continue to Insurance</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Render insurance phase
+      function renderInsurance() {
+        return `
+                <div class="phase-container slide-up">
+                    <div class="phase-header">
+                        <span class="phase-icon">🛡️</span>
+                        <div>
+                            <h2 class="phase-title">Step 3: Risk Management</h2>
+                            <p class="phase-description">Protect your investment from weather events and pests. Insurance costs money but can save you from disasters.</p>
+                        </div>
+                    </div>
+
+                    <div class="options-grid">
+                        ${Object.entries(gameState.insuranceOptions)
+                          .map(
+                            ([key, option]) => `
+                            <div class="option-card ${
+                              gameState.insurance === key ? "selected" : ""
+                            }" onclick="selectInsurance('${key}')">
+                                <div class="option-title">${option.name}</div>
+                                <div class="option-price">
+                                    ${
+                                      option.cost === 0
+                                        ? "Free"
+                                        : `$${option.cost.toFixed(2)}`
+                                    }
+                                </div>
+                                <ul class="option-benefits">
+                                    ${
+                                      option.coverage === 0
+                                        ? "<li>No protection from losses</li>"
+                                        : `<li>Covers ${(
+                                            option.coverage * 100
+                                          ).toFixed(0)}% of losses</li>`
+                                    }
+                                    ${
+                                      option.coverage > 0
+                                        ? "<li>Protection from weather events</li>"
+                                        : ""
+                                    }
+                                    ${
+                                      option.coverage > 0
+                                        ? "<li>Protection from pest damage</li>"
+                                        : ""
+                                    }
+                                    ${
+                                      option.coverage === 0
+                                        ? "<li>Full exposure to risks</li>"
+                                        : ""
+                                    }
+                                </ul>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+
+                    <div class="edu-note">
+                        <div class="edu-note-title">
+                            <span>💡</span>
+                            <span>Learning Point: Risk Management</span>
+                        </div>
+                        <div class="edu-note-content">
+                            Insurance costs money upfront but protects you from unexpected losses. Is the security worth the cost? This is a key business decision!
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="goToPhase('farming-method')">
+                            <span>←</span>
+                            <span>Back</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="confirmInsurance()" ${
+                          gameState.insurance === null ? "disabled" : ""
+                        }>
+                            <span>→</span>
+                            <span>Continue to Strategy</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Render strategy phase
+      function renderStrategy() {
+        return `
+                <div class="phase-container slide-up">
+                    <div class="phase-header">
+                        <span class="phase-icon">📋</span>
+                        <div>
+                            <h2 class="phase-title">Step 4: Growing Strategy</h2>
+                            <p class="phase-description">Decide how to manage your farm over 8 weeks.</p>
+                        </div>
+                    </div>
+
+                    <div class="options-grid">
+                        <div class="option-card ${
+                          gameState.strategy === "single" ? "selected" : ""
+                        }" onclick="selectStrategy('single')">
+                            <div class="option-title">Single Harvest Focus</div>
+                            <div class="option-price">One Big Harvest</div>
+                            <ul class="option-benefits">
+                                <li>Plant slow-growing, high-value crops</li>
+                                <li>Wait for full maturity</li>
+                                <li>Higher per-item profit</li>
+                                <li>All money comes at end</li>
+                            </ul>
+                        </div>
+
+                        <div class="option-card ${
+                          gameState.strategy === "multiple" ? "selected" : ""
+                        }" onclick="selectStrategy('multiple')">
+                            <div class="option-title">Multiple Harvest Cycles</div>
+                            <div class="option-price">Steady Income</div>
+                            <ul class="option-benefits">
+                                <li>Plant fast-growing crops</li>
+                                <li>Replant after each harvest</li>
+                                <li>Regular cash flow</li>
+                                <li>Lower per-cycle profit</li>
+                            </ul>
+                        </div>
+
+                        <div class="option-card ${
+                          gameState.strategy === "mixed" ? "selected" : ""
+                        }" onclick="selectStrategy('mixed')">
+                            <div class="option-title">Staggered Mixed Strategy</div>
+                            <div class="option-price">Balanced Approach</div>
+                            <ul class="option-benefits">
+                                <li>Mix of fast and slow crops</li>
+                                <li>Balanced risk and reward</li>
+                                <li>Some early income + big harvest</li>
+                                <li>Requires planning</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="edu-note">
+                        <div class="edu-note-title">
+                            <span>💡</span>
+                            <span>Learning Point: Liquidity & Time Value</span>
+                        </div>
+                        <div class="edu-note-content">
+                            Do you want money now or more money later? Fast crops give you liquidity (cash on hand), while slow crops tie up your investment for bigger returns. This teaches time value of money!
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="goToPhase('insurance')">
+                            <span>←</span>
+                            <span>Back</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="startGame()" ${
+                          gameState.strategy === null ? "disabled" : ""
+                        }>
+                            <span>🚀</span>
+                            <span>Start 8-Week Simulation</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Render simulation phase
+      function renderSimulation() {
+        const season = getSeason(gameState.week);
+
+        return `
+                <div class="week-display slide-up">
+                    <div class="week-number">Week ${gameState.week}</div>
+                    <div class="week-season">Season: ${season} 🌤️</div>
+                </div>
+
+                <div class="phase-container slide-up">
+                    <div class="phase-header">
+                        <span class="phase-icon">🌾</span>
+                        <div>
+                            <h2 class="phase-title">Your Farm</h2>
+                            <p class="phase-description">Watch your crops grow week by week</p>
+                        </div>
+                    </div>
+
+                    <div class="farm-grid">
+                        ${gameState.plots
+                          .map(
+                            (plot, i) => `
+                            <div class="farm-plot ${
+                              plot.crop ? "planted" : ""
+                            }" id="plot-${i}">
+                                ${
+                                  plot.crop
+                                    ? gameState.crops[plot.crop].icon
+                                    : "🌱"
+                                }
+                                ${
+                                  plot.crop
+                                    ? `<div class="plot-info">Week ${
+                                        gameState.week - plot.weekPlanted
+                                      }/${
+                                        gameState.crops[plot.crop].growTime
+                                      }</div>`
+                                    : ""
+                                }
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+
+                    <div id="eventContainer"></div>
+
+                    <div class="summary-box">
+                        <div class="summary-title">Farm Inventory</div>
+                        <div id="inventoryDisplay"></div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="nextWeekBtn" onclick="nextWeek()">
+                            <span>→</span>
+                            <span>Next Week</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Helper functions
+      function adjustCropQuantity(crop, delta) {
+        if (!gameState.selectedCrops) gameState.selectedCrops = {};
+
+        const current = gameState.selectedCrops[crop] || 0;
+        const totalPlots = Object.values(gameState.selectedCrops).reduce(
+          (a, b) => a + b,
+          0
+        );
+
+        const newValue = Math.max(0, current + delta);
+        const newTotal = totalPlots - current + newValue;
+
+        if (newTotal <= 10) {
+          gameState.selectedCrops[crop] = newValue;
+          renderPhase();
+        }
+      }
+
+      function calculateSeedCost() {
+        if (!gameState.selectedCrops) return 0;
+
+        let total = 0;
+        for (let [crop, quantity] of Object.entries(gameState.selectedCrops)) {
+          total += gameState.crops[crop].seedCost * quantity;
+        }
+
+        if (gameState.farmingMethod) {
+          total *= gameState.methods[gameState.farmingMethod].costMultiplier;
+        }
+
+        return total;
+      }
+
+      function resetCropSelection() {
+        gameState.selectedCrops = {};
+        renderPhase();
+      }
+
+      function confirmCropSelection() {
+        // Deduct seed costs
+        const seedCost = calculateSeedCost();
+        gameState.cash -= seedCost;
+        gameState.expenses += seedCost;
+
+        // Plant crops
+        let plotIndex = 0;
+        for (let [crop, quantity] of Object.entries(gameState.selectedCrops)) {
+          for (let i = 0; i < quantity; i++) {
+            gameState.plots[plotIndex] = {
+              id: plotIndex,
+              crop: crop,
+              weekPlanted: 1,
+              maturityWeek: 1 + gameState.crops[crop].growTime,
+              quantity: gameState.crops[crop].yield,
+            };
+            plotIndex++;
+          }
+        }
+
+        goToPhase("farming-method");
+      }
+
+      function selectFarmingMethod(method) {
+        gameState.farmingMethod = method;
+        renderPhase();
+      }
+
+      function confirmFarmingMethod() {
+        goToPhase("insurance");
+      }
+
+      function selectInsurance(option) {
+        gameState.insurance = option;
+        renderPhase();
+      }
+
+      function confirmInsurance() {
+        // Deduct insurance cost
+        const insuranceCost =
+          gameState.insuranceOptions[gameState.insurance].cost;
+        gameState.cash -= insuranceCost;
+        gameState.expenses += insuranceCost;
+
+        goToPhase("strategy");
+      }
+
+      function selectStrategy(strategy) {
+        gameState.strategy = strategy;
+        renderPhase();
+      }
+
+      function startGame() {
+        goToPhase("simulation");
+      }
+
+      function goToPhase(phase) {
+        gameState.phase = phase;
+        renderPhase();
+      }
+
+      function startSimulation() {
+        updateInventoryDisplay();
+      }
+
+      function nextWeek() {
+        gameState.week++;
+
+        // Generate random event
+        generateWeekEvent();
+
+        // Check for harvests
+        checkHarvests();
+
+        // Check if game is over
+        if (gameState.week > gameState.totalWeeks) {
+          goToPhase("results");
+          return;
+        }
+
+        renderPhase();
+        updateDisplay();
+      }
+
+      function generateWeekEvent() {
+        const events = [
+          {
+            type: "good-weather",
+            chance: 0.4,
+            title: "☀️ Perfect Weather!",
+            desc: "Ideal growing conditions this week.",
+            yieldBonus: 1.1,
+            positive: true,
+          },
+          {
+            type: "excellent-weather",
+            chance: 0.1,
+            title: "🌤️ Excellent Growing Conditions!",
+            desc: "The weather is perfect for your crops!",
+            yieldBonus: 1.2,
+            positive: true,
+          },
+          {
+            type: "heavy-rain",
+            chance: 0.15,
+            title: "🌧️ Heavy Rain",
+            desc: "Rain-sensitive crops may suffer.",
+            yieldPenalty: 0.9,
+            affectsRainSensitive: true,
+            positive: false,
+          },
+          {
+            type: "drought",
+            chance: 0.1,
+            title: "☀️ Drought Conditions",
+            desc: "Lack of water is affecting your crops.",
+            yieldPenalty: 0.85,
+            positive: false,
+          },
+          {
+            type: "pests",
+            chance: 0.2,
+            title: "🐛 Pest Infestation!",
+            desc: "Pests are attacking your crops!",
+            yieldPenalty: 0.7,
+            affectsPestProne: true,
+            positive: false,
+          },
+          {
+            type: "normal",
+            chance: 0.05,
+            title: "🌱 Normal Week",
+            desc: "Nothing special this week.",
+            yieldBonus: 1.0,
+            positive: true,
+          },
+        ];
+
+        // Select event based on chance
+        const rand = Math.random();
+        let cumulative = 0;
+        let selectedEvent = events[events.length - 1];
+
+        for (let event of events) {
+          cumulative += event.chance;
+          if (rand <= cumulative) {
+            selectedEvent = event;
+            break;
+          }
+        }
+
+        // Apply event effects
+        applyEventEffects(selectedEvent);
+
+        // Display event
+        displayEvent(selectedEvent);
+
+        gameState.events.push({
+          week: gameState.week,
+          event: selectedEvent,
+        });
+      }
+
+      function applyEventEffects(event) {
+        const method = gameState.methods[gameState.farmingMethod];
+
+        for (let plot of gameState.plots) {
+          if (!plot.crop) continue;
+
+          const crop = gameState.crops[plot.crop];
+          let modifier = 1.0;
+
+          // Apply weather effects
+          if (
+            method.weatherProof &&
+            (event.type === "heavy-rain" || event.type === "drought")
+          ) {
+            // Hydroponic is weather-proof
+            continue;
+          }
+
+          if (event.yieldBonus) {
+            modifier *= event.yieldBonus;
+          }
+
+          if (event.yieldPenalty) {
+            if (event.affectsRainSensitive && crop.rainSensitive) {
+              modifier *= event.yieldPenalty;
+            } else if (event.affectsPestProne && crop.pestProne) {
+              // Apply pest risk based on farming method
+              const pestChance = method.pestRisk;
+              if (Math.random() < pestChance) {
+                modifier *= event.yieldPenalty;
+              }
+            } else if (!event.affectsRainSensitive && !event.affectsPestProne) {
+              modifier *= event.yieldPenalty;
+            }
+          }
+
+          // Apply insurance if there's a loss
+          if (modifier < 1.0 && gameState.insurance !== "none") {
+            const coverage =
+              gameState.insuranceOptions[gameState.insurance].coverage;
+            const loss = 1.0 - modifier;
+            modifier = 1.0 - loss * (1.0 - coverage);
+          }
+
+          plot.quantity = Math.floor(plot.quantity * modifier);
+        }
+      }
+
+      function displayEvent(event) {
+        const container = document.getElementById("eventContainer");
+        if (!container) return;
+
+        const eventClass = event.positive ? "positive" : "negative";
+
+        container.innerHTML = `
+                <div class="event-card ${eventClass}">
+                    <div class="event-title">${event.title}</div>
+                    <div class="event-description">${event.desc}</div>
+                </div>
+            `;
+      }
+
+      function checkHarvests() {
+        const method = gameState.methods[gameState.farmingMethod];
+
+        for (let plot of gameState.plots) {
+          if (!plot.crop) continue;
+
+          if (gameState.week >= plot.maturityWeek) {
+            // Harvest ready
+            const crop = gameState.crops[plot.crop];
+            const quantity = Math.floor(plot.quantity * method.yieldMultiplier);
+
+            // Add to inventory
+            if (!gameState.inventory[plot.crop]) {
+              gameState.inventory[plot.crop] = 0;
+            }
+            gameState.inventory[plot.crop] += quantity;
+
+            // Sell immediately (simplified for this version)
+            sellCrop(plot.crop, quantity);
+
+            // Clear plot
+            plot.crop = null;
+            plot.weekPlanted = 0;
+            plot.maturityWeek = 0;
+            plot.quantity = 0;
+          }
+        }
+      }
+
+      function sellCrop(cropType, quantity) {
+        const crop = gameState.crops[cropType];
+        const method = gameState.methods[gameState.farmingMethod];
+        const season = getSeason(gameState.week);
+
+        // Calculate price
+        let price = (crop.priceRange[0] + crop.priceRange[1]) / 2;
+        price *= method.priceMultiplier;
+
+        // Apply seasonal bonus for pumpkins in fall
+        if (cropType === "pumpkins" && season === "Fall") {
+          price *= crop.fallBonus || 1.0;
+        }
+
+        // Random market fluctuation ±10%
+        price *= 0.9 + Math.random() * 0.2;
+
+        const revenue = quantity * price;
+        gameState.cash += revenue;
+        gameState.revenue += revenue;
+
+        // Remove from inventory
+        gameState.inventory[cropType] -= quantity;
+        if (gameState.inventory[cropType] <= 0) {
+          delete gameState.inventory[cropType];
+        }
+
+        // Record in history
+        gameState.weekHistory.push({
+          week: gameState.week,
+          crop: cropType,
+          quantity: quantity,
+          price: price,
+          revenue: revenue,
+        });
+      }
+
+      function getSeason(week) {
+        if (week <= 2) return "Early Spring";
+        if (week <= 4) return "Late Spring";
+        if (week <= 6) return "Summer";
+        return "Fall";
+      }
+
+      function updateInventoryDisplay() {
+        const container = document.getElementById("inventoryDisplay");
+        if (!container) return;
+
+        if (Object.keys(gameState.inventory).length === 0) {
+          container.innerHTML =
+            '<p style="text-align: center; color: var(--text-secondary);">No harvested crops yet</p>';
+          return;
+        }
+
+        let html = '<div style="display: grid; gap: 0.5rem;">';
+        for (let [crop, quantity] of Object.entries(gameState.inventory)) {
+          html += `
+                    <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--background); border-radius: 8px;">
+                        <span>${gameState.crops[crop].icon} ${gameState.crops[crop].name}</span>
+                        <strong>${quantity} units</strong>
+                    </div>
+                `;
+        }
+        html += "</div>";
+
+        container.innerHTML = html;
+      }
+
+      function showResults() {
+        gameState.profit = gameState.revenue - gameState.expenses;
+        const roi = ((gameState.profit / gameState.initialCash) * 100).toFixed(
+          1
+        );
+
+        let score = 0;
+        if (gameState.profit > 300 && roi > 200) score = 100;
+        else if (gameState.profit > 200 && roi > 150) score = 85;
+        else if (gameState.profit > 150 && roi > 100) score = 70;
+        else if (gameState.profit > 75 && roi > 50) score = 55;
+        else score = Math.max(0, 40 + gameState.profit / 10);
+
+        let grade, icon, message;
+        if (score >= 85) {
+          grade = "A+";
+          icon = "🏆";
+          message = "Outstanding! You're a farming tycoon!";
+        } else if (score >= 70) {
+          grade = "A";
+          icon = "🌟";
+          message = "Excellent work! Great profit and strategy!";
+        } else if (score >= 55) {
+          grade = "B";
+          icon = "👍";
+          message = "Good job! You made a profit!";
+        } else {
+          grade = "C";
+          icon = "📈";
+          message = "You're learning! Try different strategies next time.";
+        }
+
+        document.getElementById("resultIcon").textContent = icon;
+        document.getElementById(
+          "resultTitle"
+        ).textContent = `${grade} - ${message}`;
+
+        document.getElementById("resultsContent").innerHTML = `
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-label">Total Revenue</div>
+                        <div class="result-value">$${gameState.revenue.toFixed(
+                          2
+                        )}</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Total Expenses</div>
+                        <div class="result-value">$${gameState.expenses.toFixed(
+                          2
+                        )}</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Net Profit</div>
+                        <div class="result-value" style="color: ${
+                          gameState.profit > 0
+                            ? "var(--success-color)"
+                            : "var(--danger-color)"
+                        }">
+                            $${gameState.profit.toFixed(2)}
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">ROI</div>
+                        <div class="result-value">${roi}%</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Weekly Revenue</h3>
+                    <div class="chart-bars">
+                        ${gameState.weekHistory
+                          .map((entry, i) => {
+                            const maxRevenue = Math.max(
+                              ...gameState.weekHistory.map((e) => e.revenue)
+                            );
+                            const height = (entry.revenue / maxRevenue) * 100;
+                            return `
+                                <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                                    <div class="chart-bar" style="height: ${height}%" title="Week ${
+                              entry.week
+                            }: $${entry.revenue.toFixed(2)}"></div>
+                                    <div class="chart-label">W${
+                                      entry.week
+                                    }</div>
+                                </div>
+                            `;
+                          })
+                          .join("")}
+                    </div>
+                </div>
+
+                <div class="edu-note">
+                    <div class="edu-note-title">
+                        <span>🎓</span>
+                        <span>What You Learned</span>
+                    </div>
+                    <div class="edu-note-content">
+                        <ul style="list-style: none; margin-top: 1rem;">
+                            <li style="padding: 0.5rem 0;">✓ Time value of money (crops that take longer to grow should yield more profit)</li>
+                            <li style="padding: 0.5rem 0;">✓ Opportunity cost (choosing fast vs. slow crops)</li>
+                            <li style="padding: 0.5rem 0;">✓ Risk management (insurance and weather protection)</li>
+                            <li style="padding: 0.5rem 0;">✓ Return on investment (ROI)</li>
+                            <li style="padding: 0.5rem 0;">✓ Strategic planning and timing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="location.reload()">
+                        <span>↺</span>
+                        <span>Play Again</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='games.html'">
+                        <span>🏠</span>
+                        <span>Back to Games</span>
+                    </button>
+                </div>
+            `;
+
+        document.getElementById("resultsModal").classList.add("active");
+      }
+
+      function updateDisplay() {
+        document.getElementById("cashDisplay").textContent =
+          "$" + gameState.cash.toFixed(2);
+        document.getElementById(
+          "weekDisplay"
+        ).textContent = `${gameState.week} of ${gameState.totalWeeks}`;
+        document.getElementById("revenueDisplay").textContent =
+          "$" + gameState.revenue.toFixed(2);
+        document.getElementById("profitDisplay").textContent =
+          "$" + (gameState.revenue - gameState.expenses).toFixed(2);
+
+        const plotsUsed = gameState.plots.filter((p) => p.crop !== null).length;
+        document.getElementById(
+          "plotsDisplay"
+        ).textContent = `${plotsUsed} / 10`;
+
+        updateInventoryDisplay();
+      }
+
+      // Initialize game on load
+      window.addEventListener("load", initGame);
+    </script>
+  </body>
+</html>

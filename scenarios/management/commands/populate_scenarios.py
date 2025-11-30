@@ -7,295 +7,122 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         scenarios_data = [
-            # Quick Play Games
             {
-                "title": "مطابقة الأموال",
-                "slug": "money-match",
-                "description": "لعبة سريعة لمطابقة العملات والنقود الورقية",
-                "icon": "💰",
-                "difficulty": "easy",
-                "duration": "2-3",
-                "players_count": 2345,
-                "rating": 4.6,
-                "is_quick_play": True,
-                "order": 1,
-            },
-            {
-                "title": "معركة الميزانية",
-                "slug": "budget-battle",
-                "description": "تحدي سريع لإدارة الميزانية بذكاء",
-                "icon": "⚔️",
-                "difficulty": "medium",
-                "duration": "3-4",
-                "players_count": 1890,
-                "rating": 4.5,
-                "is_quick_play": True,
-                "order": 2,
-            },
-            {
-                "title": "السعر المثالي",
-                "slug": "price-perfect",
-                "description": "خمّن الأسعار الصحيحة للمنتجات",
-                "icon": "🏷️",
-                "difficulty": "easy",
-                "duration": "2-3",
-                "players_count": 2156,
-                "rating": 4.7,
-                "is_quick_play": True,
-                "order": 3,
-            },
-            {
-                "title": "سباق التوفير",
-                "slug": "savings-sprint",
-                "description": "سباق مثير لتوفير أكبر قدر من المال",
-                "icon": "🏃",
-                "difficulty": "medium",
-                "duration": "4-5",
-                "players_count": 1567,
-                "rating": 4.4,
-                "is_quick_play": True,
-                "order": 4,
-            },
-            # Featured Games
-            {
-                "title": "قطب كشك الليمونادة",
+                "title": "كشك الليمونادة الصيفي",
                 "slug": "summer-lemonade-stand",
-                "description": "قم بإدارة كشك الليمونادة الخاص بك! اتخذ قرارات بشأن التسعير والمخزون والتسويق لتعظيم الأرباح.",
+                "description": "ابدأ كشك الليمونادة الخاص بك! تعلم التكاليف الأساسية، التسعير، العرض والطلب، وصيغة الربح في بيئة صيفية منعشة.",
                 "icon": "🍋",
                 "difficulty": "easy",
-                "duration": "15-20",
-                "players_count": 1234,
-                "rating": 4.8,
-                "badge": "popular",
+                "capital": 50,
+                "duration": "10-15",
+                "age_range": "8-12",
                 "points_reward": 100,
                 "coins_reward": 50,
-                "order": 5,
-            },
-            {
-                "title": "إمبراطورية الأعمال",
-                "slug": "business-empire",
-                "description": "ابنِ إمبراطورية أعمالك من الصفر! وظّف موظفين، ووسّع سوقك، وتنافس مع المنافسين.",
-                "icon": "🏢",
-                "difficulty": "hard",
-                "duration": "30-45",
-                "players_count": 892,
-                "rating": 4.9,
-                "badge": "new",
-                "points_reward": 200,
-                "coins_reward": 100,
-                "order": 6,
-            },
-            {
-                "title": "اختبار سيد المال",
-                "slug": "money-master",
-                "description": "اختبر معرفتك المالية! أجب عن أسئلة حول الادخار والإنفاق والاستثمار بحكمة.",
-                "icon": "💡",
-                "difficulty": "medium",
-                "duration": "10-15",
-                "players_count": 2156,
-                "rating": 4.7,
-                "badge": "featured",
-                "points_reward": 80,
-                "coins_reward": 40,
-                "order": 7,
-            },
-            {
-                "title": "باني الميزانية",
-                "slug": "budget-builder",
-                "description": "أنشئ ميزانيات متوازنة لسيناريوهات مختلفة. تعلم تحديد أولويات النفقات والتوفير للأهداف.",
-                "icon": "📊",
-                "difficulty": "medium",
-                "duration": "12-18",
-                "players_count": 1567,
-                "rating": 4.6,
-                "points_reward": 90,
-                "coins_reward": 45,
-                "order": 8,
-            },
-            {
-                "title": "محاكي سوق الأسهم",
-                "slug": "stock-market",
-                "description": "تداول الأسهم وتعلم عن الاستثمار! اشترِ بسعر منخفض، بع بسعر مرتفع، ونمِّي محفظتك.",
-                "icon": "📈",
-                "difficulty": "hard",
-                "duration": "20-30",
-                "players_count": 945,
-                "rating": 4.5,
-                "points_reward": 150,
-                "coins_reward": 75,
-                "order": 9,
-            },
-            {
-                "title": "تحدي رائد الأعمال",
-                "slug": "entrepreneur",
-                "description": "أطلق شركة ناشئة وتنافس ضد رواد الأعمال الآخرين. اتخذ قرارات استراتيجية للنجاح!",
-                "icon": "💼",
-                "difficulty": "hard",
-                "duration": "25-35",
-                "players_count": 678,
-                "rating": 4.8,
-                "badge": "challenge",
-                "points_reward": 180,
-                "coins_reward": 90,
-                "order": 10,
-            },
-            # More Games
-            {
-                "title": "جولة التسوق",
-                "slug": "shopping-spree",
-                "description": "تسوق بذكاء والتزم بالميزانية! قارن الأسعار واعثر على أفضل العروض.",
-                "icon": "🛍️",
-                "difficulty": "easy",
-                "duration": "8-12",
-                "players_count": 1890,
-                "rating": 4.4,
-                "points_reward": 60,
-                "coins_reward": 30,
-                "order": 11,
-            },
-            {
-                "title": "جامع العملات",
-                "slug": "coin-collector",
-                "description": "طابق العملات والنقود الورقية لإجراء التغيير الدقيق. تدرب على عد الأموال بسرعة!",
-                "icon": "🪙",
-                "difficulty": "easy",
-                "duration": "5-8",
-                "players_count": 2345,
-                "rating": 4.6,
-                "points_reward": 50,
-                "coins_reward": 25,
-                "order": 12,
-            },
-            {
-                "title": "قطب السوق",
-                "slug": "market-tycoon",
-                "description": "أدِر سوقاً! حدد الأسعار، خزّن المخزون، واجذب العملاء لزيادة المبيعات إلى الحد الأقصى.",
-                "icon": "🪙",
-                "difficulty": "medium",
-                "duration": "20-25",
-                "players_count": 1123,
-                "rating": 4.7,
-                "points_reward": 120,
-                "coins_reward": 60,
-                "order": 13,
-            },
-            # Additional scenarios from HTML files
-            {
-                "title": "قطب الليمون",
-                "slug": "lemon-tycoon",
-                "description": "ابنِ إمبراطورية الليمونادة الخاصة بك من البداية!",
-                "icon": "🍋",
-                "difficulty": "medium",
-                "duration": "20-30",
-                "players_count": 956,
-                "rating": 4.7,
-                "points_reward": 110,
-                "coins_reward": 55,
-                "order": 14,
-            },
-            {
-                "title": "رئيس المخبز المشغول",
-                "slug": "busy-bakery-boss",
-                "description": "أدر مخبزاً ناجحاً واصنع أفضل المعجنات!",
-                "icon": "🥖",
-                "difficulty": "medium",
-                "duration": "18-25",
-                "players_count": 823,
-                "rating": 4.6,
-                "points_reward": 95,
-                "coins_reward": 48,
-                "order": 15,
-            },
-            {
-                "title": "كشك المزرعة الطازج",
-                "slug": "farm-fresh-stand",
-                "description": "بع منتجات المزرعة الطازجة في السوق المحلي!",
-                "icon": "🌽",
-                "difficulty": "easy",
-                "duration": "15-20",
-                "players_count": 1045,
-                "rating": 4.5,
-                "points_reward": 85,
-                "coins_reward": 42,
-                "order": 16,
+                "order": 1,
             },
             {
                 "title": "قطب متجر الألعاب",
                 "slug": "toy-store-tycoon",
-                "description": "افتح متجر ألعاب وأسعد الأطفال بأفضل الألعاب!",
+                "description": "أدِر متجرألعاب ملون! تعلم التكاليف الثابتة والمتغيرة، إدارة المخزون، مزيج المنتجات، واقتصاديات الموقع.",
                 "icon": "🧸",
                 "difficulty": "medium",
-                "duration": "22-28",
-                "players_count": 789,
-                "rating": 4.8,
-                "points_reward": 115,
-                "coins_reward": 58,
-                "order": 17,
+                "capital": 200,
+                "duration": "15-20",
+                "age_range": "10-14",
+                "points_reward": 150,
+                "coins_reward": 75,
+                "order": 2,
             },
             {
-                "title": "متجر اللوازم المدرسية",
-                "slug": "school-supplies-store",
-                "description": "وفر جميع احتياجات الطلاب قبل بداية العام الدراسي!",
-                "icon": "📚",
-                "difficulty": "easy",
+                "title": "رئيس المخبز المزدحم",
+                "slug": "busy-bakery-boss",
+                "description": "قم بإدارة مخبز دافئ ولذيذ! تعلم تخطيط الإنتاج، تحليل الوقت، الجودة مقابل الكمية، والعمليات اليومية.",
+                "icon": "🧁",
+                "difficulty": "medium",
+                "capital": 150,
                 "duration": "12-18",
-                "players_count": 1234,
-                "rating": 4.4,
-                "points_reward": 75,
-                "coins_reward": 38,
-                "order": 18,
+                "age_range": "9-13",
+                "points_reward": 130,
+                "coins_reward": 65,
+                "order": 3,
             },
             {
-                "title": "خدمة رعاية الحيوانات الأليفة",
-                "slug": "pet-sitting-service",
-                "description": "اعتني بالحيوانات الأليفة واكسب المال!",
-                "icon": "🐕",
-                "difficulty": "easy",
-                "duration": "10-15",
-                "players_count": 1567,
-                "rating": 4.7,
-                "points_reward": 70,
-                "coins_reward": 35,
-                "order": 19,
+                "title": "كشك المزرعة الطازجة",
+                "slug": "farm-fresh-stand",
+                "description": "أدِر كشك مزرعة طبيعي! تعلم القيمة الزمنية للمال، تكلفة الفرصة البديلة، الطلب الموسمي، عوائد الاستثمار، وإدارة المخاطر.",
+                "icon": "🌾",
+                "difficulty": "hard",
+                "capital": 100,
+                "duration": "20-25",
+                "age_range": "11-15",
+                "points_reward": 180,
+                "coins_reward": 90,
+                "order": 4,
             },
             {
                 "title": "غسيل السيارات المتنقل",
                 "slug": "mobile-car-wash",
-                "description": "قدم خدمة غسيل السيارات في الحي!",
+                "description": "قدم خدمة غسيل سيارات احترافية! تعلم تسعير الخدمات، قيمة عمر العميل، الجودة مقابل السرعة، والأعمال المتكررة.",
                 "icon": "🚗",
                 "difficulty": "medium",
-                "duration": "16-22",
-                "players_count": 892,
-                "rating": 4.5,
-                "points_reward": 88,
-                "coins_reward": 44,
-                "order": 20,
+                "capital": 80,
+                "duration": "15-18",
+                "age_range": "10-14",
+                "points_reward": 120,
+                "coins_reward": 60,
+                "order": 5,
             },
             {
-                "title": "خدمة إزالة الثلج",
-                "slug": "snow-removal-service",
-                "description": "ساعد الجيران بإزالة الثلج في الشتاء!",
-                "icon": "❄️",
+                "title": "خدمة رعاية الحيوانات الأليفة",
+                "slug": "pet-sitting-service",
+                "description": "اعتني بالحيوانات الأليفة الرائعة! تعلم إدارة الوقت، بناء السمعة، مزيج الخدمات، وقيود الجدولة.",
+                "icon": "🐾",
                 "difficulty": "easy",
-                "duration": "12-16",
-                "players_count": 678,
-                "rating": 4.3,
-                "points_reward": 65,
-                "coins_reward": 32,
-                "order": 21,
+                "capital": 40,
+                "duration": "12-15",
+                "age_range": "9-13",
+                "points_reward": 90,
+                "coins_reward": 45,
+                "order": 6,
             },
             {
-                "title": "متجر الحرف اليدوية",
-                "slug": "handmade-crafts-online-store",
-                "description": "بع الحرف اليدوية عبر الإنترنت!",
-                "icon": "🎨",
+                "title": "متجر اللوازم المدرسية",
+                "slug": "school-supplies-store",
+                "description": "أدِر متجر لوازم مدرسية منظم! تعلم الطلب الموسمي، الشراء بالجملة، التوقيت، التسعير الديناميكي، ورأس المال العامل.",
+                "icon": "📚",
                 "difficulty": "medium",
+                "capital": 300,
+                "duration": "18-22",
+                "age_range": "10-14",
+                "points_reward": 160,
+                "coins_reward": 80,
+                "order": 7,
+            },
+            {
+                "title": "متجر الحرف اليدوية الإلكتروني",
+                "slug": "handmade-crafts-online-store",
+                "description": "ابدأ متجراً إلكترونياً إبداعياً! تعلم قيمة العمل، التجارة الإلكترونية، التقييمات/السمعة، الوقت كمورد، وقيود التوسع.",
+                "icon": "🎨",
+                "difficulty": "hard",
+                "capital": 100,
                 "duration": "20-25",
-                "players_count": 734,
-                "rating": 4.6,
-                "points_reward": 105,
-                "coins_reward": 52,
-                "order": 22,
+                "age_range": "12-15",
+                "points_reward": 200,
+                "coins_reward": 100,
+                "order": 8,
+            },
+            {
+                "title": "خدمة إزالة الثلوج",
+                "slug": "snow-removal-service",
+                "description": "أدِر خدمة إزالة ثلوج شتوية! تعلم الأعمال المعتمدة على الطقس، العقود مقابل الطلب، إدارة المخاطر، وقيود القدرة.",
+                "icon": "❄️",
+                "difficulty": "hard",
+                "capital": 120,
+                "duration": "18-22",
+                "age_range": "12-15",
+                "points_reward": 170,
+                "coins_reward": 85,
+                "order": 9,
             },
         ]
 

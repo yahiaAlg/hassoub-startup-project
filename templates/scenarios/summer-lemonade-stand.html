@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Summer Lemonade Stand - BizKids Simulation</title>
+    <link rel="stylesheet" href="summer-lemonade-stand.css" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-title">
+          <span style="font-size: 2.5rem">🍋</span>
+          <div>
+            <h1>Summer Lemonade Stand</h1>
+            <div style="opacity: 0.9; font-size: 0.875rem">
+              Difficulty: Beginner | Duration: 10-15 mins
+            </div>
+          </div>
+        </div>
+        <div class="header-stats">
+          <div class="stat">
+            <div class="stat-label">Starting Capital</div>
+            <div class="stat-value">$50.00</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Current Cash</div>
+            <div class="stat-value" id="currentCash">$50.00</div>
+          </div>
+        </div>
+        <a href="games.html" class="back-btn">
+          <span>←</span>
+          <span>Back</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-wrapper">
+        <div class="progress-steps" id="progressSteps">
+          <div class="step active">
+            <div class="step-circle">1</div>
+            <div class="step-label">Lemons</div>
+          </div>
+          <div class="step">
+            <div class="step-circle">2</div>
+            <div class="step-label">Supplies</div>
+          </div>
+          <div class="step">
+            <div class="step-circle">3</div>
+            <div class="step-label">Marketing</div>
+          </div>
+          <div class="step">
+            <div class="step-circle">4</div>
+            <div class="step-label">Pricing</div>
+          </div>
+          <div class="step">
+            <div class="step-circle">5</div>
+            <div class="step-label">Hours</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Story Section -->
+      <div class="story-section">
+        <div class="story-icon">🌞</div>
+        <h2 class="story-title">Your Lemonade Business Adventure</h2>
+        <p class="story-text">
+          It's a hot summer day! You decide to set up a lemonade stand in your
+          neighborhood. Your parents give you $50 to start your business. You
+          need to buy supplies, decide on pricing, and attract customers. Can
+          you make a profit?
+        </p>
+      </div>
+
+      <!-- Step 1: Lemons -->
+      <div class="decision-card active" id="step1">
+        <div class="decision-header">
+          <h2 class="decision-question">🍋 How many lemons will you buy?</h2>
+          <div class="educational-note">
+            <div class="educational-note-title">
+              <span>📚</span>
+              <span>Did You Know?</span>
+            </div>
+            <p>Each lemon makes 2 cups of lemonade. Think about demand!</p>
+          </div>
+          <div class="hint-box">
+            <div class="hint-title">
+              <span>💡</span>
+              <span>Hint</span>
+            </div>
+            <p>
+              Too few = missed sales. Too many = wasted lemons = wasted money!
+            </p>
+          </div>
+        </div>
+
+        <div class="slider-container">
+          <div class="slider-header">
+            <span class="slider-label">Number of Lemons</span>
+            <span class="slider-value" id="lemonsValue">15</span>
+          </div>
+          <input
+            type="range"
+            class="slider"
+            id="lemonsSlider"
+            min="5"
+            max="30"
+            value="15"
+            step="1"
+          />
+          <div class="slider-info">
+            <span>5 lemons (10 cups)</span>
+            <span>30 lemons (60 cups)</span>
+          </div>
+
+          <div class="calculation-preview">
+            <div class="calc-row">
+              <span>Lemons purchased:</span>
+              <span id="lemonsPurchased">15</span>
+            </div>
+            <div class="calc-row">
+              <span>Cost per lemon:</span>
+              <span>$0.50</span>
+            </div>
+            <div class="calc-row">
+              <span>Cups you can make:</span>
+              <span id="cupsCanMake">30</span>
+            </div>
+            <div class="calc-row">
+              <span>Total cost:</span>
+              <span id="lemonsCost">$7.50</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="nextStep(1)">
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Supplies -->
+      <div class="decision-card" id="step2">
+        <div class="decision-header">
+          <h2 class="decision-question">🥤 Choose your supply pack</h2>
+          <div class="educational-note">
+            <div class="educational-note-title">
+              <span>📚</span>
+              <span>Quality Matters!</span>
+            </div>
+            <p>
+              Happy customers tell their friends. Quality affects repeat
+              business!
+            </p>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div class="option-card" onclick="selectSupply('basic')">
+            <div class="option-header">
+              <div class="option-title">Basic Pack</div>
+              <div class="option-price">$5.00</div>
+            </div>
+            <ul class="option-features">
+              <li>Makes 20 cups</li>
+              <li>Standard taste</li>
+              <li>Normal customer satisfaction</li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectSupply('premium')">
+            <div class="option-header">
+              <div class="option-title">Premium Pack</div>
+              <div class="option-price">$10.00</div>
+            </div>
+            <ul class="option-features">
+              <li>Makes 20 cups</li>
+              <li>Delicious taste ⭐</li>
+              <li>20% more customers return</li>
+              <li>Word-of-mouth bonus 🗣️</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep(2)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step2Next"
+            onclick="nextStep(2)"
+            disabled=""
+          >
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Marketing -->
+      <div class="decision-card" id="step3">
+        <div class="decision-header">
+          <h2 class="decision-question">
+            📢 How will you advertise your stand?
+          </h2>
+          <div class="educational-note">
+            <div class="educational-note-title">
+              <span>📚</span>
+              <span>Marketing Investment</span>
+            </div>
+            <p>
+              Marketing is spending money to make money! Better advertising =
+              more customers.
+            </p>
+          </div>
+          <div class="hint-box">
+            <div class="hint-title">
+              <span>💡</span>
+              <span>Calculate</span>
+            </div>
+            <p>Will the extra customers pay for the advertising cost?</p>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div class="option-card" onclick="selectMarketing('free')">
+            <div class="option-header">
+              <div class="option-title">Hand-Made Sign</div>
+              <div class="option-price">$0.00</div>
+            </div>
+            <ul class="option-features">
+              <li>Attracts 10-15 customers</li>
+              <li>Neighborhood foot traffic only</li>
+              <li>Free option 💰</li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectMarketing('posters')">
+            <div class="option-header">
+              <div class="option-title">Colorful Posters</div>
+              <div class="option-price">$8.00</div>
+            </div>
+            <ul class="option-features">
+              <li>Attracts 20-30 customers</li>
+              <li>Catches attention of nearby streets</li>
+              <li>Eye-catching design 🎨</li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectMarketing('social')">
+            <div class="option-header">
+              <div class="option-title">Social Media Campaign</div>
+              <div class="option-price">$15.00</div>
+            </div>
+            <ul class="option-features">
+              <li>Attracts 35-50 customers</li>
+              <li>Parents help post online</li>
+              <li>Reaches wider community 🌐</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep(3)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step3Next"
+            onclick="nextStep(3)"
+            disabled=""
+          >
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Pricing -->
+      <div class="decision-card" id="step4">
+        <div class="decision-header">
+          <h2 class="decision-question">
+            💵 What price per cup will you charge?
+          </h2>
+          <div class="educational-note">
+            <div class="educational-note-title">
+              <span>📚</span>
+              <span>Price Elasticity</span>
+            </div>
+            <p>
+              Higher prices = fewer buyers. Find the sweet spot for maximum
+              profit!
+            </p>
+          </div>
+          <div class="hint-box">
+            <div class="hint-title">
+              <span>💡</span>
+              <span>Think About It</span>
+            </div>
+            <p>
+              Look at your costs. What price gives you good profit without
+              scaring away customers?
+            </p>
+          </div>
+        </div>
+
+        <div class="slider-container">
+          <div class="slider-header">
+            <span class="slider-label">Price per Cup</span>
+            <span class="slider-value" id="priceValue">$1.50</span>
+          </div>
+          <input
+            type="range"
+            class="slider"
+            id="priceSlider"
+            min="50"
+            max="500"
+            value="150"
+            step="25"
+          />
+          <div class="slider-info">
+            <span>$0.50 (budget-friendly)</span>
+            <span>$5.00 (premium)</span>
+          </div>
+
+          <div class="calculation-preview">
+            <div class="calc-row">
+              <span>Recommended range:</span>
+              <span>$0.75 - $1.25</span>
+            </div>
+            <div class="calc-row">
+              <span>Expected demand at this price:</span>
+              <span id="demandIndicator">High 📈</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep(4)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary" onclick="nextStep(4)">
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 5: Operating Hours -->
+      <div class="decision-card" id="step5">
+        <div class="decision-header">
+          <h2 class="decision-question">⏰ When will you sell?</h2>
+          <div class="educational-note">
+            <div class="educational-note-title">
+              <span>📚</span>
+              <span>Timing is Everything</span>
+            </div>
+            <p>
+              Different times of day bring different numbers and types of
+              customers!
+            </p>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div class="option-card" onclick="selectHours('morning')">
+            <div class="option-header">
+              <div class="option-title">Morning (9am-12pm)</div>
+            </div>
+            <ul class="option-features">
+              <li>Fewer people out 🌅</li>
+              <li>Customers thirsty from morning activities</li>
+              <li>Lower competition</li>
+              <li>Good for testing</li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectHours('afternoon')">
+            <div class="option-header">
+              <div class="option-title">Afternoon (12pm-3pm)</div>
+            </div>
+            <ul class="option-features">
+              <li>Hottest time of day ☀️</li>
+              <li>Most demand for cold drinks</li>
+              <li>More competition from lunch spots</li>
+              <li>Peak selling opportunity</li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectHours('evening')">
+            <div class="option-header">
+              <div class="option-title">Evening (4pm-7pm)</div>
+            </div>
+            <ul class="option-features">
+              <li>People coming home 🏠</li>
+              <li>Tired and thirsty</li>
+              <li>Less competition</li>
+              <li>Steady customer flow</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep(5)">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step5Next"
+            onclick="calculateResults()"
+            disabled=""
+          >
+            <span>🎯 See Results!</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen -->
+      <div class="results-screen" id="resultsScreen">
+        <div class="results-hero" id="resultsHero">
+          <div class="results-icon" id="resultsIcon">🎉</div>
+          <h2 class="results-title" id="resultsTitle">
+            Outstanding Entrepreneur!
+          </h2>
+          <p class="results-subtitle" id="resultsSubtitle">
+            You made a great profit!
+          </p>
+          <div class="results-score">
+            <div style="font-size: 1.5rem; opacity: 0.9; margin-bottom: 0.5rem">
+              Final Score
+            </div>
+            <div id="finalScore">95</div>
+          </div>
+        </div>
+
+        <div id="achievementContainer"></div>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-card-icon">💰</div>
+            <div class="result-card-label">Total Profit</div>
+            <div class="result-card-value" id="totalProfit">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-card-icon">💵</div>
+            <div class="result-card-label">Revenue</div>
+            <div class="result-card-value" id="totalRevenue">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-card-icon">🥤</div>
+            <div class="result-card-label">Cups Sold</div>
+            <div class="result-card-value" id="cupsSold">0</div>
+          </div>
+          <div class="result-card">
+            <div class="result-card-icon">👥</div>
+            <div class="result-card-label">Customers</div>
+            <div class="result-card-value" id="totalCustomers">0</div>
+          </div>
+        </div>
+
+        <div class="breakdown-section">
+          <h3 class="section-title">
+            <span>📊</span>
+            <span>Financial Breakdown</span>
+          </h3>
+          <div id="financialBreakdown"></div>
+        </div>
+
+        <div class="breakdown-section">
+          <h3 class="section-title">
+            <span>📈</span>
+            <span>Customer Metrics</span>
+          </h3>
+          <div id="customerMetrics"></div>
+        </div>
+
+        <div class="breakdown-section">
+          <h3 class="section-title">
+            <span>💡</span>
+            <span>Key Insights</span>
+          </h3>
+          <ul class="insights-list" id="insightsList"></ul>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="location.reload()">
+            <span>↺</span>
+            <span>Play Again</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            onclick="window.location.href='games.html'"
+          >
+            <span>Back to Games</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Game State
+      const gameState = {
+        currentStep: 1,
+        cash: 50.0,
+        lemons: 15,
+        supplyType: null,
+        marketingType: null,
+        price: 1.5,
+        hours: null,
+        costs: {
+          lemons: 0,
+          supplies: 0,
+          marketing: 0,
+        },
+      };
+
+      // Constants
+      const LEMON_COST = 0.5;
+      const SUPPLY_COSTS = { basic: 5, premium: 10 };
+      const MARKETING_COSTS = { free: 0, posters: 8, social: 15 };
+      const BASE_CUSTOMERS = { free: 12, posters: 25, social: 42 };
+      const TIME_MULTIPLIERS = { morning: 0.9, afternoon: 1.2, evening: 1.0 };
+
+      // Initialize
+      document
+        .getElementById("lemonsSlider")
+        .addEventListener("input", updateLemons);
+      document
+        .getElementById("priceSlider")
+        .addEventListener("input", updatePrice);
+
+      function updateLemons() {
+        const value = parseInt(this.value);
+        gameState.lemons = value;
+        document.getElementById("lemonsValue").textContent = value;
+        document.getElementById("lemonsPurchased").textContent = value;
+        document.getElementById("cupsCanMake").textContent = value * 2;
+        const cost = value * LEMON_COST;
+        document.getElementById("lemonsCost").textContent =
+          "$" + cost.toFixed(2);
+        gameState.costs.lemons = cost;
+        updateCurrentCash();
+      }
+
+      function updatePrice() {
+        const value = parseInt(this.value) / 100;
+        gameState.price = value;
+        document.getElementById("priceValue").textContent =
+          "$" + value.toFixed(2);
+
+        let demand = "High 📈";
+        if (value > 3.0) demand = "Very Low 📉";
+        else if (value > 2.0) demand = "Low 📊";
+        else if (value > 1.25) demand = "Medium 📊";
+
+        document.getElementById("demandIndicator").textContent = demand;
+      }
+
+      function updateCurrentCash() {
+        const totalCosts =
+          gameState.costs.lemons +
+          gameState.costs.supplies +
+          gameState.costs.marketing;
+        const remaining = gameState.cash - totalCosts;
+        document.getElementById("currentCash").textContent =
+          "$" + remaining.toFixed(2);
+        document.getElementById("currentCash").style.color =
+          remaining < 0 ? "#ef4444" : "white";
+      }
+
+      function selectSupply(type) {
+        document.querySelectorAll("#step2 .option-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+        event.currentTarget.classList.add("selected");
+        gameState.supplyType = type;
+        gameState.costs.supplies = SUPPLY_COSTS[type];
+        document.getElementById("step2Next").disabled = false;
+        updateCurrentCash();
+      }
+
+      function selectMarketing(type) {
+        document.querySelectorAll("#step3 .option-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+        event.currentTarget.classList.add("selected");
+        gameState.marketingType = type;
+        gameState.costs.marketing = MARKETING_COSTS[type];
+        document.getElementById("step3Next").disabled = false;
+        updateCurrentCash();
+      }
+
+      function selectHours(time) {
+        document.querySelectorAll("#step5 .option-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+        event.currentTarget.classList.add("selected");
+        gameState.hours = time;
+        document.getElementById("step5Next").disabled = false;
+      }
+
+      function nextStep(current) {
+        // Hide current step
+        document.getElementById("step" + current).classList.remove("active");
+
+        // Show next step
+        const next = current + 1;
+        document.getElementById("step" + next).classList.add("active");
+
+        // Update progress
+        updateProgress(next);
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function previousStep(current) {
+        // Hide current step
+        document.getElementById("step" + current).classList.remove("active");
+
+        // Show previous step
+        const prev = current - 1;
+        document.getElementById("step" + prev).classList.add("active");
+
+        // Update progress
+        updateProgress(prev);
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function updateProgress(step) {
+        const steps = document.querySelectorAll(".step");
+        steps.forEach((stepEl, index) => {
+          stepEl.classList.remove("active", "completed");
+          if (index < step - 1) {
+            stepEl.classList.add("completed");
+          } else if (index === step - 1) {
+            stepEl.classList.add("active");
+          }
+        });
+      }
+
+      function calculateResults() {
+        // Hide decision cards
+        document.querySelectorAll(".decision-card").forEach((card) => {
+          card.style.display = "none";
+        });
+
+        // Calculate production capacity
+        const maxCupsFromLemons = gameState.lemons * 2;
+        const maxCupsFromSupplies = 20;
+        const maxCupsPossible = Math.min(
+          maxCupsFromLemons,
+          maxCupsFromSupplies
+        );
+
+        // Calculate customer attraction
+        const baseCustomers = BASE_CUSTOMERS[gameState.marketingType];
+        const qualityMultiplier =
+          gameState.supplyType === "premium" ? 1.2 : 1.0;
+        const timeMultiplier = TIME_MULTIPLIERS[gameState.hours];
+        const potentialCustomers = Math.floor(
+          baseCustomers * qualityMultiplier * timeMultiplier
+        );
+
+        // Calculate price elasticity
+        let demandFactor;
+        if (gameState.price <= 1.0) demandFactor = 1.0;
+        else if (gameState.price <= 2.0) demandFactor = 0.85;
+        else if (gameState.price <= 3.0) demandFactor = 0.6;
+        else demandFactor = 0.3;
+
+        // Calculate actual sales
+        const interestedCustomers = Math.floor(
+          potentialCustomers * demandFactor
+        );
+        const actualSales = Math.min(interestedCustomers, maxCupsPossible);
+        const cupsWasted = maxCupsPossible - actualSales;
+        const customersWalkedAway = Math.max(
+          0,
+          interestedCustomers - actualSales
+        );
+
+        // Calculate financials
+        const totalCosts =
+          gameState.costs.lemons +
+          gameState.costs.supplies +
+          gameState.costs.marketing;
+        const revenue = actualSales * gameState.price;
+        const profit = revenue - totalCosts;
+        const profitMargin = revenue > 0 ? (profit / revenue) * 100 : 0;
+
+        // Calculate score
+        let score, feedback, icon, subtitle;
+        if (profit > 20) {
+          score = 100;
+          feedback = "Outstanding Entrepreneur!";
+          subtitle = "Excellent profit! You're a business superstar! 🌟";
+          icon = "🎉";
+        } else if (profit >= 10) {
+          score = 80;
+          feedback = "Great Job!";
+          subtitle = "Solid profit. You made smart decisions!";
+          icon = "👏";
+        } else if (profit >= 1) {
+          score = 60;
+          feedback = "Good Effort!";
+          subtitle = "Small profit. There's room to improve!";
+          icon = "😊";
+        } else if (profit >= 0) {
+          score = 40;
+          feedback = "Break Even";
+          subtitle = "You covered your costs. Try different choices!";
+          icon = "😐";
+        } else {
+          score = 20;
+          feedback = "Learning Experience";
+          subtitle = "You lost money, but that's how we learn!";
+          icon = "📚";
+        }
+
+        // Check for achievements
+        const achievements = [];
+        if (actualSales === maxCupsPossible && cupsWasted === 0) {
+          achievements.push({
+            title: "Waste Not! 🎯",
+            desc: "You sold 100% of your lemonade with zero waste!",
+          });
+        }
+        if (profit >= 25) {
+          achievements.push({
+            title: "Sweet Profit 💰",
+            desc: "You earned over $25 in profit! Amazing!",
+          });
+        }
+        if (gameState.marketingType === "social" && profit > 15) {
+          achievements.push({
+            title: "Marketing Genius 🚀",
+            desc: "Your social media campaign paid off big time!",
+          });
+        }
+
+        // Display results
+        displayResults({
+          score,
+          feedback,
+          icon,
+          subtitle,
+          profit,
+          revenue,
+          totalCosts,
+          actualSales,
+          potentialCustomers,
+          interestedCustomers,
+          customersWalkedAway,
+          cupsWasted,
+          profitMargin,
+          achievements,
+        });
+
+        // Show confetti if good profit
+        if (profit > 15) {
+          createConfetti();
+        }
+      }
+
+      function displayResults(results) {
+        // Update hero section
+        document.getElementById("resultsIcon").textContent = results.icon;
+        document.getElementById("resultsTitle").textContent = results.feedback;
+        document.getElementById("resultsSubtitle").textContent =
+          results.subtitle;
+        document.getElementById("finalScore").textContent = results.score;
+
+        // Color code hero based on profit
+        const hero = document.getElementById("resultsHero");
+        if (results.profit > 15) {
+          hero.style.background = "linear-gradient(135deg, #10b981, #059669)";
+        } else if (results.profit < 0) {
+          hero.style.background = "linear-gradient(135deg, #ef4444, #dc2626)";
+        }
+
+        // Update result cards
+        document.getElementById("totalProfit").textContent =
+          "$" + results.profit.toFixed(2);
+        document.getElementById("totalProfit").style.color =
+          results.profit >= 0 ? "#10b981" : "#ef4444";
+        document.getElementById("totalRevenue").textContent =
+          "$" + results.revenue.toFixed(2);
+        document.getElementById("cupsSold").textContent = results.actualSales;
+        document.getElementById("totalCustomers").textContent =
+          results.potentialCustomers;
+
+        // Financial breakdown
+        const financialHTML = `
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>💵</span> Revenue (${
+                      results.actualSales
+                    } cups × $${gameState.price.toFixed(2)})</span>
+                    <span class="breakdown-value">$${results.revenue.toFixed(
+                      2
+                    )}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>🍋</span> Lemon Cost (${
+                      gameState.lemons
+                    } lemons)</span>
+                    <span class="breakdown-value">-$${gameState.costs.lemons.toFixed(
+                      2
+                    )}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>🥤</span> Supply Cost (${
+                      gameState.supplyType
+                    })</span>
+                    <span class="breakdown-value">-$${gameState.costs.supplies.toFixed(
+                      2
+                    )}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>📢</span> Marketing Cost (${
+                      gameState.marketingType
+                    })</span>
+                    <span class="breakdown-value">-$${gameState.costs.marketing.toFixed(
+                      2
+                    )}</span>
+                </div>
+                <div class="breakdown-total">
+                    <div class="breakdown-row">
+                        <span class="breakdown-label"><strong>Net Profit/Loss</strong></span>
+                        <span class="breakdown-value" style="color: ${
+                          results.profit >= 0 ? "#10b981" : "#ef4444"
+                        }">
+                            ${
+                              results.profit >= 0 ? "+" : ""
+                            }$${results.profit.toFixed(2)}
+                        </span>
+                    </div>
+                    <div class="breakdown-row" style="border: none; font-size: 0.875rem; padding-top: 0.5rem;">
+                        <span class="breakdown-label">Profit Margin</span>
+                        <span class="breakdown-value">${results.profitMargin.toFixed(
+                          1
+                        )}%</span>
+                    </div>
+                </div>
+            `;
+        document.getElementById("financialBreakdown").innerHTML = financialHTML;
+
+        // Customer metrics
+        const customerHTML = `
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>👥</span> Potential Customers</span>
+                    <span class="breakdown-value">${results.potentialCustomers}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>💚</span> Interested (after pricing)</span>
+                    <span class="breakdown-value">${results.interestedCustomers}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>🥤</span> Actually Bought</span>
+                    <span class="breakdown-value">${results.actualSales}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>😞</span> Walked Away</span>
+                    <span class="breakdown-value">${results.customersWalkedAway}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label"><span>🗑️</span> Cups Wasted</span>
+                    <span class="breakdown-value">${results.cupsWasted}</span>
+                </div>
+            `;
+        document.getElementById("customerMetrics").innerHTML = customerHTML;
+
+        // Generate insights
+        const insights = generateInsights(results);
+        const insightsHTML = insights
+          .map(
+            (insight) => `
+                <li class="insight-item">
+                    <span class="insight-icon">${insight.icon}</span>
+                    <div>
+                        <strong>${insight.title}</strong>
+                        <p style="color: var(--text-secondary); margin-top: 0.25rem;">${insight.text}</p>
+                    </div>
+                </li>
+            `
+          )
+          .join("");
+        document.getElementById("insightsList").innerHTML = insightsHTML;
+
+        // Display achievements
+        if (results.achievements.length > 0) {
+          const achievementsHTML = results.achievements
+            .map(
+              (ach) => `
+                    <div class="achievement-banner">
+                        <span class="achievement-icon">🏆</span>
+                        <div class="achievement-content">
+                            <div class="achievement-title">${ach.title}</div>
+                            <div class="achievement-desc">${ach.desc}</div>
+                        </div>
+                    </div>
+                `
+            )
+            .join("");
+          document.getElementById("achievementContainer").innerHTML =
+            achievementsHTML;
+        }
+
+        // Show results screen
+        document.getElementById("resultsScreen").classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function generateInsights(results) {
+        const insights = [];
+
+        // Price insights
+        if (gameState.price > 2.5) {
+          insights.push({
+            icon: "💵",
+            title: "Pricing Strategy",
+            text: `Your price of $${gameState.price.toFixed(
+              2
+            )} was quite high. Lower prices attract more customers!`,
+          });
+        } else if (gameState.price < 1.0 && results.profit < 10) {
+          insights.push({
+            icon: "💵",
+            title: "Pricing Too Low",
+            text: `At $${gameState.price.toFixed(
+              2
+            )} per cup, you need to sell a lot to make good profit. Try pricing between $1.00-$1.50.`,
+          });
+        } else if (results.profit > 15) {
+          insights.push({
+            icon: "🎯",
+            title: "Perfect Pricing!",
+            text: `Your price of $${gameState.price.toFixed(
+              2
+            )} was in the sweet spot - not too high, not too low!`,
+          });
+        }
+
+        // Marketing insights
+        if (
+          gameState.marketingType === "free" &&
+          results.customersWalkedAway > 5
+        ) {
+          insights.push({
+            icon: "📢",
+            title: "Marketing Opportunity",
+            text: "You had limited customers with the free sign. Investing in better marketing could have increased sales!",
+          });
+        } else if (gameState.marketingType === "social" && results.profit > 0) {
+          insights.push({
+            icon: "🚀",
+            title: "Marketing Investment Paid Off",
+            text: "Your social media campaign brought in lots of customers! Smart investment.",
+          });
+        }
+
+        // Supply insights
+        if (gameState.supplyType === "premium" && results.actualSales > 30) {
+          insights.push({
+            icon: "⭐",
+            title: "Quality Wins",
+            text: "Premium supplies created happy customers who likely told their friends!",
+          });
+        }
+
+        // Waste insights
+        if (results.cupsWasted > 10) {
+          insights.push({
+            icon: "🗑️",
+            title: "Reduce Waste",
+            text: `You wasted ${results.cupsWasted} cups. Next time, buy fewer lemons or improve marketing to sell more!`,
+          });
+        } else if (results.cupsWasted === 0) {
+          insights.push({
+            icon: "🎯",
+            title: "Zero Waste!",
+            text: "Perfect planning! You sold everything you made with no waste.",
+          });
+        }
+
+        // General advice
+        if (results.profit < 0) {
+          insights.push({
+            icon: "📚",
+            title: "Next Time",
+            text: "Try reducing costs or increasing price slightly. Every business has learning experiences!",
+          });
+        } else if (results.profit > 20) {
+          insights.push({
+            icon: "🌟",
+            title: "Entrepreneur Material",
+            text: "You have great business instincts! Consider more advanced simulations.",
+          });
+        }
+
+        return insights.slice(0, 4); // Limit to 4 insights
+      }
+
+      function createConfetti() {
+        const colors = ["#fbbf24", "#f59e0b", "#10b981", "#3b82f6", "#ec4899"];
+        for (let i = 0; i < 50; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement("div");
+            confetti.className = "confetti";
+            confetti.style.left = Math.random() * 100 + "%";
+            confetti.style.background =
+              colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = Math.random() * 0.5 + "s";
+            confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 3000);
+          }, i * 30);
+        }
+      }
+
+      // Initialize lemons and price displays
+      updateLemons.call(document.getElementById("lemonsSlider"));
+      updatePrice.call(document.getElementById("priceSlider"));
+    </script>
+  </body>
+</html>

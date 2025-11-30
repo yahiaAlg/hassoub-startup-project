@@ -16,29 +16,19 @@ class Scenario(models.Model):
     difficulty = models.CharField(
         max_length=20, choices=DIFFICULTY_CHOICES, verbose_name="الصعوبة"
     )
-    duration = models.CharField(max_length=50, verbose_name="المدة")
-    players_count = models.IntegerField(default=0, verbose_name="عدد اللاعبين")
-    rating = models.DecimalField(
-        max_digits=2, decimal_places=1, default=0.0, verbose_name="التقييم"
+
+    # Stats
+    capital = models.IntegerField(default=50, verbose_name="رأس المال")
+    duration = models.CharField(max_length=50, default="10-15", verbose_name="المدة")
+    age_range = models.CharField(
+        max_length=50, default="8-12", verbose_name="الفئة العمرية"
     )
+
+    # Rewards
     points_reward = models.IntegerField(default=50, verbose_name="مكافأة النقاط")
     coins_reward = models.IntegerField(default=25, verbose_name="مكافأة العملات")
 
-    # Badge types for featured scenarios
-    badge = models.CharField(
-        max_length=20,
-        blank=True,
-        choices=[
-            ("popular", "شائع"),
-            ("new", "جديد"),
-            ("featured", "مميز"),
-            ("challenge", "تحدي"),
-        ],
-        verbose_name="الشارة",
-    )
-
     is_active = models.BooleanField(default=True, verbose_name="نشط")
-    is_quick_play = models.BooleanField(default=False, verbose_name="لعب سريع")
     order = models.IntegerField(default=0, verbose_name="الترتيب")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاريخ الإنشاء")
 

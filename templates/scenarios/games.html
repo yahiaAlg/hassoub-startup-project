@@ -2,11 +2,31 @@
 {% load static %}
 
 {% block title %}
-    ألعاب التعلم
+    الألعاب والمحاكاة
 {% endblock title %}
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/scenarios/games.css' %}" />
+  <style>
+        .play-button, .filter-tab {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0);
+            animation: rippleEffect 0.6s ease-out;
+            pointer-events: none;
+        }
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
 {% endblock extra_css %}
 
 {% block content %}
@@ -14,84 +34,55 @@
     <div class="page-container">
         <!-- Back Button -->
         <a href="{% url 'pages:index' %}" class="back-button">
-            ← العودة إلى الرئيسية
+            ← العودة إلى لوحة التحكم
         </a>
 
         <!-- Page Header -->
         <div class="page-header">
             <h1 class="page-title">
                 🎮
-                ألعاب التعلم
+                الألعاب والمحاكاة
             </h1>
             <p class="page-subtitle">تعلم مهارات الأعمال أثناء الاستمتاع!</p>
         </div>
-
-        {% if quick_play_scenarios %}
-        <!-- Quick Play Section -->
-        <section class="section">
-            <div class="section-header">
-                <span style="font-size: 2em;">⚡</span>
-                <div>
-                    <h2 class="section-title">اللعب السريع</h2>
-                    <span class="section-subtitle">ابدأ لعبة سريعة في أقل من 5 دقائق</span>
-                </div>
-            </div>
-
-            <div class="quick-play-grid">
-                {% for scenario in quick_play_scenarios %}
-                <div class="quick-game-card" onclick="playQuickGame('{{ scenario.slug }}')">
-                    <span class="quick-game-icon">{{ scenario.icon }}</span>
-                    <h3 class="quick-game-title">{{ scenario.title }}</h3>
-                    <p class="quick-game-time">{{ scenario.duration }}</p>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
 
         <!-- Filter Tabs -->
         <div class="filter-tabs">
             <button class="filter-tab active" onclick="filterGames('all')">
                 🎮 جميع الألعاب
             </button>
-            <button class="filter-tab" onclick="filterGames('simulations')">
-                🪙 المحاكاة
+            <button class="filter-tab" onclick="filterGames('beginner')">
+                🌱 مبتدئ
             </button>
-            <button class="filter-tab" onclick="filterGames('puzzles')">
-                🧩 الألغاز
+            <button class="filter-tab" onclick="filterGames('intermediate')">
+                📊 متوسط
             </button>
-            <button class="filter-tab" onclick="filterGames('quizzes')">
-                ❓ الاختبارات
-            </button>
-            <button class="filter-tab" onclick="filterGames('strategy')">
-                ♟️ الاستراتيجية
+            <button class="filter-tab" onclick="filterGames('advanced')">
+                🏆 متقدم
             </button>
         </div>
 
-        {% if featured_scenarios %}
-        <!-- Featured Games Section -->
+        <!-- Business Scenario Games Section -->
         <section class="section">
             <div class="section-header">
-                <span style="font-size: 2em;">⭐</span>
+                <span style="font-size: 2em;">💼</span>
                 <div>
-                    <h2 class="section-title">الألعاب المميزة</h2>
+                    <h2 class="section-title">سيناريوهات الأعمال التفاعلية</h2>
+                    <span class="section-subtitle">ابدأ مشروعك الخاص وتعلم من خلال التجربة!</span>
                 </div>
             </div>
 
             <div class="games-grid">
-                {% for scenario in featured_scenarios %}
+                {% for scenario in scenarios %}
                 <div class="game-card">
-                    {% if scenario.badge %}
-                    <div class="game-badge badge-{{ scenario.badge }}">
-                        {% if scenario.badge == 'popular' %}🔥 شائع
-                        {% elif scenario.badge == 'new' %}🆕 جديد
-                        {% elif scenario.badge == 'featured' %}⭐ مميز
-                        {% elif scenario.badge == 'challenge' %}🏆 تحدي
+                    <div class="game-badge badge-{{ scenario.difficulty }}">
+                        {% if scenario.difficulty == 'easy' %}مبتدئ
+                        {% elif scenario.difficulty == 'medium' %}متوسط
+                        {% elif scenario.difficulty == 'hard' %}متقدم
                         {% endif %}
                     </div>
-                    {% endif %}
                     
-                    <div class="game-header">
+                    <div class="game-header theme-{{ scenario.slug }}">
                         <span class="game-icon">{{ scenario.icon }}</span>
                     </div>
                     
@@ -103,9 +94,9 @@
                         
                         <div class="game-stats">
                             <div class="stat-item">
-                                <span class="stat-icon">👥</span>
-                                <span class="stat-value">{{ scenario.players_count|default:"0" }}</span>
-                                <span class="stat-label">لاعب</span>
+                                <span class="stat-icon">💵</span>
+                                <span class="stat-value">${{ scenario.points_reward }}</span>
+                                <span class="stat-label">رأس المال</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-icon">⏱️</span>
@@ -113,65 +104,9 @@
                                 <span class="stat-label">دقيقة</span>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-icon">⭐</span>
-                                <span class="stat-value">{{ scenario.rating }}/5.0</span>
-                                <span class="stat-label">تقييم</span>
-                            </div>
-                        </div>
-                        
-                        <div class="game-footer">
-                            <span class="difficulty-badge difficulty-{{ scenario.difficulty }}">
-                                {{ scenario.get_difficulty_display }}
-                            </span>
-                            <a href="{% url 'scenarios:scenario_detail' scenario.slug %}" class="play-button">
-                                ▶ العب الآن
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
-
-        {% if more_scenarios %}
-        <!-- More Games Section -->
-        <section class="section">
-            <div class="section-header">
-                <span style="font-size: 2em;">🎯</span>
-                <div>
-                    <h2 class="section-title">المزيد من الألعاب</h2>
-                </div>
-            </div>
-
-            <div class="games-grid">
-                {% for scenario in more_scenarios %}
-                <div class="game-card">
-                    <div class="game-header">
-                        <span class="game-icon">{{ scenario.icon }}</span>
-                    </div>
-                    
-                    <div class="game-content">
-                        <h3 class="game-title">{{ scenario.title }}</h3>
-                        <p class="game-description">
-                            {{ scenario.description }}
-                        </p>
-                        
-                        <div class="game-stats">
-                            <div class="stat-item">
                                 <span class="stat-icon">👥</span>
-                                <span class="stat-value">{{ scenario.players_count|default:"0" }}</span>
-                                <span class="stat-label">لاعب</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">⏱️</span>
-                                <span class="stat-value">{{ scenario.duration }}</span>
-                                <span class="stat-label">دقيقة</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">⭐</span>
-                                <span class="stat-value">{{ scenario.rating }}/5.0</span>
-                                <span class="stat-label">تقييم</span>
+                                <span class="stat-value">8-15</span>
+                                <span class="stat-label">سنة</span>
                             </div>
                         </div>
                         
@@ -179,31 +114,24 @@
                             <span class="difficulty-badge difficulty-{{ scenario.difficulty }}">
                                 {{ scenario.get_difficulty_display }}
                             </span>
-                            <a href="{% url 'scenarios:scenario_detail' scenario.slug %}" class="play-button">
-                                ▶ العب الآن
-                            </a>
+                            <button class="play-button" onclick="playGame('{{ scenario.slug }}.html')">
+                                ▶ ابدأ المشروع
+                            </button>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </section>
-        {% endif %}
-
-        <!-- Load More Button -->
-        <div class="load-more">
-            <button class="load-more-button" onclick="loadMoreGames()">
-                🔥 تحميل المزيد من الألعاب
-            </button>
-        </div>
     </div>
 {% endblock content %}
 
 {% block extra_js %}
     <script>
-        // Play Quick Game
-        function playQuickGame(gameSlug) {
-            window.location.href = `/scenarios/${gameSlug}/`;
+        // Play Game
+        function playGame(gameFile) {
+            console.log(`بدء اللعبة: ${gameFile}`);
+            window.location.href = gameFile;
         }
 
         // Filter Games
@@ -218,34 +146,24 @@
             // Add active class to clicked tab
             event.target.classList.add('active');
             
-            const categoryNames = {
-                'all': 'جميع الألعاب',
-                'simulations': 'المحاكاة',
-                'puzzles': 'الألغاز',
-                'quizzes': 'الاختبارات',
-                'strategy': 'الاستراتيجية'
-            };
+            const cards = document.querySelectorAll('.game-card');
             
-            // TODO: Implement actual filtering via AJAX or page reload
-            console.log(`عرض: ${categoryNames[category]}`);
-        }
-
-        // Load More Games
-        function loadMoreGames() {
-            console.log('تحميل المزيد من الألعاب...');
-            
-            const button = event.target;
-            button.textContent = '⏳ جاري التحميل...';
-            button.disabled = true;
-            
-            // TODO: Implement actual AJAX loading
-            setTimeout(() => {
-                button.textContent = '✓ تم تحميل المزيد!';
-                setTimeout(() => {
-                    button.textContent = '🔥 تحميل المزيد من الألعاب';
-                    button.disabled = false;
-                }, 1500);
-            }, 1000);
+            cards.forEach(card => {
+                const badge = card.querySelector('.game-badge');
+                const badgeText = badge.textContent.toLowerCase();
+                
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else if (category === 'beginner' && badgeText.includes('مبتدئ')) {
+                    card.style.display = 'block';
+                } else if (category === 'intermediate' && badgeText.includes('متوسط')) {
+                    card.style.display = 'block';
+                } else if (category === 'advanced' && badgeText.includes('متقدم')) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         // Scroll Animation
@@ -274,50 +192,6 @@
                 card.style.opacity = '0';
                 observer.observe(card);
             });
-
-            // Quick game cards hover effects
-            document.querySelectorAll('.quick-game-card').forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.querySelector('.quick-game-icon').style.animation = 'bounce 0.8s';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.querySelector('.quick-game-icon').style.animation = 'bounce 2s infinite';
-                });
-            });
-        });
-
-        // Track Game Statistics
-        function trackGamePlay(gameName) {
-            const stats = {
-                gameName: gameName,
-                timestamp: new Date().toISOString(),
-                platform: 'web'
-            };
-            console.log('تتبع إحصائيات اللعبة:', stats);
-        }
-
-        // Add click tracking to all play buttons
-        document.querySelectorAll('.play-button').forEach(button => {
-            button.addEventListener('click', function() {
-                const gameCard = this.closest('.game-card');
-                const gameTitle = gameCard.querySelector('.game-title').textContent;
-                trackGamePlay(gameTitle);
-            });
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Press 'Q' for quick play
-            if (e.key === 'q' || e.key === 'Q') {
-                const quickPlay = document.querySelector('.quick-game-card');
-                if (quickPlay) quickPlay.scrollIntoView({ behavior: 'smooth' });
-            }
-            // Press 'F' for featured games
-            if (e.key === 'f' || e.key === 'F') {
-                const featured = document.querySelector('.games-grid');
-                if (featured) featured.scrollIntoView({ behavior: 'smooth' });
-            }
         });
 
         // Add ripple effect to buttons

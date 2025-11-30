@@ -1,0 +1,712 @@
+:root {
+  --ice-blue: #3b82f6;
+  --ice-blue-dark: #2563eb;
+  --snow-white: #ffffff;
+  --frost-blue: #dbeafe;
+  --winter-gray: #64748b;
+  --success-green: #10b981;
+  --danger-red: #ef4444;
+  --warning-orange: #f59e0b;
+  --dark-blue: #1e3a8a;
+  --light-blue: #eff6ff;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #1e293b;
+}
+
+/* Header */
+.game-header {
+  background: linear-gradient(135deg, var(--ice-blue), var(--ice-blue-dark));
+  color: white;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.game-title h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.header-stats {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.header-stat {
+  text-align: center;
+}
+
+.header-stat-label {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.header-stat-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+/* Main Container */
+.main-container {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Setup Phase */
+.setup-container {
+  background: var(--snow-white);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: var(--shadow-xl);
+  margin-bottom: 2rem;
+}
+
+.step-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.step-number {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--ice-blue), var(--ice-blue-dark));
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 auto 1rem;
+}
+
+.step-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--dark-blue);
+}
+
+.step-description {
+  color: var(--winter-gray);
+  font-size: 1.125rem;
+}
+
+/* Options Grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.option-card {
+  background: var(--light-blue);
+  border: 3px solid transparent;
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.option-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--ice-blue);
+}
+
+.option-card.selected {
+  border-color: var(--ice-blue);
+  background: white;
+  box-shadow: var(--shadow-lg);
+}
+
+.option-card.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--success-green);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.option-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.option-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--dark-blue);
+}
+
+.option-price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ice-blue);
+  margin-bottom: 1rem;
+}
+
+.option-details {
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--winter-gray);
+}
+
+.option-details li {
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.option-details li::before {
+  content: "•";
+  color: var(--ice-blue);
+  font-weight: 800;
+}
+
+/* Info Box */
+.info-box {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1),
+    rgba(37, 99, 235, 0.1)
+  );
+  border-left: 4px solid var(--ice-blue);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.info-box-title {
+  font-weight: 800;
+  color: var(--dark-blue);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Buttons */
+.btn-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.btn {
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--ice-blue), var(--ice-blue-dark));
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--ice-blue);
+  border: 2px solid var(--ice-blue);
+}
+
+.btn-secondary:hover {
+  background: var(--frost-blue);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Game Board */
+.game-board {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.main-panel {
+  background: var(--snow-white);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: var(--shadow-xl);
+}
+
+.sidebar-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.panel {
+  background: var(--snow-white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.panel-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--dark-blue);
+}
+
+/* Week Display */
+.week-header {
+  background: linear-gradient(135deg, var(--ice-blue), var(--ice-blue-dark));
+  color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.week-number {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.weather-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.weather-icon {
+  font-size: 4rem;
+}
+
+/* Storm Card */
+.storm-card {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1),
+    rgba(147, 197, 253, 0.2)
+  );
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px solid var(--ice-blue);
+}
+
+.storm-intensity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.snow-depth {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--ice-blue);
+}
+
+/* Customer Queue */
+.customer-queue {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.customer-item {
+  background: var(--frost-blue);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.customer-item.contract {
+  border-left: 4px solid var(--success-green);
+}
+
+.customer-info {
+  flex: 1;
+}
+
+.customer-name {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.customer-details {
+  font-size: 0.875rem;
+  color: var(--winter-gray);
+}
+
+.job-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ice-blue);
+}
+
+/* Progress Bar */
+.progress-container {
+  background: var(--frost-blue);
+  border-radius: 50px;
+  height: 30px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--ice-blue), var(--success-green));
+  height: 100%;
+  transition: width 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.stat-box {
+  background: var(--frost-blue);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--winter-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--dark-blue);
+  margin-top: 0.25rem;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--snow-white);
+  border-radius: 24px;
+  padding: 3rem;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modal-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark-blue);
+  margin-bottom: 0.5rem;
+}
+
+/* Results */
+.results-section {
+  margin: 2rem 0;
+}
+
+.results-section h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--dark-blue);
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--frost-blue);
+}
+
+.result-label {
+  color: var(--winter-gray);
+}
+
+.result-value {
+  font-weight: 700;
+  color: var(--dark-blue);
+}
+
+/* Winter Timeline */
+.winter-timeline {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.week-block {
+  min-width: 80px;
+  height: 100px;
+  background: var(--frost-blue);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.week-block.snow {
+  background: linear-gradient(135deg, var(--ice-blue), var(--ice-blue-dark));
+  color: white;
+}
+
+.week-block-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.week-block-icon {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .game-board {
+    grid-template-columns: 1fr;
+  }
+
+  .header-stats {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .setup-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .btn-container {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Animations */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: white;
+  font-size: 1.5rem;
+  animation: snowfall linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Pricing Slider */
+.price-slider {
+  margin: 2rem 0;
+}
+
+.slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 50px;
+  background: var(--frost-blue);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ice-blue);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ice-blue);
+  cursor: pointer;
+  border: none;
+}
+
+.price-display {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ice-blue);
+  margin: 1rem 0;
+}
+
+.price-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--winter-gray);
+}
+
+/* Territory Map */
+.territory-map {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.territory-block {
+  aspect-ratio: 1;
+  background: var(--frost-blue);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  position: relative;
+}
+
+.territory-block.home {
+  background: linear-gradient(135deg, var(--success-green), #059669);
+  color: white;
+}
+
+.territory-block.covered {
+  background: linear-gradient(135deg, var(--ice-blue), var(--ice-blue-dark));
+  color: white;
+}

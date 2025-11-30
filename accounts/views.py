@@ -331,8 +331,10 @@ def progress_rewards(request):
     """Progress and rewards page"""
     profile = request.user.profile
 
-    # All achievements
-    all_achievements = Achievement.objects.filter(is_active=True)
+    # All achievements with earned status
+    all_achievements = Achievement.objects.filter(is_active=True).order_by(
+        "order", "name"
+    )
     user_achievement_ids = UserAchievement.objects.filter(
         user=request.user
     ).values_list("achievement_id", flat=True)
@@ -350,6 +352,7 @@ def progress_rewards(request):
     # Level progress
     next_level_points = 0
     current_level = profile.level
+
     if current_level == 1:
         next_level_points = 100
     elif current_level == 2:
@@ -358,12 +361,14 @@ def progress_rewards(request):
         next_level_points = 600
     elif current_level == 4:
         next_level_points = 1000
+    elif current_level == 5:
+        next_level_points = 2000
     else:
-        next_level_points = 1000 + (current_level - 4) * 500
+        next_level_points = 2000 + (current_level - 5) * 500
 
     progress_percentage = profile.get_progress_to_next_level()
 
-    # Recent rewards
+    # Recent achievements (last 10)
     recent_achievements = (
         UserAchievement.objects.filter(user=request.user)
         .select_related("achievement")
@@ -382,7 +387,7 @@ def progress_rewards(request):
         "streak": streak,
     }
 
-    return render(request, "accounts/progress_rewards.html", context)
+    return render(request, "accounts/progress-rewards-ar.html", context)
 
 
 @login_required
