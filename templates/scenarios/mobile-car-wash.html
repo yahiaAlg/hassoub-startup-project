@@ -1,1450 +1,1714 @@
-<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta name="x-poe-datastore-behavior" content="local_only" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mobile Car Wash Tycoon - BizKids Learning Platform</title>
-    <link rel="stylesheet" href="mobile-car-wash.css">
-<script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script></head>
-<body>
+    <link rel="stylesheet" href="{% static "css/scenarios/mobile-car-wash.css" %}" />
+    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
+  </head>
+  <body>
     <!-- Header -->
     <header class="game-header">
-        <div class="header-content">
-            <div class="game-title">
-                <span style="font-size: 2.5rem;">🚗</span>
-                <div>
-                    <h1>Mobile Car Wash Tycoon</h1>
-                    <p style="opacity: 0.9; font-size: 0.875rem;">Build your service business empire!</p>
-                </div>
-            </div>
-            <a href="games.html" class="back-link">
-                <span>←</span>
-                <span>Back to Games</span>
-            </a>
+      <div class="header-content">
+        <div class="game-title">
+          <span style="font-size: 2.5rem">🚗</span>
+          <div>
+            <h1>Mobile Car Wash Tycoon</h1>
+            <p style="opacity: 0.9; font-size: 0.875rem">
+              Build your service business empire!
+            </p>
+          </div>
         </div>
+        <a href="games.html" class="back-link">
+          <span>←</span>
+          <span>Back to Games</span>
+        </a>
+      </div>
     </header>
 
     <!-- Progress Bar -->
     <div class="progress-container">
-        <div class="progress-bar">
-            <div class="progress-steps">
-                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                <div class="step active" data-step="1">
-                    <div class="step-circle">1</div>
-                    <div class="step-label">Equipment</div>
-                </div>
-                <div class="step" data-step="2">
-                    <div class="step-circle">2</div>
-                    <div class="step-label">Services</div>
-                </div>
-                <div class="step" data-step="3">
-                    <div class="step-circle">3</div>
-                    <div class="step-label">Location</div>
-                </div>
-                <div class="step" data-step="4">
-                    <div class="step-circle">4</div>
-                    <div class="step-label">Marketing</div>
-                </div>
-                <div class="step" data-step="5">
-                    <div class="step-circle">5</div>
-                    <div class="step-label">Operations</div>
-                </div>
-                <div class="step" data-step="6">
-                    <div class="step-circle">6</div>
-                    <div class="step-label">Weather</div>
-                </div>
-                <div class="step" data-step="7">
-                    <div class="step-circle">7</div>
-                    <div class="step-label">Retention</div>
-                </div>
-            </div>
+      <div class="progress-bar">
+        <div class="progress-steps">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+          <div class="step active" data-step="1">
+            <div class="step-circle">1</div>
+            <div class="step-label">Equipment</div>
+          </div>
+          <div class="step" data-step="2">
+            <div class="step-circle">2</div>
+            <div class="step-label">Services</div>
+          </div>
+          <div class="step" data-step="3">
+            <div class="step-circle">3</div>
+            <div class="step-label">Location</div>
+          </div>
+          <div class="step" data-step="4">
+            <div class="step-circle">4</div>
+            <div class="step-label">Marketing</div>
+          </div>
+          <div class="step" data-step="5">
+            <div class="step-circle">5</div>
+            <div class="step-label">Operations</div>
+          </div>
+          <div class="step" data-step="6">
+            <div class="step-circle">6</div>
+            <div class="step-label">Weather</div>
+          </div>
+          <div class="step" data-step="7">
+            <div class="step-circle">7</div>
+            <div class="step-label">Retention</div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Main Container -->
     <div class="main-container">
-        <!-- Step 1: Equipment -->
-        <div class="decision-screen active" id="step1">
-            <div class="decision-header">
-                <div class="decision-title">Choose Your Equipment</div>
-                <div class="decision-description">Your equipment determines service quality, speed, and customer appeal.</div>
-                <div class="educational-note">
-                    <span class="educational-note-icon">💡</span>
-                    <p>Better equipment costs more but lets you work faster and charge more!</p>
-                </div>
-            </div>
-
-            <div class="options-grid">
-                <div class="option-card" onclick="selectOption('equipment', 'basic')">
-                    <div class="option-icon">🪣</div>
-                    <div class="option-title">Basic Setup</div>
-                    <div class="option-price">$20.00</div>
-                    <div class="option-description">Start simple with essential supplies</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Buckets, sponges, basic soap</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Wash 2 cars per hour</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Standard quality results</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Attracts budget customers</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('equipment', 'professional')">
-                    <div class="option-icon">💦</div>
-                    <div class="option-title">Professional Setup</div>
-                    <div class="option-price">$45.00</div>
-                    <div class="option-description">Step up with professional-grade tools</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Pressure washer, microfiber, premium soap</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Wash 3 cars per hour</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>High-quality results</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>"Professional grade" marketing</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('equipment', 'premium')">
-                    <div class="option-icon">✨</div>
-                    <div class="option-title">Premium Setup</div>
-                    <div class="option-price">$75.00</div>
-                    <div class="option-description">Go all-in with commercial equipment</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Commercial equipment, eco-friendly products</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Wash 4 cars per hour</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Excellent results with waxing</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>"Eco-friendly certified" appeal</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="step1Next" onclick="nextStep()" disabled="">
-                    <span>Continue</span>
-                    <span>→</span>
-                </button>
-            </div>
+      <!-- Step 1: Equipment -->
+      <div class="decision-screen active" id="step1">
+        <div class="decision-header">
+          <div class="decision-title">Choose Your Equipment</div>
+          <div class="decision-description">
+            Your equipment determines service quality, speed, and customer
+            appeal.
+          </div>
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <p>
+              Better equipment costs more but lets you work faster and charge
+              more!
+            </p>
+          </div>
         </div>
 
-        <!-- Step 2: Service Pricing -->
-        <div class="decision-screen" id="step2">
-            <div class="decision-header">
-                <div class="decision-title">Design Your Service Menu</div>
-                <div class="decision-description">Create service tiers to appeal to different customers. Price each service appropriately.</div>
-                <div class="educational-note">
-                    <span class="educational-note-icon">💡</span>
-                    <p>Service tiers let customers choose what they value. Upselling increases revenue!</p>
-                </div>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectOption('equipment', 'basic')">
+            <div class="option-icon">🪣</div>
+            <div class="option-title">Basic Setup</div>
+            <div class="option-price">$20.00</div>
+            <div class="option-description">
+              Start simple with essential supplies
             </div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Buckets, sponges, basic soap</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Wash 2 cars per hour</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Standard quality results</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Attracts budget customers</span>
+              </li>
+            </ul>
+          </div>
 
-            <div class="pricing-inputs">
-                <div class="pricing-item">
-                    <div class="pricing-header">
-                        <div class="pricing-tier-name">🧼 Basic Wash</div>
-                    </div>
-                    <div class="pricing-details">
-                        Exterior wash only • 20-30 minutes • Low effort, high volume potential
-                    </div>
-                    <div class="price-input-group">
-                        <label class="price-input-label">Price:</label>
-                        <input type="number" class="price-input" id="basicPrice" min="5" max="50" step="0.5" value="12" oninput="validatePricing()">
-                    </div>
-                    <div class="suggested-range">Suggested: $12 - $15</div>
-                </div>
-
-                <div class="pricing-item">
-                    <div class="pricing-header">
-                        <div class="pricing-tier-name">⭐ Deluxe Wash</div>
-                    </div>
-                    <div class="pricing-details">
-                        Exterior + interior vacuum + windows • 40-50 minutes • Medium effort, medium volume
-                    </div>
-                    <div class="price-input-group">
-                        <label class="price-input-label">Price:</label>
-                        <input type="number" class="price-input" id="deluxePrice" min="10" max="100" step="0.5" value="25" oninput="validatePricing()">
-                    </div>
-                    <div class="suggested-range">Suggested: $25 - $35</div>
-                </div>
-
-                <div class="pricing-item">
-                    <div class="pricing-header">
-                        <div class="pricing-tier-name">💎 Ultimate Detail</div>
-                    </div>
-                    <div class="pricing-details">
-                        Everything + wax + tire shine + dashboard • 60-75 minutes • High effort, premium price
-                    </div>
-                    <div class="price-input-group">
-                        <label class="price-input-label">Price:</label>
-                        <input type="number" class="price-input" id="ultimatePrice" min="20" max="150" step="0.5" value="50" oninput="validatePricing()">
-                    </div>
-                    <div class="suggested-range">Suggested: $50 - $65</div>
-                </div>
+          <div
+            class="option-card"
+            onclick="selectOption('equipment', 'professional')"
+          >
+            <div class="option-icon">💦</div>
+            <div class="option-title">Professional Setup</div>
+            <div class="option-price">$45.00</div>
+            <div class="option-description">
+              Step up with professional-grade tools
             </div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Pressure washer, microfiber, premium soap</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Wash 3 cars per hour</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>High-quality results</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>"Professional grade" marketing</span>
+              </li>
+            </ul>
+          </div>
 
-            <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="previousStep()">
-                    <span>←</span>
-                    <span>Back</span>
-                </button>
-                <button class="btn btn-primary" onclick="nextStep()">
-                    <span>Continue</span>
-                    <span>→</span>
-                </button>
+          <div
+            class="option-card"
+            onclick="selectOption('equipment', 'premium')"
+          >
+            <div class="option-icon">✨</div>
+            <div class="option-title">Premium Setup</div>
+            <div class="option-price">$75.00</div>
+            <div class="option-description">
+              Go all-in with commercial equipment
             </div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Commercial equipment, eco-friendly products</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Wash 4 cars per hour</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Excellent results with waxing</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>"Eco-friendly certified" appeal</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <!-- Step 3: Operating Area -->
-        <div class="decision-screen" id="step3">
-            <div class="decision-header">
-                <div class="decision-title">Choose Your Service Area</div>
-                <div class="decision-description">Different neighborhoods have different customer needs and price tolerances.</div>
-                <div class="educational-note">
-                    <span class="educational-note-icon">💡</span>
-                    <p>Different neighborhoods have different customer needs and price tolerances!</p>
-                </div>
-            </div>
+        <div class="action-buttons">
+          <button
+            class="btn btn-primary"
+            id="step1Next"
+            onclick="nextStep()"
+            disabled=""
+          >
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
 
-            <div class="options-grid">
-                <div class="option-card" onclick="selectOption('area', 'own')">
-                    <div class="option-icon">🏘️</div>
-                    <div class="option-title">Own Neighborhood</div>
-                    <div class="option-price">$0.00</div>
-                    <div class="option-description">Start close to home</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>30-50 potential customers</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>No travel time</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Price-sensitive customers</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Word-of-mouth marketing effective</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('area', 'adjacent')">
-                    <div class="option-icon">🏙️</div>
-                    <div class="option-title">Adjacent Neighborhood</div>
-                    <div class="option-price">$10.00</div>
-                    <div class="option-description">Expand your reach with flyer campaign</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>80-120 potential customers</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>5-10 min travel between jobs</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Middle-income area</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>More competition</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('area', 'wealthy')">
-                    <div class="option-icon">🏛️</div>
-                    <div class="option-title">Wealthy Suburb</div>
-                    <div class="option-price">$25.00</div>
-                    <div class="option-description">Target premium customers</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>40-60 potential customers</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>15-20 min travel per job</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>High-income area</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Higher prices accepted</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="previousStep()">
-                    <span>←</span>
-                    <span>Back</span>
-                </button>
-                <button class="btn btn-primary" id="step3Next" onclick="nextStep()" disabled="">
-                    <span>Continue</span>
-                    <span>→</span>
-                </button>
-            </div>
+      <!-- Step 2: Service Pricing -->
+      <div class="decision-screen" id="step2">
+        <div class="decision-header">
+          <div class="decision-title">Design Your Service Menu</div>
+          <div class="decision-description">
+            Create service tiers to appeal to different customers. Price each
+            service appropriately.
+          </div>
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <p>
+              Service tiers let customers choose what they value. Upselling
+              increases revenue!
+            </p>
+          </div>
         </div>
 
-        <!-- Step 4: Marketing -->
-        <div class="decision-screen" id="step4">
-            <div class="decision-header">
-                <div class="decision-title">Customer Acquisition Strategy</div>
-                <div class="decision-description">How will you attract your first customers?</div>
-                <div class="educational-note">
-                    <span class="educational-note-icon">💡</span>
-                    <p>Customer acquisition has costs - time or money. Which strategy fits your business?</p>
-                </div>
+        <div class="pricing-inputs">
+          <div class="pricing-item">
+            <div class="pricing-header">
+              <div class="pricing-tier-name">🧼 Basic Wash</div>
             </div>
-
-            <div class="options-grid">
-                <div class="option-card" onclick="selectOption('marketing', 'flyers')">
-                    <div class="option-icon">📄</div>
-                    <div class="option-title">Door-to-Door Flyers</div>
-                    <div class="option-price">$5.00</div>
-                    <div class="option-description">Personal touch with hand delivery</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Hand-deliver 100 flyers</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>5-8% response rate</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Personal connection</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Time-intensive</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('marketing', 'social')">
-                    <div class="option-icon">📱</div>
-                    <div class="option-title">Social Media</div>
-                    <div class="option-price">Free</div>
-                    <div class="option-description">Easy digital marketing</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Post in local groups</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>3-5% response rate</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Quick and free</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Less personal</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('marketing', 'discount')">
-                    <div class="option-icon">🎁</div>
-                    <div class="option-title">First-Time Discount</div>
-                    <div class="option-price">20% Off</div>
-                    <div class="option-description">Build customer base with promotional pricing</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>10-12% response rate</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Lower initial profit</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Builds customer base</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Repeat business potential</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('marketing', 'referral')">
-                    <div class="option-icon">🤝</div>
-                    <div class="option-title">Referral Program</div>
-                    <div class="option-price">$5 Credit</div>
-                    <div class="option-description">Grow through word-of-mouth</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>$5 credit per referral</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Viral growth potential</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Costs only when it works</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Builds loyalty</span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="pricing-details">
+              Exterior wash only • 20-30 minutes • Low effort, high volume
+              potential
             </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="previousStep()">
-                    <span>←</span>
-                    <span>Back</span>
-                </button>
-                <button class="btn btn-primary" id="step4Next" onclick="nextStep()" disabled="">
-                    <span>Continue</span>
-                    <span>→</span>
-                </button>
+            <div class="price-input-group">
+              <label class="price-input-label">Price:</label>
+              <input
+                type="number"
+                class="price-input"
+                id="basicPrice"
+                min="5"
+                max="50"
+                step="0.5"
+                value="12"
+                oninput="validatePricing()"
+              />
             </div>
+            <div class="suggested-range">Suggested: $12 - $15</div>
+          </div>
+
+          <div class="pricing-item">
+            <div class="pricing-header">
+              <div class="pricing-tier-name">⭐ Deluxe Wash</div>
+            </div>
+            <div class="pricing-details">
+              Exterior + interior vacuum + windows • 40-50 minutes • Medium
+              effort, medium volume
+            </div>
+            <div class="price-input-group">
+              <label class="price-input-label">Price:</label>
+              <input
+                type="number"
+                class="price-input"
+                id="deluxePrice"
+                min="10"
+                max="100"
+                step="0.5"
+                value="25"
+                oninput="validatePricing()"
+              />
+            </div>
+            <div class="suggested-range">Suggested: $25 - $35</div>
+          </div>
+
+          <div class="pricing-item">
+            <div class="pricing-header">
+              <div class="pricing-tier-name">💎 Ultimate Detail</div>
+            </div>
+            <div class="pricing-details">
+              Everything + wax + tire shine + dashboard • 60-75 minutes • High
+              effort, premium price
+            </div>
+            <div class="price-input-group">
+              <label class="price-input-label">Price:</label>
+              <input
+                type="number"
+                class="price-input"
+                id="ultimatePrice"
+                min="20"
+                max="150"
+                step="0.5"
+                value="50"
+                oninput="validatePricing()"
+              />
+            </div>
+            <div class="suggested-range">Suggested: $50 - $65</div>
+          </div>
         </div>
 
-        <!-- Step 5: Operations Philosophy -->
-        <div class="decision-screen" id="step5">
-            <div class="decision-header">
-                <div class="decision-title">Service Philosophy</div>
-                <div class="decision-description">Will you prioritize speed or quality?</div>
-                <div class="educational-note">
-                    <span class="educational-note-icon">💡</span>
-                    <p>In service businesses, quality affects repeat customers and referrals!</p>
-                </div>
-            </div>
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep()">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary" onclick="nextStep()">
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
 
-            <div class="options-grid">
-                <div class="option-card" onclick="selectOption('operations', 'speed')">
-                    <div class="option-icon">⚡</div>
-                    <div class="option-title">Speed-Focused</div>
-                    <div class="option-price">Volume Strategy</div>
-                    <div class="option-description">Wash more cars per day</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Complete jobs 20% faster</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>More customers, more revenue</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Quality drops to 80%</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Fewer repeat customers</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('operations', 'quality')">
-                    <div class="option-icon">⭐</div>
-                    <div class="option-title">Quality-Focused</div>
-                    <div class="option-price">Premium Strategy</div>
-                    <div class="option-description">Perfect each job</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Quality increases to 120%</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>+40% repeat business</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Better reviews &amp; referrals</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Jobs take 20% longer</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('operations', 'balanced')">
-                    <div class="option-icon">⚖️</div>
-                    <div class="option-title">Balanced Approach</div>
-                    <div class="option-price">Standard Strategy</div>
-                    <div class="option-description">Normal speed and quality</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Standard speed</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Standard quality (100%)</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Steady business model</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Consistent results</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="previousStep()">
-                    <span>←</span>
-                    <span>Back</span>
-                </button>
-                <button class="btn btn-primary" id="step5Next" onclick="nextStep()" disabled="">
-                    <span>Continue</span>
-                    <span>→</span>
-                </button>
-            </div>
+      <!-- Step 3: Operating Area -->
+      <div class="decision-screen" id="step3">
+        <div class="decision-header">
+          <div class="decision-title">Choose Your Service Area</div>
+          <div class="decision-description">
+            Different neighborhoods have different customer needs and price
+            tolerances.
+          </div>
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <p>
+              Different neighborhoods have different customer needs and price
+              tolerances!
+            </p>
+          </div>
         </div>
 
-        <!-- Step 6: Weather Plan -->
-        <div class="decision-screen" id="step6">
-            <div class="decision-header">
-                <div class="decision-title">Weather Contingency Plan</div>
-                <div class="decision-description">What's your strategy for rainy days?</div>
-                <div class="educational-note">
-                    <span class="educational-note-icon">💡</span>
-                    <p>Weather can impact service businesses. Plan ahead to minimize disruption!</p>
-                </div>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectOption('area', 'own')">
+            <div class="option-icon">🏘️</div>
+            <div class="option-title">Own Neighborhood</div>
+            <div class="option-price">$0.00</div>
+            <div class="option-description">Start close to home</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>30-50 potential customers</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>No travel time</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Price-sensitive customers</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Word-of-mouth marketing effective</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectOption('area', 'adjacent')">
+            <div class="option-icon">🏙️</div>
+            <div class="option-title">Adjacent Neighborhood</div>
+            <div class="option-price">$10.00</div>
+            <div class="option-description">
+              Expand your reach with flyer campaign
             </div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>80-120 potential customers</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>5-10 min travel between jobs</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Middle-income area</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>More competition</span>
+              </li>
+            </ul>
+          </div>
 
-            <div class="options-grid">
-                <div class="option-card" onclick="selectOption('weather', 'cancel')">
-                    <div class="option-icon">☔</div>
-                    <div class="option-title">No Rain Policy</div>
-                    <div class="option-price">$0.00</div>
-                    <div class="option-description">Cancel on rainy days</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>No additional cost</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Lose all revenue on rain days</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Unpredictable income</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('weather', 'covered')">
-                    <div class="option-icon">🏠</div>
-                    <div class="option-title">Covered Service</div>
-                    <div class="option-price">$15.00</div>
-                    <div class="option-description">Offer garage/carport service</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Work rain or shine</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Portable canopy included</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Weather-proof income</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>$15 upfront investment</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('weather', 'discount')">
-                    <div class="option-icon">🌧️</div>
-                    <div class="option-title">Rain Discount</div>
-                    <div class="option-price">25% Off</div>
-                    <div class="option-description">Special pricing in bad weather</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Work through weather</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Attract bargain hunters</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Keep income flowing</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Lower profit margin</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="previousStep()">
-                    <span>←</span>
-                    <span>Back</span>
-                </button>
-                <button class="btn btn-primary" id="step6Next" onclick="nextStep()" disabled="">
-                    <span>Continue</span>
-                    <span>→</span>
-                </button>
-            </div>
+          <div class="option-card" onclick="selectOption('area', 'wealthy')">
+            <div class="option-icon">🏛️</div>
+            <div class="option-title">Wealthy Suburb</div>
+            <div class="option-price">$25.00</div>
+            <div class="option-description">Target premium customers</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>40-60 potential customers</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>15-20 min travel per job</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>High-income area</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Higher prices accepted</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <!-- Step 7: Retention Strategy -->
-        <div class="decision-screen" id="step7">
-            <div class="decision-header">
-                <div class="decision-title">Customer Retention Strategy</div>
-                <div class="decision-description">How will you encourage repeat business?</div>
-                <div class="educational-note">
-                    <span class="educational-note-icon">💡</span>
-                    <p>Repeat customers are cheaper to serve than acquiring new ones. Build loyalty!</p>
-                </div>
-            </div>
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep()">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step3Next"
+            onclick="nextStep()"
+            disabled=""
+          >
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
 
-            <div class="options-grid">
-                <div class="option-card" onclick="selectOption('retention', 'loyalty')">
-                    <div class="option-icon">🎫</div>
-                    <div class="option-title">Loyalty Card</div>
-                    <div class="option-price">$5.00</div>
-                    <div class="option-description">5th wash free program</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Encourages repeat visits</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Builds customer lifetime value</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Tangible reward system</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Reduces one-time profit</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('retention', 'subscription')">
-                    <div class="option-icon">📅</div>
-                    <div class="option-title">Monthly Subscription</div>
-                    <div class="option-price">$60/month</div>
-                    <div class="option-description">4 washes per month package</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Predictable income</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Customer lock-in</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Easier planning</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Discounted vs individual</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="option-card" onclick="selectOption('retention', 'none')">
-                    <div class="option-icon">💵</div>
-                    <div class="option-title">No Special Program</div>
-                    <div class="option-price">$0.00</div>
-                    <div class="option-description">One-time pricing only</div>
-                    <ul class="option-features">
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Maximum per-wash profit</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>No upfront costs</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">✓</span>
-                            <span>Rely on quality &amp; word-of-mouth</span>
-                        </li>
-                        <li class="option-feature">
-                            <span class="feature-icon">⚠</span>
-                            <span>Less customer retention</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="previousStep()">
-                    <span>←</span>
-                    <span>Back</span>
-                </button>
-                <button class="btn btn-primary" id="step7Next" onclick="simulateBusiness()">
-                    <span>Start Business!</span>
-                    <span>🚀</span>
-                </button>
-            </div>
+      <!-- Step 4: Marketing -->
+      <div class="decision-screen" id="step4">
+        <div class="decision-header">
+          <div class="decision-title">Customer Acquisition Strategy</div>
+          <div class="decision-description">
+            How will you attract your first customers?
+          </div>
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <p>
+              Customer acquisition has costs - time or money. Which strategy
+              fits your business?
+            </p>
+          </div>
         </div>
 
-        <!-- Results Screen -->
-        <div class="results-screen" id="resultsScreen">
-            <div class="results-header">
-                <div class="results-icon" id="resultsIcon">🎉</div>
-                <div class="results-title" id="resultsTitle">Business Complete!</div>
-                <div class="results-subtitle" id="resultsSubtitle">Here's how your 4-week car wash business performed</div>
+        <div class="options-grid">
+          <div
+            class="option-card"
+            onclick="selectOption('marketing', 'flyers')"
+          >
+            <div class="option-icon">📄</div>
+            <div class="option-title">Door-to-Door Flyers</div>
+            <div class="option-price">$5.00</div>
+            <div class="option-description">
+              Personal touch with hand delivery
             </div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Hand-deliver 100 flyers</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>5-8% response rate</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Personal connection</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Time-intensive</span>
+              </li>
+            </ul>
+          </div>
 
-            <div class="results-grid">
-                <div class="result-card">
-                    <div class="result-card-header">
-                        <div class="result-card-icon">💰</div>
-                        <div class="result-card-title">Financial Performance</div>
-                    </div>
-                    <div class="result-main-value" id="totalProfit">$0.00</div>
-                    <div class="result-details">
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Total Revenue</span>
-                            <span class="result-detail-value" id="totalRevenue">$0.00</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Total Costs</span>
-                            <span class="result-detail-value" id="totalCosts">$0.00</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Profit Margin</span>
-                            <span class="result-detail-value" id="profitMargin">0%</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">ROI</span>
-                            <span class="result-detail-value" id="roi">0%</span>
-                        </div>
-                    </div>
-                </div>
+          <div
+            class="option-card"
+            onclick="selectOption('marketing', 'social')"
+          >
+            <div class="option-icon">📱</div>
+            <div class="option-title">Social Media</div>
+            <div class="option-price">Free</div>
+            <div class="option-description">Easy digital marketing</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Post in local groups</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>3-5% response rate</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Quick and free</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Less personal</span>
+              </li>
+            </ul>
+          </div>
 
-                <div class="result-card">
-                    <div class="result-card-header">
-                        <div class="result-card-icon">👥</div>
-                        <div class="result-card-title">Customer Metrics</div>
-                    </div>
-                    <div class="result-main-value" id="totalCustomers">0</div>
-                    <div class="result-details">
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">New Customers</span>
-                            <span class="result-detail-value" id="newCustomers">0</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Repeat Customers</span>
-                            <span class="result-detail-value" id="repeatCustomers">0</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Satisfaction</span>
-                            <span class="result-detail-value" id="satisfaction">0%</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Referrals</span>
-                            <span class="result-detail-value" id="referrals">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="result-card">
-                    <div class="result-card-header">
-                        <div class="result-card-icon">📊</div>
-                        <div class="result-card-title">Business Health</div>
-                    </div>
-                    <div class="result-main-value" id="clvCacRatio">0.0x</div>
-                    <div class="result-details">
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Customer LTV</span>
-                            <span class="result-detail-value" id="clv">$0.00</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Acquisition Cost</span>
-                            <span class="result-detail-value" id="cac">$0.00</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Repeat Rate</span>
-                            <span class="result-detail-value" id="repeatRate">0%</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Avg Transaction</span>
-                            <span class="result-detail-value" id="avgTransaction">$0.00</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="result-card">
-                    <div class="result-card-header">
-                        <div class="result-card-icon">⚡</div>
-                        <div class="result-card-title">Operational Efficiency</div>
-                    </div>
-                    <div class="result-main-value" id="capacityUtil">0%</div>
-                    <div class="result-details">
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Total Hours Worked</span>
-                            <span class="result-detail-value" id="hoursWorked">0h</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Avg Time/Job</span>
-                            <span class="result-detail-value" id="avgTimePerJob">0min</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Cars Washed</span>
-                            <span class="result-detail-value" id="totalCars">0</span>
-                        </div>
-                        <div class="result-detail-item">
-                            <span class="result-detail-label">Revenue/Hour</span>
-                            <span class="result-detail-value" id="revenuePerHour">$0.00</span>
-                        </div>
-                    </div>
-                </div>
+          <div
+            class="option-card"
+            onclick="selectOption('marketing', 'discount')"
+          >
+            <div class="option-icon">🎁</div>
+            <div class="option-title">First-Time Discount</div>
+            <div class="option-price">20% Off</div>
+            <div class="option-description">
+              Build customer base with promotional pricing
             </div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>10-12% response rate</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Lower initial profit</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Builds customer base</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Repeat business potential</span>
+              </li>
+            </ul>
+          </div>
 
-            <!-- Weekly Revenue Chart -->
-            <div class="chart-container">
-                <div class="chart-title">📈 Weekly Revenue Progress</div>
-                <div class="bar-chart" id="revenueChart"></div>
-            </div>
-
-            <!-- Learning Messages -->
-            <div class="learning-messages">
-                <div class="learning-title">
-                    <span>🎓</span>
-                    <span>Key Learnings</span>
-                </div>
-                <ul class="learning-list" id="learningList"></ul>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="location.href='games.html'">
-                    <span>🏠</span>
-                    <span>Back to Games</span>
-                </button>
-                <button class="btn btn-primary" onclick="location.reload()">
-                    <span>↺</span>
-                    <span>Play Again</span>
-                </button>
-            </div>
+          <div
+            class="option-card"
+            onclick="selectOption('marketing', 'referral')"
+          >
+            <div class="option-icon">🤝</div>
+            <div class="option-title">Referral Program</div>
+            <div class="option-price">$5 Credit</div>
+            <div class="option-description">Grow through word-of-mouth</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>$5 credit per referral</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Viral growth potential</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Costs only when it works</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Builds loyalty</span>
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep()">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step4Next"
+            onclick="nextStep()"
+            disabled=""
+          >
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 5: Operations Philosophy -->
+      <div class="decision-screen" id="step5">
+        <div class="decision-header">
+          <div class="decision-title">Service Philosophy</div>
+          <div class="decision-description">
+            Will you prioritize speed or quality?
+          </div>
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <p>
+              In service businesses, quality affects repeat customers and
+              referrals!
+            </p>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div
+            class="option-card"
+            onclick="selectOption('operations', 'speed')"
+          >
+            <div class="option-icon">⚡</div>
+            <div class="option-title">Speed-Focused</div>
+            <div class="option-price">Volume Strategy</div>
+            <div class="option-description">Wash more cars per day</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Complete jobs 20% faster</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>More customers, more revenue</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Quality drops to 80%</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Fewer repeat customers</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="option-card"
+            onclick="selectOption('operations', 'quality')"
+          >
+            <div class="option-icon">⭐</div>
+            <div class="option-title">Quality-Focused</div>
+            <div class="option-price">Premium Strategy</div>
+            <div class="option-description">Perfect each job</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Quality increases to 120%</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>+40% repeat business</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Better reviews &amp; referrals</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Jobs take 20% longer</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="option-card"
+            onclick="selectOption('operations', 'balanced')"
+          >
+            <div class="option-icon">⚖️</div>
+            <div class="option-title">Balanced Approach</div>
+            <div class="option-price">Standard Strategy</div>
+            <div class="option-description">Normal speed and quality</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Standard speed</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Standard quality (100%)</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Steady business model</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Consistent results</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep()">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step5Next"
+            onclick="nextStep()"
+            disabled=""
+          >
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 6: Weather Plan -->
+      <div class="decision-screen" id="step6">
+        <div class="decision-header">
+          <div class="decision-title">Weather Contingency Plan</div>
+          <div class="decision-description">
+            What's your strategy for rainy days?
+          </div>
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <p>
+              Weather can impact service businesses. Plan ahead to minimize
+              disruption!
+            </p>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div class="option-card" onclick="selectOption('weather', 'cancel')">
+            <div class="option-icon">☔</div>
+            <div class="option-title">No Rain Policy</div>
+            <div class="option-price">$0.00</div>
+            <div class="option-description">Cancel on rainy days</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>No additional cost</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Lose all revenue on rain days</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Unpredictable income</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectOption('weather', 'covered')">
+            <div class="option-icon">🏠</div>
+            <div class="option-title">Covered Service</div>
+            <div class="option-price">$15.00</div>
+            <div class="option-description">Offer garage/carport service</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Work rain or shine</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Portable canopy included</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Weather-proof income</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>$15 upfront investment</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="option-card"
+            onclick="selectOption('weather', 'discount')"
+          >
+            <div class="option-icon">🌧️</div>
+            <div class="option-title">Rain Discount</div>
+            <div class="option-price">25% Off</div>
+            <div class="option-description">Special pricing in bad weather</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Work through weather</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Attract bargain hunters</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Keep income flowing</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Lower profit margin</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep()">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step6Next"
+            onclick="nextStep()"
+            disabled=""
+          >
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 7: Retention Strategy -->
+      <div class="decision-screen" id="step7">
+        <div class="decision-header">
+          <div class="decision-title">Customer Retention Strategy</div>
+          <div class="decision-description">
+            How will you encourage repeat business?
+          </div>
+          <div class="educational-note">
+            <span class="educational-note-icon">💡</span>
+            <p>
+              Repeat customers are cheaper to serve than acquiring new ones.
+              Build loyalty!
+            </p>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <div
+            class="option-card"
+            onclick="selectOption('retention', 'loyalty')"
+          >
+            <div class="option-icon">🎫</div>
+            <div class="option-title">Loyalty Card</div>
+            <div class="option-price">$5.00</div>
+            <div class="option-description">5th wash free program</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Encourages repeat visits</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Builds customer lifetime value</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Tangible reward system</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Reduces one-time profit</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="option-card"
+            onclick="selectOption('retention', 'subscription')"
+          >
+            <div class="option-icon">📅</div>
+            <div class="option-title">Monthly Subscription</div>
+            <div class="option-price">$60/month</div>
+            <div class="option-description">4 washes per month package</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Predictable income</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Customer lock-in</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Easier planning</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Discounted vs individual</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="option-card" onclick="selectOption('retention', 'none')">
+            <div class="option-icon">💵</div>
+            <div class="option-title">No Special Program</div>
+            <div class="option-price">$0.00</div>
+            <div class="option-description">One-time pricing only</div>
+            <ul class="option-features">
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Maximum per-wash profit</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>No upfront costs</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">✓</span>
+                <span>Rely on quality &amp; word-of-mouth</span>
+              </li>
+              <li class="option-feature">
+                <span class="feature-icon">⚠</span>
+                <span>Less customer retention</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="previousStep()">
+            <span>←</span>
+            <span>Back</span>
+          </button>
+          <button
+            class="btn btn-primary"
+            id="step7Next"
+            onclick="simulateBusiness()"
+          >
+            <span>Start Business!</span>
+            <span>🚀</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen -->
+      <div class="results-screen" id="resultsScreen">
+        <div class="results-header">
+          <div class="results-icon" id="resultsIcon">🎉</div>
+          <div class="results-title" id="resultsTitle">Business Complete!</div>
+          <div class="results-subtitle" id="resultsSubtitle">
+            Here's how your 4-week car wash business performed
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-card-header">
+              <div class="result-card-icon">💰</div>
+              <div class="result-card-title">Financial Performance</div>
+            </div>
+            <div class="result-main-value" id="totalProfit">$0.00</div>
+            <div class="result-details">
+              <div class="result-detail-item">
+                <span class="result-detail-label">Total Revenue</span>
+                <span class="result-detail-value" id="totalRevenue">$0.00</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Total Costs</span>
+                <span class="result-detail-value" id="totalCosts">$0.00</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Profit Margin</span>
+                <span class="result-detail-value" id="profitMargin">0%</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">ROI</span>
+                <span class="result-detail-value" id="roi">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-card-header">
+              <div class="result-card-icon">👥</div>
+              <div class="result-card-title">Customer Metrics</div>
+            </div>
+            <div class="result-main-value" id="totalCustomers">0</div>
+            <div class="result-details">
+              <div class="result-detail-item">
+                <span class="result-detail-label">New Customers</span>
+                <span class="result-detail-value" id="newCustomers">0</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Repeat Customers</span>
+                <span class="result-detail-value" id="repeatCustomers">0</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Satisfaction</span>
+                <span class="result-detail-value" id="satisfaction">0%</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Referrals</span>
+                <span class="result-detail-value" id="referrals">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-card-header">
+              <div class="result-card-icon">📊</div>
+              <div class="result-card-title">Business Health</div>
+            </div>
+            <div class="result-main-value" id="clvCacRatio">0.0x</div>
+            <div class="result-details">
+              <div class="result-detail-item">
+                <span class="result-detail-label">Customer LTV</span>
+                <span class="result-detail-value" id="clv">$0.00</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Acquisition Cost</span>
+                <span class="result-detail-value" id="cac">$0.00</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Repeat Rate</span>
+                <span class="result-detail-value" id="repeatRate">0%</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Avg Transaction</span>
+                <span class="result-detail-value" id="avgTransaction"
+                  >$0.00</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-card-header">
+              <div class="result-card-icon">⚡</div>
+              <div class="result-card-title">Operational Efficiency</div>
+            </div>
+            <div class="result-main-value" id="capacityUtil">0%</div>
+            <div class="result-details">
+              <div class="result-detail-item">
+                <span class="result-detail-label">Total Hours Worked</span>
+                <span class="result-detail-value" id="hoursWorked">0h</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Avg Time/Job</span>
+                <span class="result-detail-value" id="avgTimePerJob">0min</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Cars Washed</span>
+                <span class="result-detail-value" id="totalCars">0</span>
+              </div>
+              <div class="result-detail-item">
+                <span class="result-detail-label">Revenue/Hour</span>
+                <span class="result-detail-value" id="revenuePerHour"
+                  >$0.00</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Revenue Chart -->
+        <div class="chart-container">
+          <div class="chart-title">📈 Weekly Revenue Progress</div>
+          <div class="bar-chart" id="revenueChart"></div>
+        </div>
+
+        <!-- Learning Messages -->
+        <div class="learning-messages">
+          <div class="learning-title">
+            <span>🎓</span>
+            <span>Key Learnings</span>
+          </div>
+          <ul class="learning-list" id="learningList"></ul>
+        </div>
+
+        <div class="action-buttons">
+          <button
+            class="btn btn-secondary"
+            onclick="location.href='games.html'"
+          >
+            <span>🏠</span>
+            <span>Back to Games</span>
+          </button>
+          <button class="btn btn-primary" onclick="location.reload()">
+            <span>↺</span>
+            <span>Play Again</span>
+          </button>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Game State
-        const gameState = {
-            currentStep: 1,
-            initialCapital: 80,
-            decisions: {
-                equipment: null,
-                pricing: { basic: 12, deluxe: 25, ultimate: 50 },
-                area: null,
-                marketing: null,
-                operations: null,
-                weather: null,
-                retention: null
-            },
-            results: null
-        };
+      // Game State
+      const gameState = {
+        currentStep: 1,
+        initialCapital: 80,
+        decisions: {
+          equipment: null,
+          pricing: { basic: 12, deluxe: 25, ultimate: 50 },
+          area: null,
+          marketing: null,
+          operations: null,
+          weather: null,
+          retention: null,
+        },
+        results: null,
+      };
 
-        // Equipment configurations
-        const equipmentConfig = {
-            basic: { cost: 20, carsPerHour: 2, quality: 0.8, appeal: 'budget' },
-            professional: { cost: 45, carsPerHour: 3, quality: 1.0, appeal: 'quality' },
-            premium: { cost: 75, carsPerHour: 4, quality: 1.2, appeal: 'premium' }
-        };
+      // Equipment configurations
+      const equipmentConfig = {
+        basic: { cost: 20, carsPerHour: 2, quality: 0.8, appeal: "budget" },
+        professional: {
+          cost: 45,
+          carsPerHour: 3,
+          quality: 1.0,
+          appeal: "quality",
+        },
+        premium: { cost: 75, carsPerHour: 4, quality: 1.2, appeal: "premium" },
+      };
 
-        // Area configurations
-        const areaConfig = {
-            own: {
-                cost: 0,
-                customers: [30, 50],
-                travelTime: 0,
-                tierPrefs: { basic: 0.6, deluxe: 0.3, ultimate: 0.1 },
-                priceMultiplier: 0.9
-            },
-            adjacent: {
-                cost: 10,
-                customers: [80, 120],
-                travelTime: 7.5,
-                tierPrefs: { basic: 0.3, deluxe: 0.5, ultimate: 0.2 },
-                priceMultiplier: 1.0
-            },
-            wealthy: {
-                cost: 25,
-                customers: [40, 60],
-                travelTime: 17.5,
-                tierPrefs: { basic: 0.1, deluxe: 0.4, ultimate: 0.5 },
-                priceMultiplier: 1.3
+      // Area configurations
+      const areaConfig = {
+        own: {
+          cost: 0,
+          customers: [30, 50],
+          travelTime: 0,
+          tierPrefs: { basic: 0.6, deluxe: 0.3, ultimate: 0.1 },
+          priceMultiplier: 0.9,
+        },
+        adjacent: {
+          cost: 10,
+          customers: [80, 120],
+          travelTime: 7.5,
+          tierPrefs: { basic: 0.3, deluxe: 0.5, ultimate: 0.2 },
+          priceMultiplier: 1.0,
+        },
+        wealthy: {
+          cost: 25,
+          customers: [40, 60],
+          travelTime: 17.5,
+          tierPrefs: { basic: 0.1, deluxe: 0.4, ultimate: 0.5 },
+          priceMultiplier: 1.3,
+        },
+      };
+
+      // Marketing configurations
+      const marketingConfig = {
+        flyers: { cost: 5, responseRate: 0.065 },
+        social: { cost: 0, responseRate: 0.04 },
+        discount: { cost: 0, responseRate: 0.11, discount: 0.2 },
+        referral: { cost: 0, responseRate: 0.05, creditPerReferral: 5 },
+      };
+
+      // Operations configurations
+      const operationsConfig = {
+        speed: { speedMultiplier: 0.8, qualityMultiplier: 0.8, repeatBonus: 0 },
+        quality: {
+          speedMultiplier: 1.2,
+          qualityMultiplier: 1.2,
+          repeatBonus: 0.4,
+        },
+        balanced: {
+          speedMultiplier: 1.0,
+          qualityMultiplier: 1.0,
+          repeatBonus: 0.2,
+        },
+      };
+
+      // Weather configurations
+      const weatherConfig = {
+        cancel: { cost: 0, rainImpact: 1.0 },
+        covered: { cost: 15, rainImpact: 0.1 },
+        discount: {
+          cost: 0,
+          rainImpact: 0,
+          discountRate: 0.25,
+          bonusCustomers: 5,
+        },
+      };
+
+      // Retention configurations
+      const retentionConfig = {
+        loyalty: { cost: 5, repeatBonus: 0.25, freeWashAfter: 5 },
+        subscription: { cost: 0, monthlyPrice: 60, washesPerMonth: 4 },
+        none: { cost: 0, repeatBonus: 0 },
+      };
+
+      // Service tier time requirements (minutes)
+      const serviceTimes = {
+        basic: 25,
+        deluxe: 45,
+        ultimate: 67.5,
+      };
+
+      // Select option
+      function selectOption(category, value) {
+        gameState.decisions[category] = value;
+
+        // Remove selected class from all cards in this step
+        const currentStepEl = document.querySelector(".decision-screen.active");
+        currentStepEl.querySelectorAll(".option-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+
+        // Add selected class to clicked card
+        event.currentTarget.classList.add("selected");
+
+        // Enable next button
+        const nextBtn = document.getElementById(
+          `step${gameState.currentStep}Next`
+        );
+        if (nextBtn) {
+          nextBtn.disabled = false;
+        }
+      }
+
+      // Validate pricing
+      function validatePricing() {
+        const basic = parseFloat(document.getElementById("basicPrice").value);
+        const deluxe = parseFloat(document.getElementById("deluxePrice").value);
+        const ultimate = parseFloat(
+          document.getElementById("ultimatePrice").value
+        );
+
+        gameState.decisions.pricing = { basic, deluxe, ultimate };
+      }
+
+      // Next step
+      function nextStep() {
+        const currentStepEl = document.getElementById(
+          `step${gameState.currentStep}`
+        );
+        currentStepEl.classList.remove("active");
+
+        gameState.currentStep++;
+
+        const nextStepEl = document.getElementById(
+          `step${gameState.currentStep}`
+        );
+        nextStepEl.classList.add("active");
+
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Previous step
+      function previousStep() {
+        const currentStepEl = document.getElementById(
+          `step${gameState.currentStep}`
+        );
+        currentStepEl.classList.remove("active");
+
+        gameState.currentStep--;
+
+        const prevStepEl = document.getElementById(
+          `step${gameState.currentStep}`
+        );
+        prevStepEl.classList.add("active");
+
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Update progress bar
+      function updateProgress() {
+        const progress = ((gameState.currentStep - 1) / 7) * 100;
+        document.getElementById("progressFill").style.width = progress + "%";
+
+        document.querySelectorAll(".step").forEach((step, index) => {
+          const stepNum = index + 1;
+          if (stepNum < gameState.currentStep) {
+            step.classList.add("completed");
+            step.classList.remove("active");
+          } else if (stepNum === gameState.currentStep) {
+            step.classList.add("active");
+            step.classList.remove("completed");
+          } else {
+            step.classList.remove("active", "completed");
+          }
+        });
+      }
+
+      // Simulate business
+      function simulateBusiness() {
+        const decisions = gameState.decisions;
+        const equipment = equipmentConfig[decisions.equipment];
+        const area = areaConfig[decisions.area];
+        const marketing = marketingConfig[decisions.marketing];
+        const operations = operationsConfig[decisions.operations];
+        const weather = weatherConfig[decisions.weather];
+        const retention = retentionConfig[decisions.retention];
+
+        // Calculate initial costs
+        let totalCosts =
+          equipment.cost +
+          area.cost +
+          marketing.cost +
+          weather.cost +
+          retention.cost;
+        let remainingCapital = gameState.initialCapital - totalCosts;
+
+        // Weekly simulation
+        let weeklyResults = [];
+        let customerBase = [];
+        let totalRevenue = 0;
+        let totalCustomersServed = 0;
+        let totalReferrals = 0;
+        let totalHoursWorked = 0;
+        let subscriptionCustomers = [];
+
+        const availableHoursPerWeek = 20;
+
+        for (let week = 1; week <= 4; week++) {
+          let weekRevenue = 0;
+          let weekCosts = 0;
+          let weekCustomers = 0;
+          let weekHours = 0;
+
+          // Determine if it rains this week (30% chance)
+          const hasRain = Math.random() < 0.3;
+
+          // Calculate potential customers
+          let potentialCustomers = 0;
+
+          if (week === 1) {
+            // Week 1: Initial acquisition
+            const baseCustomers =
+              area.customers[0] +
+              Math.random() * (area.customers[1] - area.customers[0]);
+            potentialCustomers = Math.floor(
+              baseCustomers * marketing.responseRate
+            );
+          } else {
+            // Weeks 2-4: Mix of new + repeat + referrals
+            const newCustomers = Math.floor(
+              (area.customers[0] / 2) * marketing.responseRate
+            );
+
+            // Calculate repeat customers
+            const baseRepeatRate =
+              0.3 + operations.repeatBonus + retention.repeatBonus;
+            const repeatCustomers = Math.floor(
+              customerBase.length * baseRepeatRate
+            );
+
+            // Calculate referrals
+            const satisfactionRate =
+              equipment.quality * operations.qualityMultiplier;
+            const referralRate =
+              satisfactionRate > 1.0 ? 0.5 : satisfactionRate > 0.9 ? 0.3 : 0.1;
+            const newReferrals = Math.floor(customerBase.length * referralRate);
+            totalReferrals += newReferrals;
+
+            potentialCustomers = newCustomers + repeatCustomers + newReferrals;
+          }
+
+          // Handle subscription customers
+          if (decisions.retention === "subscription" && week > 1) {
+            const newSubs = Math.floor(potentialCustomers * 0.15); // 15% opt for subscription
+            subscriptionCustomers = subscriptionCustomers.concat(
+              Array(newSubs).fill({ washesLeft: retention.washesPerMonth })
+            );
+            weekRevenue += newSubs * retention.monthlyPrice;
+            potentialCustomers -= newSubs;
+          }
+
+          // Service subscription customers
+          subscriptionCustomers.forEach((sub) => {
+            if (sub.washesLeft > 0) {
+              const tier = Math.random() < 0.6 ? "deluxe" : "ultimate";
+              const serviceTime =
+                serviceTimes[tier] * operations.speedMultiplier;
+              const travelTime = area.travelTime;
+              const totalTime = (serviceTime + travelTime) / 60;
+
+              if (weekHours + totalTime <= availableHoursPerWeek) {
+                weekHours += totalTime;
+                weekCustomers++;
+                sub.washesLeft--;
+              }
             }
-        };
+          });
 
-        // Marketing configurations
-        const marketingConfig = {
-            flyers: { cost: 5, responseRate: 0.065 },
-            social: { cost: 0, responseRate: 0.04 },
-            discount: { cost: 0, responseRate: 0.11, discount: 0.2 },
-            referral: { cost: 0, responseRate: 0.05, creditPerReferral: 5 }
-        };
+          // Process regular customers
+          const customersByTier = {
+            basic: Math.floor(potentialCustomers * area.tierPrefs.basic),
+            deluxe: Math.floor(potentialCustomers * area.tierPrefs.deluxe),
+            ultimate: Math.floor(potentialCustomers * area.tierPrefs.ultimate),
+          };
 
-        // Operations configurations
-        const operationsConfig = {
-            speed: { speedMultiplier: 0.8, qualityMultiplier: 0.8, repeatBonus: 0 },
-            quality: { speedMultiplier: 1.2, qualityMultiplier: 1.2, repeatBonus: 0.4 },
-            balanced: { speedMultiplier: 1.0, qualityMultiplier: 1.0, repeatBonus: 0.2 }
-        };
+          // Calculate if they'll actually buy based on price sensitivity
+          Object.keys(customersByTier).forEach((tier) => {
+            const count = customersByTier[tier];
+            const price = decisions.pricing[tier];
+            const marketPrice =
+              tier === "basic" ? 13.5 : tier === "deluxe" ? 30 : 57.5;
 
-        // Weather configurations
-        const weatherConfig = {
-            cancel: { cost: 0, rainImpact: 1.0 },
-            covered: { cost: 15, rainImpact: 0.1 },
-            discount: { cost: 0, rainImpact: 0, discountRate: 0.25, bonusCustomers: 5 }
-        };
+            let priceAcceptance = 1.0;
+            if (price > marketPrice * 1.3) priceAcceptance = 0.3;
+            else if (price > marketPrice * 1.5) priceAcceptance = 0.1;
 
-        // Retention configurations
-        const retentionConfig = {
-            loyalty: { cost: 5, repeatBonus: 0.25, freeWashAfter: 5 },
-            subscription: { cost: 0, monthlyPrice: 60, washesPerMonth: 4 },
-            none: { cost: 0, repeatBonus: 0 }
-        };
+            const actualCustomers = Math.floor(count * priceAcceptance);
 
-        // Service tier time requirements (minutes)
-        const serviceTimes = {
-            basic: 25,
-            deluxe: 45,
-            ultimate: 67.5
-        };
+            for (let i = 0; i < actualCustomers; i++) {
+              const serviceTime =
+                serviceTimes[tier] * operations.speedMultiplier;
+              const travelTime = area.travelTime;
+              const totalTime = (serviceTime + travelTime) / 60;
 
-        // Select option
-        function selectOption(category, value) {
-            gameState.decisions[category] = value;
-            
-            // Remove selected class from all cards in this step
-            const currentStepEl = document.querySelector('.decision-screen.active');
-            currentStepEl.querySelectorAll('.option-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked card
-            event.currentTarget.classList.add('selected');
-            
-            // Enable next button
-            const nextBtn = document.getElementById(`step${gameState.currentStep}Next`);
-            if (nextBtn) {
-                nextBtn.disabled = false;
+              if (weekHours + totalTime <= availableHoursPerWeek) {
+                let customerPrice = price;
+
+                // Apply first-time discount
+                if (week === 1 && decisions.marketing === "discount") {
+                  customerPrice *= 1 - marketing.discount;
+                }
+
+                // Apply rain discount
+                if (hasRain && decisions.weather === "discount") {
+                  customerPrice *= 1 - weather.discountRate;
+                }
+
+                // Rain impact
+                if (hasRain && decisions.weather === "cancel") {
+                  if (Math.random() < weather.rainImpact) continue;
+                } else if (hasRain && decisions.weather === "covered") {
+                  if (Math.random() < weather.rainImpact) continue;
+                }
+
+                weekRevenue += customerPrice;
+                weekHours += totalTime;
+                weekCustomers++;
+
+                customerBase.push({
+                  tier: tier,
+                  satisfaction:
+                    equipment.quality *
+                    operations.qualityMultiplier *
+                    (0.9 + Math.random() * 0.2),
+                  visits: 1,
+                });
+              }
             }
+          });
+
+          // Add bonus customers from rain discount
+          if (hasRain && decisions.weather === "discount") {
+            weekCustomers += weather.bonusCustomers;
+            weekRevenue +=
+              weather.bonusCustomers *
+              decisions.pricing.basic *
+              (1 - weather.discountRate);
+          }
+
+          // Handle referral program costs
+          if (decisions.marketing === "referral" && week > 1) {
+            weekCosts += totalReferrals * marketing.creditPerReferral;
+          }
+
+          // Handle loyalty program costs (free washes)
+          if (decisions.retention === "loyalty") {
+            const freeWashes = Math.floor(
+              weekCustomers / retention.freeWashAfter
+            );
+            weekCosts += freeWashes * decisions.pricing.basic;
+          }
+
+          // Travel costs for expanded areas
+          if (decisions.area !== "own") {
+            weekCosts += 5;
+          }
+
+          totalRevenue += weekRevenue;
+          totalCosts += weekCosts;
+          totalCustomersServed += weekCustomers;
+          totalHoursWorked += weekHours;
+
+          weeklyResults.push({
+            week: week,
+            revenue: weekRevenue,
+            costs: weekCosts,
+            profit: weekRevenue - weekCosts,
+            customers: weekCustomers,
+            hours: weekHours,
+          });
         }
 
-        // Validate pricing
-        function validatePricing() {
-            const basic = parseFloat(document.getElementById('basicPrice').value);
-            const deluxe = parseFloat(document.getElementById('deluxePrice').value);
-            const ultimate = parseFloat(document.getElementById('ultimatePrice').value);
-            
-            gameState.decisions.pricing = { basic, deluxe, ultimate };
+        // Calculate final metrics
+        const totalProfit = totalRevenue - totalCosts;
+        const profitMargin =
+          totalRevenue > 0 ? (totalProfit / totalRevenue) * 100 : 0;
+        const roi = totalCosts > 0 ? (totalProfit / totalCosts) * 100 : 0;
+
+        const avgSatisfaction =
+          customerBase.length > 0
+            ? customerBase.reduce((sum, c) => sum + c.satisfaction, 0) /
+              customerBase.length
+            : 0;
+
+        const repeatCustomers = customerBase.filter((c) => c.visits > 1).length;
+        const repeatRate =
+          customerBase.length > 0
+            ? (repeatCustomers / customerBase.length) * 100
+            : 0;
+
+        const clv =
+          customerBase.length > 0 ? totalRevenue / customerBase.length : 0;
+        const cac =
+          customerBase.length > 0
+            ? (marketing.cost + area.cost) / customerBase.length
+            : 0;
+        const clvCacRatio = cac > 0 ? clv / cac : 0;
+
+        const capacityUtilization =
+          (totalHoursWorked / (availableHoursPerWeek * 4)) * 100;
+        const avgTimePerJob =
+          totalCustomersServed > 0
+            ? (totalHoursWorked / totalCustomersServed) * 60
+            : 0;
+        const avgTransaction =
+          totalCustomersServed > 0 ? totalRevenue / totalCustomersServed : 0;
+        const revenuePerHour =
+          totalHoursWorked > 0 ? totalRevenue / totalHoursWorked : 0;
+
+        // Store results
+        gameState.results = {
+          totalProfit,
+          totalRevenue,
+          totalCosts,
+          profitMargin,
+          roi,
+          totalCustomersServed,
+          newCustomers: customerBase.length,
+          repeatCustomers,
+          satisfaction: avgSatisfaction * 100,
+          referrals: totalReferrals,
+          clv,
+          cac,
+          clvCacRatio,
+          repeatRate,
+          avgTransaction,
+          capacityUtilization,
+          hoursWorked: totalHoursWorked,
+          avgTimePerJob,
+          revenuePerHour,
+          weeklyResults,
+        };
+
+        displayResults();
+      }
+
+      // Display results
+      function displayResults() {
+        const results = gameState.results;
+
+        // Hide decision screens
+        document.querySelectorAll(".decision-screen").forEach((screen) => {
+          screen.classList.remove("active");
+        });
+
+        // Show results screen
+        document.getElementById("resultsScreen").classList.add("active");
+
+        // Update header
+        if (results.totalProfit > 250) {
+          document.getElementById("resultsIcon").textContent = "🏆";
+          document.getElementById("resultsTitle").textContent =
+            "Outstanding Success!";
+          document.getElementById("resultsSubtitle").textContent =
+            "You built a thriving car wash business!";
+        } else if (results.totalProfit > 150) {
+          document.getElementById("resultsIcon").textContent = "🎉";
+          document.getElementById("resultsTitle").textContent = "Great Job!";
+          document.getElementById("resultsSubtitle").textContent =
+            "Your business was profitable and growing!";
+        } else if (results.totalProfit > 60) {
+          document.getElementById("resultsIcon").textContent = "👍";
+          document.getElementById("resultsTitle").textContent = "Good Work!";
+          document.getElementById("resultsSubtitle").textContent =
+            "You made a profit. Room for improvement!";
+        } else if (results.totalProfit > 0) {
+          document.getElementById("resultsIcon").textContent = "😊";
+          document.getElementById("resultsTitle").textContent = "Small Profit";
+          document.getElementById("resultsSubtitle").textContent =
+            "You made money, but could do better!";
+        } else {
+          document.getElementById("resultsIcon").textContent = "😔";
+          document.getElementById("resultsTitle").textContent =
+            "Better Luck Next Time";
+          document.getElementById("resultsSubtitle").textContent =
+            "You lost money. Try a different strategy!";
         }
 
-        // Next step
-        function nextStep() {
-            const currentStepEl = document.getElementById(`step${gameState.currentStep}`);
-            currentStepEl.classList.remove('active');
-            
-            gameState.currentStep++;
-            
-            const nextStepEl = document.getElementById(`step${gameState.currentStep}`);
-            nextStepEl.classList.add('active');
-            
-            updateProgress();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Update financial metrics
+        document.getElementById("totalProfit").textContent =
+          "$" + results.totalProfit.toFixed(2);
+        document.getElementById("totalRevenue").textContent =
+          "$" + results.totalRevenue.toFixed(2);
+        document.getElementById("totalCosts").textContent =
+          "$" + results.totalCosts.toFixed(2);
+        document.getElementById("profitMargin").textContent =
+          results.profitMargin.toFixed(1) + "%";
+        document.getElementById("roi").textContent =
+          results.roi.toFixed(1) + "%";
+
+        // Update customer metrics
+        document.getElementById("totalCustomers").textContent =
+          results.totalCustomersServed;
+        document.getElementById("newCustomers").textContent =
+          results.newCustomers;
+        document.getElementById("repeatCustomers").textContent =
+          results.repeatCustomers;
+        document.getElementById("satisfaction").textContent =
+          results.satisfaction.toFixed(1) + "%";
+        document.getElementById("referrals").textContent = results.referrals;
+
+        // Update business health
+        document.getElementById("clvCacRatio").textContent =
+          results.clvCacRatio.toFixed(1) + "x";
+        document.getElementById("clv").textContent =
+          "$" + results.clv.toFixed(2);
+        document.getElementById("cac").textContent =
+          "$" + results.cac.toFixed(2);
+        document.getElementById("repeatRate").textContent =
+          results.repeatRate.toFixed(1) + "%";
+        document.getElementById("avgTransaction").textContent =
+          "$" + results.avgTransaction.toFixed(2);
+
+        // Update operational efficiency
+        document.getElementById("capacityUtil").textContent =
+          results.capacityUtilization.toFixed(1) + "%";
+        document.getElementById("hoursWorked").textContent =
+          results.hoursWorked.toFixed(1) + "h";
+        document.getElementById("avgTimePerJob").textContent =
+          results.avgTimePerJob.toFixed(0) + "min";
+        document.getElementById("totalCars").textContent =
+          results.totalCustomersServed;
+        document.getElementById("revenuePerHour").textContent =
+          "$" + results.revenuePerHour.toFixed(2);
+
+        // Create revenue chart
+        const chartContainer = document.getElementById("revenueChart");
+        chartContainer.innerHTML = "";
+
+        const maxRevenue = Math.max(
+          ...results.weeklyResults.map((w) => w.revenue)
+        );
+
+        results.weeklyResults.forEach((week) => {
+          const barContainer = document.createElement("div");
+          barContainer.className = "chart-bar-container";
+
+          const height = maxRevenue > 0 ? (week.revenue / maxRevenue) * 100 : 0;
+
+          const bar = document.createElement("div");
+          bar.className = "chart-bar";
+          bar.style.height = height + "%";
+
+          const value = document.createElement("div");
+          value.className = "chart-bar-value";
+          value.textContent = "$" + week.revenue.toFixed(0);
+          bar.appendChild(value);
+
+          const label = document.createElement("div");
+          label.className = "chart-bar-label";
+          label.textContent = "Week " + week.week;
+
+          barContainer.appendChild(bar);
+          barContainer.appendChild(label);
+          chartContainer.appendChild(barContainer);
+        });
+
+        // Generate learning messages
+        const learnings = [];
+
+        if (results.clvCacRatio > 3) {
+          learnings.push({
+            icon: "✅",
+            text: "Excellent! Your Customer Lifetime Value is more than 3x your acquisition cost. This means your marketing is very efficient.",
+          });
+        } else if (results.clvCacRatio < 2) {
+          learnings.push({
+            icon: "⚠️",
+            text: "Your marketing costs are high relative to customer value. Consider strategies to increase repeat business or reduce acquisition costs.",
+          });
         }
 
-        // Previous step
-        function previousStep() {
-            const currentStepEl = document.getElementById(`step${gameState.currentStep}`);
-            currentStepEl.classList.remove('active');
-            
-            gameState.currentStep--;
-            
-            const prevStepEl = document.getElementById(`step${gameState.currentStep}`);
-            prevStepEl.classList.add('active');
-            
-            updateProgress();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (results.repeatRate > 50) {
+          learnings.push({
+            icon: "✅",
+            text: "Great customer retention! More than half your customers came back. This is the foundation of a sustainable service business.",
+          });
+        } else if (results.repeatRate < 30) {
+          learnings.push({
+            icon: "💡",
+            text: "Low repeat rate. In service businesses, repeat customers are crucial. Focus on quality and customer satisfaction to build loyalty.",
+          });
         }
 
-        // Update progress bar
-        function updateProgress() {
-            const progress = ((gameState.currentStep - 1) / 7) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            
-            document.querySelectorAll('.step').forEach((step, index) => {
-                const stepNum = index + 1;
-                if (stepNum < gameState.currentStep) {
-                    step.classList.add('completed');
-                    step.classList.remove('active');
-                } else if (stepNum === gameState.currentStep) {
-                    step.classList.add('active');
-                    step.classList.remove('completed');
-                } else {
-                    step.classList.remove('active', 'completed');
-                }
-            });
+        if (results.satisfaction > 85) {
+          learnings.push({
+            icon: "⭐",
+            text: "High customer satisfaction leads to referrals and repeat business - your most valuable marketing tool!",
+          });
         }
 
-        // Simulate business
-        function simulateBusiness() {
-            const decisions = gameState.decisions;
-            const equipment = equipmentConfig[decisions.equipment];
-            const area = areaConfig[decisions.area];
-            const marketing = marketingConfig[decisions.marketing];
-            const operations = operationsConfig[decisions.operations];
-            const weather = weatherConfig[decisions.weather];
-            const retention = retentionConfig[decisions.retention];
-            
-            // Calculate initial costs
-            let totalCosts = equipment.cost + area.cost + marketing.cost + weather.cost + retention.cost;
-            let remainingCapital = gameState.initialCapital - totalCosts;
-            
-            // Weekly simulation
-            let weeklyResults = [];
-            let customerBase = [];
-            let totalRevenue = 0;
-            let totalCustomersServed = 0;
-            let totalReferrals = 0;
-            let totalHoursWorked = 0;
-            let subscriptionCustomers = [];
-            
-            const availableHoursPerWeek = 20;
-            
-            for (let week = 1; week <= 4; week++) {
-                let weekRevenue = 0;
-                let weekCosts = 0;
-                let weekCustomers = 0;
-                let weekHours = 0;
-                
-                // Determine if it rains this week (30% chance)
-                const hasRain = Math.random() < 0.3;
-                
-                // Calculate potential customers
-                let potentialCustomers = 0;
-                
-                if (week === 1) {
-                    // Week 1: Initial acquisition
-                    const baseCustomers = area.customers[0] + 
-                        Math.random() * (area.customers[1] - area.customers[0]);
-                    potentialCustomers = Math.floor(baseCustomers * marketing.responseRate);
-                } else {
-                    // Weeks 2-4: Mix of new + repeat + referrals
-                    const newCustomers = Math.floor((area.customers[0] / 2) * marketing.responseRate);
-                    
-                    // Calculate repeat customers
-                    const baseRepeatRate = 0.3 + operations.repeatBonus + retention.repeatBonus;
-                    const repeatCustomers = Math.floor(customerBase.length * baseRepeatRate);
-                    
-                    // Calculate referrals
-                    const satisfactionRate = equipment.quality * operations.qualityMultiplier;
-                    const referralRate = satisfactionRate > 1.0 ? 0.5 : satisfactionRate > 0.9 ? 0.3 : 0.1;
-                    const newReferrals = Math.floor(customerBase.length * referralRate);
-                    totalReferrals += newReferrals;
-                    
-                    potentialCustomers = newCustomers + repeatCustomers + newReferrals;
-                }
-                
-                // Handle subscription customers
-                if (decisions.retention === 'subscription' && week > 1) {
-                    const newSubs = Math.floor(potentialCustomers * 0.15); // 15% opt for subscription
-                    subscriptionCustomers = subscriptionCustomers.concat(
-                        Array(newSubs).fill({ washesLeft: retention.washesPerMonth })
-                    );
-                    weekRevenue += newSubs * retention.monthlyPrice;
-                    potentialCustomers -= newSubs;
-                }
-                
-                // Service subscription customers
-                subscriptionCustomers.forEach(sub => {
-                    if (sub.washesLeft > 0) {
-                        const tier = Math.random() < 0.6 ? 'deluxe' : 'ultimate';
-                        const serviceTime = serviceTimes[tier] * operations.speedMultiplier;
-                        const travelTime = area.travelTime;
-                        const totalTime = (serviceTime + travelTime) / 60;
-                        
-                        if (weekHours + totalTime <= availableHoursPerWeek) {
-                            weekHours += totalTime;
-                            weekCustomers++;
-                            sub.washesLeft--;
-                        }
-                    }
-                });
-                
-                // Process regular customers
-                const customersByTier = {
-                    basic: Math.floor(potentialCustomers * area.tierPrefs.basic),
-                    deluxe: Math.floor(potentialCustomers * area.tierPrefs.deluxe),
-                    ultimate: Math.floor(potentialCustomers * area.tierPrefs.ultimate)
-                };
-                
-                // Calculate if they'll actually buy based on price sensitivity
-                Object.keys(customersByTier).forEach(tier => {
-                    const count = customersByTier[tier];
-                    const price = decisions.pricing[tier];
-                    const marketPrice = tier === 'basic' ? 13.5 : tier === 'deluxe' ? 30 : 57.5;
-                    
-                    let priceAcceptance = 1.0;
-                    if (price > marketPrice * 1.3) priceAcceptance = 0.3;
-                    else if (price > marketPrice * 1.5) priceAcceptance = 0.1;
-                    
-                    const actualCustomers = Math.floor(count * priceAcceptance);
-                    
-                    for (let i = 0; i < actualCustomers; i++) {
-                        const serviceTime = serviceTimes[tier] * operations.speedMultiplier;
-                        const travelTime = area.travelTime;
-                        const totalTime = (serviceTime + travelTime) / 60;
-                        
-                        if (weekHours + totalTime <= availableHoursPerWeek) {
-                            let customerPrice = price;
-                            
-                            // Apply first-time discount
-                            if (week === 1 && decisions.marketing === 'discount') {
-                                customerPrice *= (1 - marketing.discount);
-                            }
-                            
-                            // Apply rain discount
-                            if (hasRain && decisions.weather === 'discount') {
-                                customerPrice *= (1 - weather.discountRate);
-                            }
-                            
-                            // Rain impact
-                            if (hasRain && decisions.weather === 'cancel') {
-                                if (Math.random() < weather.rainImpact) continue;
-                            } else if (hasRain && decisions.weather === 'covered') {
-                                if (Math.random() < weather.rainImpact) continue;
-                            }
-                            
-                            weekRevenue += customerPrice;
-                            weekHours += totalTime;
-                            weekCustomers++;
-                            
-                            customerBase.push({
-                                tier: tier,
-                                satisfaction: equipment.quality * operations.qualityMultiplier * (0.9 + Math.random() * 0.2),
-                                visits: 1
-                            });
-                        }
-                    }
-                });
-                
-                // Add bonus customers from rain discount
-                if (hasRain && decisions.weather === 'discount') {
-                    weekCustomers += weather.bonusCustomers;
-                    weekRevenue += weather.bonusCustomers * decisions.pricing.basic * (1 - weather.discountRate);
-                }
-                
-                // Handle referral program costs
-                if (decisions.marketing === 'referral' && week > 1) {
-                    weekCosts += totalReferrals * marketing.creditPerReferral;
-                }
-                
-                // Handle loyalty program costs (free washes)
-                if (decisions.retention === 'loyalty') {
-                    const freeWashes = Math.floor(weekCustomers / retention.freeWashAfter);
-                    weekCosts += freeWashes * decisions.pricing.basic;
-                }
-                
-                // Travel costs for expanded areas
-                if (decisions.area !== 'own') {
-                    weekCosts += 5;
-                }
-                
-                totalRevenue += weekRevenue;
-                totalCosts += weekCosts;
-                totalCustomersServed += weekCustomers;
-                totalHoursWorked += weekHours;
-                
-                weeklyResults.push({
-                    week: week,
-                    revenue: weekRevenue,
-                    costs: weekCosts,
-                    profit: weekRevenue - weekCosts,
-                    customers: weekCustomers,
-                    hours: weekHours
-                });
-            }
-            
-            // Calculate final metrics
-            const totalProfit = totalRevenue - totalCosts;
-            const profitMargin = totalRevenue > 0 ? (totalProfit / totalRevenue) * 100 : 0;
-            const roi = totalCosts > 0 ? (totalProfit / totalCosts) * 100 : 0;
-            
-            const avgSatisfaction = customerBase.length > 0 
-                ? customerBase.reduce((sum, c) => sum + c.satisfaction, 0) / customerBase.length 
-                : 0;
-            
-            const repeatCustomers = customerBase.filter(c => c.visits > 1).length;
-            const repeatRate = customerBase.length > 0 ? (repeatCustomers / customerBase.length) * 100 : 0;
-            
-            const clv = customerBase.length > 0 ? totalRevenue / customerBase.length : 0;
-            const cac = customerBase.length > 0 ? (marketing.cost + area.cost) / customerBase.length : 0;
-            const clvCacRatio = cac > 0 ? clv / cac : 0;
-            
-            const capacityUtilization = (totalHoursWorked / (availableHoursPerWeek * 4)) * 100;
-            const avgTimePerJob = totalCustomersServed > 0 ? (totalHoursWorked / totalCustomersServed) * 60 : 0;
-            const avgTransaction = totalCustomersServed > 0 ? totalRevenue / totalCustomersServed : 0;
-            const revenuePerHour = totalHoursWorked > 0 ? totalRevenue / totalHoursWorked : 0;
-            
-            // Store results
-            gameState.results = {
-                totalProfit,
-                totalRevenue,
-                totalCosts,
-                profitMargin,
-                roi,
-                totalCustomersServed,
-                newCustomers: customerBase.length,
-                repeatCustomers,
-                satisfaction: avgSatisfaction * 100,
-                referrals: totalReferrals,
-                clv,
-                cac,
-                clvCacRatio,
-                repeatRate,
-                avgTransaction,
-                capacityUtilization,
-                hoursWorked: totalHoursWorked,
-                avgTimePerJob,
-                revenuePerHour,
-                weeklyResults
-            };
-            
-            displayResults();
+        if (results.capacityUtilization > 80) {
+          learnings.push({
+            icon: "💪",
+            text: "You used your time efficiently! High capacity utilization means you're maximizing your earning potential.",
+          });
+        } else if (results.capacityUtilization < 50) {
+          learnings.push({
+            icon: "💡",
+            text: "You had unused capacity. Consider better marketing or pricing strategies to attract more customers and fill your schedule.",
+          });
         }
 
-        // Display results
-        function displayResults() {
-            const results = gameState.results;
-            
-            // Hide decision screens
-            document.querySelectorAll('.decision-screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            
-            // Show results screen
-            document.getElementById('resultsScreen').classList.add('active');
-            
-            // Update header
-            if (results.totalProfit > 250) {
-                document.getElementById('resultsIcon').textContent = '🏆';
-                document.getElementById('resultsTitle').textContent = 'Outstanding Success!';
-                document.getElementById('resultsSubtitle').textContent = 'You built a thriving car wash business!';
-            } else if (results.totalProfit > 150) {
-                document.getElementById('resultsIcon').textContent = '🎉';
-                document.getElementById('resultsTitle').textContent = 'Great Job!';
-                document.getElementById('resultsSubtitle').textContent = 'Your business was profitable and growing!';
-            } else if (results.totalProfit > 60) {
-                document.getElementById('resultsIcon').textContent = '👍';
-                document.getElementById('resultsTitle').textContent = 'Good Work!';
-                document.getElementById('resultsSubtitle').textContent = 'You made a profit. Room for improvement!';
-            } else if (results.totalProfit > 0) {
-                document.getElementById('resultsIcon').textContent = '😊';
-                document.getElementById('resultsTitle').textContent = 'Small Profit';
-                document.getElementById('resultsSubtitle').textContent = 'You made money, but could do better!';
-            } else {
-                document.getElementById('resultsIcon').textContent = '😔';
-                document.getElementById('resultsTitle').textContent = 'Better Luck Next Time';
-                document.getElementById('resultsSubtitle').textContent = 'You lost money. Try a different strategy!';
-            }
-            
-            // Update financial metrics
-            document.getElementById('totalProfit').textContent = '$' + results.totalProfit.toFixed(2);
-            document.getElementById('totalRevenue').textContent = '$' + results.totalRevenue.toFixed(2);
-            document.getElementById('totalCosts').textContent = '$' + results.totalCosts.toFixed(2);
-            document.getElementById('profitMargin').textContent = results.profitMargin.toFixed(1) + '%';
-            document.getElementById('roi').textContent = results.roi.toFixed(1) + '%';
-            
-            // Update customer metrics
-            document.getElementById('totalCustomers').textContent = results.totalCustomersServed;
-            document.getElementById('newCustomers').textContent = results.newCustomers;
-            document.getElementById('repeatCustomers').textContent = results.repeatCustomers;
-            document.getElementById('satisfaction').textContent = results.satisfaction.toFixed(1) + '%';
-            document.getElementById('referrals').textContent = results.referrals;
-            
-            // Update business health
-            document.getElementById('clvCacRatio').textContent = results.clvCacRatio.toFixed(1) + 'x';
-            document.getElementById('clv').textContent = '$' + results.clv.toFixed(2);
-            document.getElementById('cac').textContent = '$' + results.cac.toFixed(2);
-            document.getElementById('repeatRate').textContent = results.repeatRate.toFixed(1) + '%';
-            document.getElementById('avgTransaction').textContent = '$' + results.avgTransaction.toFixed(2);
-            
-            // Update operational efficiency
-            document.getElementById('capacityUtil').textContent = results.capacityUtilization.toFixed(1) + '%';
-            document.getElementById('hoursWorked').textContent = results.hoursWorked.toFixed(1) + 'h';
-            document.getElementById('avgTimePerJob').textContent = results.avgTimePerJob.toFixed(0) + 'min';
-            document.getElementById('totalCars').textContent = results.totalCustomersServed;
-            document.getElementById('revenuePerHour').textContent = '$' + results.revenuePerHour.toFixed(2);
-            
-            // Create revenue chart
-            const chartContainer = document.getElementById('revenueChart');
-            chartContainer.innerHTML = '';
-            
-            const maxRevenue = Math.max(...results.weeklyResults.map(w => w.revenue));
-            
-            results.weeklyResults.forEach(week => {
-                const barContainer = document.createElement('div');
-                barContainer.className = 'chart-bar-container';
-                
-                const height = maxRevenue > 0 ? (week.revenue / maxRevenue) * 100 : 0;
-                
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                bar.style.height = height + '%';
-                
-                const value = document.createElement('div');
-                value.className = 'chart-bar-value';
-                value.textContent = '$' + week.revenue.toFixed(0);
-                bar.appendChild(value);
-                
-                const label = document.createElement('div');
-                label.className = 'chart-bar-label';
-                label.textContent = 'Week ' + week.week;
-                
-                barContainer.appendChild(bar);
-                barContainer.appendChild(label);
-                chartContainer.appendChild(barContainer);
-            });
-            
-            // Generate learning messages
-            const learnings = [];
-            
-            if (results.clvCacRatio > 3) {
-                learnings.push({
-                    icon: '✅',
-                    text: 'Excellent! Your Customer Lifetime Value is more than 3x your acquisition cost. This means your marketing is very efficient.'
-                });
-            } else if (results.clvCacRatio < 2) {
-                learnings.push({
-                    icon: '⚠️',
-                    text: 'Your marketing costs are high relative to customer value. Consider strategies to increase repeat business or reduce acquisition costs.'
-                });
-            }
-            
-            if (results.repeatRate > 50) {
-                learnings.push({
-                    icon: '✅',
-                    text: 'Great customer retention! More than half your customers came back. This is the foundation of a sustainable service business.'
-                });
-            } else if (results.repeatRate < 30) {
-                learnings.push({
-                    icon: '💡',
-                    text: 'Low repeat rate. In service businesses, repeat customers are crucial. Focus on quality and customer satisfaction to build loyalty.'
-                });
-            }
-            
-            if (results.satisfaction > 85) {
-                learnings.push({
-                    icon: '⭐',
-                    text: 'High customer satisfaction leads to referrals and repeat business - your most valuable marketing tool!'
-                });
-            }
-            
-            if (results.capacityUtilization > 80) {
-                learnings.push({
-                    icon: '💪',
-                    text: 'You used your time efficiently! High capacity utilization means you\'re maximizing your earning potential.'
-                });
-            } else if (results.capacityUtilization < 50) {
-                learnings.push({
-                    icon: '💡',
-                    text: 'You had unused capacity. Consider better marketing or pricing strategies to attract more customers and fill your schedule.'
-                });
-            }
-            
-            if (results.profitMargin > 40) {
-                learnings.push({
-                    icon: '💰',
-                    text: 'Excellent profit margins! You\'re pricing appropriately and managing costs well.'
-                });
-            }
-            
-            learnings.push({
-                icon: '📚',
-                text: 'Service businesses depend on reputation. Every customer interaction is an opportunity to build your brand!'
-            });
-            
-            const learningList = document.getElementById('learningList');
-            learningList.innerHTML = '';
-            
-            learnings.forEach(learning => {
-                const li = document.createElement('li');
-                li.className = 'learning-item';
-                li.innerHTML = `
+        if (results.profitMargin > 40) {
+          learnings.push({
+            icon: "💰",
+            text: "Excellent profit margins! You're pricing appropriately and managing costs well.",
+          });
+        }
+
+        learnings.push({
+          icon: "📚",
+          text: "Service businesses depend on reputation. Every customer interaction is an opportunity to build your brand!",
+        });
+
+        const learningList = document.getElementById("learningList");
+        learningList.innerHTML = "";
+
+        learnings.forEach((learning) => {
+          const li = document.createElement("li");
+          li.className = "learning-item";
+          li.innerHTML = `
                     <span class="learning-item-icon">${learning.icon}</span>
                     <span class="learning-item-text">${learning.text}</span>
                 `;
-                learningList.appendChild(li);
-            });
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+          learningList.appendChild(li);
+        });
 
-        // Initialize
-        updateProgress();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Initialize
+      updateProgress();
     </script>
-
-
-</body></html>
+  </body>
+</html>
