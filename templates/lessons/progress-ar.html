@@ -1,44 +1,15 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>تقدمك - بيزفينتشر كيدز</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Tajawal:wght@400;500;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="progress.css" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
-    <!-- Main Header -->
-    <header class="main-header">
-      <div>
-        <div class="logo">
-          <span class="logo-icon">💰</span>
-          المحاسب الصغير
-        </div>
-        <div class="tagline">
-          ★ العب. قرر. انمُ: الطريقة الآمنة لتعلم المهارات المالية الحقيقية! ★
-        </div>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#home">الرئيسية</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#quiz">اختبار</a></li>
-          <li><a href="#contact">اتصل بنا</a></li>
-        </ul>
-      </nav>
-    </header>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+تقدمك
+{% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/lessons/progress.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
 
     <!-- Main Container -->
     <div class="container">
@@ -355,32 +326,9 @@
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>روابط سريعة</h3>
-          <a href="#home">الرئيسية</a>
-          <a href="#about">من نحن</a>
-          <a href="#quiz">اختبار</a>
-          <a href="#contact">اتصل بنا</a>
-        </div>
-        <div class="footer-section">
-          <h3>معلومات قانونية</h3>
-          <a href="#privacy">سياسة الخصوصية</a>
-          <a href="#terms">الشروط والأحكام</a>
-          <a href="#faq">الأسئلة الشائعة</a>
-        </div>
-        <div class="footer-section">
-          <h3>تواصل معنا</h3>
-          <p>📞 +47 961 78 807</p>
-          <p>✉️ Info@BizVentureKids.no</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2025 بيزفينتشر كيدز. جميع الحقوق محفوظة.</p>
-      </div>
-    </footer>
+{% endblock content %}
+
+{% block extra_js %}
 
     <script>
       // Animate progress bars on load
@@ -451,5 +399,5 @@
         });
       });
     </script>
-  </body>
-</html>
+
+{% endblock extra_js %}

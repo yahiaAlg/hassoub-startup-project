@@ -1,0 +1,621 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    ألعاب التعلم
+{% endblock title %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/scenarios/games.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Back Button -->
+        <a href="#dashboard" class="back-button">
+            ← العودة إلى لوحة التحكم
+        </a>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">
+                🎮
+                ألعاب التعلم
+            </h1>
+            <p class="page-subtitle">تعلم مهارات الأعمال أثناء الاستمتاع!</p>
+        </div>
+
+        <!-- Quick Play Section -->
+        <section class="section">
+            <div class="section-header">
+                <span style="font-size: 2em;">⚡</span>
+                <div>
+                    <h2 class="section-title">اللعب السريع</h2>
+                    <span class="section-subtitle">ابدأ لعبة سريعة في أقل من 5 دقائق</span>
+                </div>
+            </div>
+
+            <div class="quick-play-grid">
+                <div class="quick-game-card" onclick="playQuickGame('money-match')">
+                    <span class="quick-game-icon">💰</span>
+                    <h3 class="quick-game-title">مطابقة الأموال</h3>
+                    <p class="quick-game-time">2-3 دقائق</p>
+                </div>
+
+                <div class="quick-game-card" onclick="playQuickGame('budget-battle')">
+                    <span class="quick-game-icon">⚔️</span>
+                    <h3 class="quick-game-title">معركة الميزانية</h3>
+                    <p class="quick-game-time">3-4 دقائق</p>
+                </div>
+
+                <div class="quick-game-card" onclick="playQuickGame('price-perfect')">
+                    <span class="quick-game-icon">🏷️</span>
+                    <h3 class="quick-game-title">السعر المثالي</h3>
+                    <p class="quick-game-time">2-3 دقائق</p>
+                </div>
+
+                <div class="quick-game-card" onclick="playQuickGame('savings-sprint')">
+                    <span class="quick-game-icon">🏃</span>
+                    <h3 class="quick-game-title">سباق التوفير</h3>
+                    <p class="quick-game-time">4-5 دقائق</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterGames('all')">
+                🎮 جميع الألعاب
+            </button>
+            <button class="filter-tab" onclick="filterGames('simulations')">
+                🏪 المحاكاة
+            </button>
+            <button class="filter-tab" onclick="filterGames('puzzles')">
+                🧩 الألغاز
+            </button>
+            <button class="filter-tab" onclick="filterGames('quizzes')">
+                ❓ الاختبارات
+            </button>
+            <button class="filter-tab" onclick="filterGames('strategy')">
+                ♟️ الاستراتيجية
+            </button>
+        </div>
+
+        <!-- Featured Games Section -->
+        <section class="section">
+            <div class="section-header">
+                <span style="font-size: 2em;">⭐</span>
+                <div>
+                    <h2 class="section-title">الألعاب المميزة</h2>
+                </div>
+            </div>
+
+            <div class="games-grid">
+                <!-- Game 1: Lemonade Stand Tycoon -->
+                <div class="game-card">
+                    <div class="game-badge badge-popular">🔥 شائع</div>
+                    <div class="game-header">
+                        <span class="game-icon">🍋</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">قطب كشك الليموناضة</h3>
+                        <p class="game-description">
+                            قم بإدارة كشك الليموناضة الخاص بك! اتخذ قرارات بشأن التسعير والمخزون والتسويق لتعظيم الأرباح.
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">1,234</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">15-20</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.8/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-easy">سهل</span>
+                            <button class="play-button" onclick="playGame('lemonade-stand')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 2: Business Empire -->
+                <div class="game-card">
+                    <div class="game-badge badge-new">🆕 جديد</div>
+                    <div class="game-header">
+                        <span class="game-icon">🏢</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">إمبراطورية الأعمال</h3>
+                        <p class="game-description">
+                            ابنِ إمبراطورية أعمالك من الصفر! وظف موظفين، وسّع سوقك، وتنافس مع المنافسين.
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">892</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">30-45</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.9/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-hard">صعب</span>
+                            <button class="play-button" onclick="playGame('business-empire')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 3: Money Master Quiz -->
+                <div class="game-card">
+                    <div class="game-badge badge-featured">⭐ مميز</div>
+                    <div class="game-header">
+                        <span class="game-icon">💡</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">اختبار سيد المال</h3>
+                        <p class="game-description">
+                            اختبر معرفتك المالية! أجب عن أسئلة حول الادخار والإنفاق والاستثمار بحكمة.
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">2,156</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">10-15</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.7/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-medium">متوسط</span>
+                            <button class="play-button" onclick="playGame('money-master')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 4: Budget Builder -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">📊</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">باني الميزانية</h3>
+                        <p class="game-description">
+                            أنشئ ميزانيات متوازنة لسيناريوهات مختلفة. تعلم تحديد أولويات النفقات والتوفير للأهداف.
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">1,567</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">12-18</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.6/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-medium">متوسط</span>
+                            <button class="play-button" onclick="playGame('budget-builder')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 5: Stock Market Simulator -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">📈</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">محاكي سوق الأسهم</h3>
+                        <p class="game-description">
+                            تداول الأسهم وتعلم عن الاستثمار! اشترِ بسعر منخفض، بع بسعر مرتفع، ونمّي محفظتك.
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">945</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">20-30</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.5/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-hard">صعب</span>
+                            <button class="play-button" onclick="playGame('stock-market')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 6: Entrepreneur Challenge -->
+                <div class="game-card">
+                    <div class="game-badge badge-challenge">🏆 تحدي</div>
+                    <div class="game-header">
+                        <span class="game-icon">💼</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">تحدي رائد الأعمال</h3>
+                        <p class="game-description">
+                            أطلق شركة ناشئة وتنافس ضد رواد الأعمال الآخرين. اتخذ قرارات استراتيجية للنجاح!
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">678</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">25-35</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.8/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-hard">صعب</span>
+                            <button class="play-button" onclick="playGame('entrepreneur')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- More Games Section -->
+        <section class="section">
+            <div class="section-header">
+                <span style="font-size: 2em;">🎯</span>
+                <div>
+                    <h2 class="section-title">المزيد من الألعاب</h2>
+                </div>
+            </div>
+
+            <div class="games-grid">
+                <!-- Game 7: Shopping Spree -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">🛍️</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">جولة التسوق</h3>
+                        <p class="game-description">
+                            تسوق بذكاء والتزم بالميزانية! قارن الأسعار واعثر على أفضل العروض.
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">1,890</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">8-12</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.4/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-easy">سهل</span>
+                            <button class="play-button" onclick="playGame('shopping-spree')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 8: Coin Collector -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">🪙</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">جامع العملات</h3>
+                        <p class="game-description">
+                            طابق العملات والنقود الورقية لإجراء التغيير الدقيق. تدرب على عد الأموال بسرعة!
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">2,345</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">5-8</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.6/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-easy">سهل</span>
+                            <button class="play-button" onclick="playGame('coin-collector')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 9: Market Tycoon -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">🏪</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">قطب السوق</h3>
+                        <p class="game-description">
+                            أدِر سوقاً! حدد الأسعار، خزّن المخزون، واجذب العملاء لزيادة المبيعات إلى الحد الأقصى.
+                        </p>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">👥</span>
+                                <span class="stat-value">1,123</span>
+                                <span class="stat-label">لاعب</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⏱️</span>
+                                <span class="stat-value">20-25</span>
+                                <span class="stat-label">دقيقة</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-value">4.7/5.0</span>
+                                <span class="stat-label">تقييم</span>
+                            </div>
+                        </div>
+                        <div class="game-footer">
+                            <span class="difficulty-badge difficulty-medium">متوسط</span>
+                            <button class="play-button" onclick="playGame('market-tycoon')">
+                                ▶ العب الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Load More Button -->
+        <div class="load-more">
+            <button class="load-more-button" onclick="loadMoreGames()">
+                📥 تحميل المزيد من الألعاب
+            </button>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+
+    <script>
+        // Play Quick Game
+        function playQuickGame(gameName) {
+            console.log(`بدء اللعبة السريعة: ${gameName}`);
+            const gameNames = {
+                'money-match': 'مطابقة الأموال',
+                'budget-battle': 'معركة الميزانية',
+                'price-perfect': 'السعر المثالي',
+                'savings-sprint': 'سباق التوفير'
+            };
+            alert(`🎮 بدء اللعبة: ${gameNames[gameName]}\n\nجاري التحميل...`);
+        }
+
+        // Play Game
+        function playGame(gameName) {
+            console.log(`بدء اللعبة: ${gameName}`);
+            alert(`🎮 بدء اللعبة...\n\nسيتم توجيهك إلى اللعبة.`);
+        }
+
+        // Filter Games
+        function filterGames(category) {
+            console.log(`تصفية الألعاب حسب: ${category}`);
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            const categoryNames = {
+                'all': 'جميع الألعاب',
+                'simulations': 'المحاكاة',
+                'puzzles': 'الألغاز',
+                'quizzes': 'الاختبارات',
+                'strategy': 'الاستراتيجية'
+            };
+            
+            alert(`🔍 عرض: ${categoryNames[category]}`);
+        }
+
+        // Load More Games
+        function loadMoreGames() {
+            console.log('تحميل المزيد من الألعاب...');
+            
+            const button = event.target;
+            button.textContent = '⏳ جاري التحميل...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.textContent = '✓ تم تحميل المزيد!';
+                setTimeout(() => {
+                    button.textContent = '📥 تحميل المزيد من الألعاب';
+                    button.disabled = false;
+                }, 1500);
+            }, 1000);
+        }
+
+        // Scroll Animation
+        window.addEventListener('load', function() {
+            console.log('%c 🎮 مرحباً بك في صفحة الألعاب! ', 'color: #4caf50; font-size: 20px; font-weight: bold;');
+            console.log('%c ابدأ رحلة التعلم الممتعة! 🌟', 'color: #ff9800; font-size: 14px;');
+
+            // Intersection Observer for game cards
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.animation = 'fadeInUp 0.6s ease-out';
+                            entry.target.style.opacity = '1';
+                        }, index * 100);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.game-card').forEach(card => {
+                card.style.opacity = '0';
+                observer.observe(card);
+            });
+
+            // Quick game cards hover effects
+            document.querySelectorAll('.quick-game-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.querySelector('.quick-game-icon').style.animation = 'bounce 0.8s';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.querySelector('.quick-game-icon').style.animation = 'bounce 2s infinite';
+                });
+            });
+        });
+
+        // Track Game Statistics
+        function trackGamePlay(gameName) {
+            const stats = {
+                gameName: gameName,
+                timestamp: new Date().toISOString(),
+                platform: 'web'
+            };
+            console.log('تتبع إحصائيات اللعبة:', stats);
+        }
+
+        // Add click tracking to all play buttons
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const gameCard = this.closest('.game-card');
+                const gameTitle = gameCard.querySelector('.game-title').textContent;
+                trackGamePlay(gameTitle);
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'Q' for quick play
+            if (e.key === 'q' || e.key === 'Q') {
+                document.querySelector('.quick-game-card').scrollIntoView({ behavior: 'smooth' });
+            }
+            // Press 'F' for featured games
+            if (e.key === 'f' || e.key === 'F') {
+                document.querySelector('.games-grid').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.play-button, .filter-tab').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            .play-button, .filter-tab {
+                position: relative;
+                overflow: hidden;
+            }
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.5);
+                transform: scale(0);
+                animation: rippleEffect 0.6s ease-out;
+                pointer-events: none;
+            }
+            @keyframes rippleEffect {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+{% endblock extra_js %}
