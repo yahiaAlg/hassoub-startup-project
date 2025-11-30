@@ -233,8 +233,9 @@ input:focus {
   color: var(--primary-dark);
   text-decoration: underline;
 }
+/* second login button of the form */
 
-.login-btn {
+form .login-btn {
   width: 100%;
   padding: 16px;
   background-color: var(--primary);
@@ -250,22 +251,22 @@ input:focus {
   margin-top: 10px;
 }
 
-.login-btn:hover:not(:disabled) {
+form .login-btn:hover:not(:disabled) {
   background-color: var(--primary-dark);
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.login-btn:active:not(:disabled) {
+form .login-btn:active:not(:disabled) {
   transform: translateY(-1px);
 }
 
-.login-btn:disabled {
+form .login-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.login-btn .spinner {
+form .login-btn .spinner {
   display: none;
   position: absolute;
   left: 50%;
@@ -279,11 +280,11 @@ input:focus {
   animation: spin 1s ease-in-out infinite;
 }
 
-.login-btn.loading .spinner {
+form .login-btn.loading .spinner {
   display: block;
 }
 
-.login-btn.loading .btn-text {
+form .login-btn.loading .btn-text {
   opacity: 0;
 }
 
