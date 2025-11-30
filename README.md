@@ -15,6 +15,11 @@ mkdir -p lessons/management/commands
 touch lessons/management/__init__.py
 touch lessons/management/commands/__init__.py
 
+
+mkdir -p scenarios/management/commands
+touch scenarios/management/__init__.py
+touch scenarios/management/commands/__init__.py
+
 # Then run the command
 python manage.py populate_pages
 ```
