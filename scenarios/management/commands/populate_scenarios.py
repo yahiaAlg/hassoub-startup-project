@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from accounts.models import Achievement
 from scenarios.models import Scenario
 
 
@@ -149,4 +150,76 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 f"\n✓ تم بنجاح! إنشاء: {created_count}، تحديث: {updated_count}"
             )
+        )
+
+        achievements = [
+            {
+                "name": "First Lemonade Stand",
+                "name_ar": "أول كشك ليمونادة",
+                "description": "Complete your first lemonade stand scenario",
+                "description_ar": "أكمل سيناريو كشك الليمونادة للمرة الأولى",
+                "icon": "🍋",
+                "achievement_type": "scenario",
+                "points_reward": 50,
+                "coins_reward": 25,
+            },
+            {
+                "name": "Perfect Business",
+                "name_ar": "عمل مثالي",
+                "description": "Score 100% on any scenario",
+                "description_ar": "احصل على 100% في أي سيناريو",
+                "icon": "💯",
+                "achievement_type": "quiz",
+                "points_reward": 100,
+                "coins_reward": 50,
+            },
+            {
+                "name": "Business Genius",
+                "name_ar": "عبقري الأعمال",
+                "description": "Score 90% or higher on a scenario",
+                "description_ar": "احصل على 90% أو أكثر في سيناريو",
+                "icon": "🧠",
+                "achievement_type": "scenario",
+                "points_reward": 75,
+                "coins_reward": 35,
+            },
+            {
+                "name": "5 Scenarios Master",
+                "name_ar": "خبير 5 سيناريوهات",
+                "description": "Complete 5 different scenarios",
+                "description_ar": "أكمل 5 سيناريوهات مختلفة",
+                "icon": "🏆",
+                "achievement_type": "special",
+                "points_reward": 200,
+                "coins_reward": 100,
+            },
+            {
+                "name": "Profit Master",
+                "name_ar": "سيد الأرباح",
+                "description": "Earn over $100 profit in lemonade stand",
+                "description_ar": "اكسب أكثر من $100 ربح في كشك الليمونادة",
+                "icon": "💰",
+                "achievement_type": "scenario",
+                "points_reward": 60,
+                "coins_reward": 30,
+            },
+        ]
+
+        for ach_data in achievements:
+            achievement, created = Achievement.objects.get_or_create(
+                name=ach_data["name"], defaults=ach_data
+            )
+            if created:
+                self.stdout.write(
+                    self.style.SUCCESS(f"Created achievement: {achievement.name}")
+                )
+            else:
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Achievement already exists: {achievement.name}"
+                    )
+                )
+
+        self.stdout.write(
+            self.style.SUCCESS("✅ All achievements created successfully!")
         )

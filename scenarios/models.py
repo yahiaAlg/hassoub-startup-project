@@ -72,6 +72,16 @@ class UserScenario(models.Model):
     )
     started_at = models.DateTimeField(auto_now_add=True, verbose_name="تاريخ البدء")
 
+    # Additional tracking fields
+    days_played = models.IntegerField(default=1)
+    total_profit = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    items_sold = models.IntegerField(default=0)  # cups, toys, etc.
+    final_reputation = models.DecimalField(max_digits=3, decimal_places=1, default=5.0)
+    game_data = models.JSONField(null=True, blank=True)  # Store full game state
+
+    # Timestamps
+    last_played = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ["-started_at"]
         verbose_name = "سيناريو المستخدم"

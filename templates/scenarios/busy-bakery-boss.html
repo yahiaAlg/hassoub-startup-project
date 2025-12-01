@@ -1,696 +1,1149 @@
 <!DOCTYPE html>
-<html lang="en">
-{% load static %}
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Busy Bakery Boss - BizKids Learning Platform</title>
-    <link rel="stylesheet" href="{% static "css/scenarios/busy-bakery-boss.css" %}" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
-    <!-- Game Header -->
-    <header class="game-header">
-      <div class="header-content">
-        <div class="game-title">
-          <span style="font-size: 2.5rem">🧁</span>
-          <h1>Busy Bakery Boss</h1>
-        </div>
-        <a href="games.html" class="back-link">
-          <span>←</span>
-          <span>Back to Games</span>
-        </a>
-      </div>
-    </header>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخبز الكعك - منصة التعلم التجاري للأطفال</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-      <div class="stats-container">
-        <div class="stat-item">
-          <div class="stat-label">Cash</div>
-          <div class="stat-value">
-            <span>💵</span>
-            <span id="cashDisplay">$150.00</span>
-          </div>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .game-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .occasion-card {
+            background: linear-gradient(135deg, #FFD3A5 0%, #FD6585 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .occasion-icon {
+            font-size: 3em;
+        }
+
+        .occasion-info h3 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ingredient-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ingredient-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ingredient-icon {
+            font-size: 2em;
+        }
+
+        .ingredient-details h4 {
+            font-size: 1.1em;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .ingredient-price {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .ingredient-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quantity {
+            font-size: 1.2em;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .recipe-builder {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .recipe-builder h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .flavor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .flavor-btn {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .flavor-btn:hover {
+            border-color: #f093fb;
+            transform: translateY(-2px);
+        }
+
+        .flavor-btn.active {
+            border-color: #f093fb;
+            background: #fef5ff;
+            font-weight: bold;
+        }
+
+        .flavor-icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .decoration-section {
+            margin-top: 20px;
+        }
+
+        .decoration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .decoration-btn {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .decoration-btn:hover {
+            border-color: #f5576c;
+        }
+
+        .decoration-btn.active {
+            border-color: #f5576c;
+            background: #fff5f7;
+        }
+
+        .decoration-icon {
+            font-size: 1.8em;
+        }
+
+        .pricing-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .price-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .price-tier {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .price-tier:hover {
+            border-color: #f093fb;
+        }
+
+        .price-tier.active {
+            border-color: #f093fb;
+            background: #fef5ff;
+        }
+
+        .price-tier .tier-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+
+        .price-tier .tier-price {
+            font-size: 1.3em;
+            color: #28a745;
+            margin-bottom: 5px;
+        }
+
+        .price-tier .tier-desc {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        .cost-summary {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .cost-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            flex: 1;
+            padding: 15px;
+            font-size: 1.2em;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.4);
+        }
+
+        .btn-reset {
+            background: #dc3545;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+        }
+
+        .btn-reset:hover {
+            background: #c82333;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .event-card {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 15px;
+            border-right: 5px solid #ffc107;
+        }
+
+        .event-card h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tips-card {
+            background: #d1ecf1;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .tips-card h3 {
+            color: #0c5460;
+            margin-bottom: 15px;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .preview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .cupcake-preview {
+            font-size: 5em;
+            margin: 20px 0;
+        }
+
+        .preview-details {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .inventory-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #495057;
+        }
+
+        .result-stat {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .game-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .back-button {
+                position: static;
+                transform: none;
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+
+            .price-tiers {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="#" class="back-button">🧁 العودة للألعاب →</a>
+            <h1>مخبز الكعك</h1>
         </div>
-        <div class="stat-item">
-          <div class="stat-label">Day</div>
-          <div class="stat-value">
-            <span>📅</span>
-            <span id="dayDisplay">1/7</span>
-          </div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="icon">💵</div>
+                <div class="label">رأس المال</div>
+                <div class="value" id="money">$75.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">📅</div>
+                <div class="label">اليوم</div>
+                <div class="value" id="day">1</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">💰</div>
+                <div class="label">إجمالي الربح</div>
+                <div class="value" id="totalProfit">$0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🧁</div>
+                <div class="label">الكعك المباع</div>
+                <div class="value" id="cupcakesSold">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⭐</div>
+                <div class="label">تقييم الجودة</div>
+                <div class="value" id="quality">5.0</div>
+            </div>
         </div>
-        <div class="stat-item">
-          <div class="stat-label">Total Profit</div>
-          <div class="stat-value">
-            <span>💰</span>
-            <span id="profitDisplay">$0.00</span>
-          </div>
+
+        <div class="game-content">
+            <div class="main-panel">
+                <div class="occasion-card">
+                    <div class="occasion-icon" id="occasionIcon">🎉</div>
+                    <div class="occasion-info">
+                        <h3 id="occasionName">موسم الاحتفالات</h3>
+                        <p id="occasionDesc">الناس يطلبون كعك للحفلات!</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🛒 شراء المكونات</h2>
+                    
+                    <div class="ingredient-item">
+                        <div class="ingredient-info">
+                            <div class="ingredient-icon">🌾</div>
+                            <div class="ingredient-details">
+                                <h4>دقيق</h4>
+                                <p class="ingredient-price">$1.00 لكل كيس</p>
+                            </div>
+                        </div>
+                        <div class="ingredient-controls">
+                            <button class="btn btn-secondary" onclick="changeIngredient('flour', -1)">-</button>
+                            <span class="quantity" id="flour">0</span>
+                            <button class="btn btn-secondary" onclick="changeIngredient('flour', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="ingredient-item">
+                        <div class="ingredient-info">
+                            <div class="ingredient-icon">🥚</div>
+                            <div class="ingredient-details">
+                                <h4>بيض</h4>
+                                <p class="ingredient-price">$0.80 لكل عبوة</p>
+                            </div>
+                        </div>
+                        <div class="ingredient-controls">
+                            <button class="btn btn-secondary" onclick="changeIngredient('eggs', -1)">-</button>
+                            <span class="quantity" id="eggs">0</span>
+                            <button class="btn btn-secondary" onclick="changeIngredient('eggs', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="ingredient-item">
+                        <div class="ingredient-info">
+                            <div class="ingredient-icon">🧈</div>
+                            <div class="ingredient-details">
+                                <h4>زبدة</h4>
+                                <p class="ingredient-price">$1.20 لكل علبة</p>
+                            </div>
+                        </div>
+                        <div class="ingredient-controls">
+                            <button class="btn btn-secondary" onclick="changeIngredient('butter', -1)">-</button>
+                            <span class="quantity" id="butter">0</span>
+                            <button class="btn btn-secondary" onclick="changeIngredient('butter', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="ingredient-item">
+                        <div class="ingredient-info">
+                            <div class="ingredient-icon">🍬</div>
+                            <div class="ingredient-details">
+                                <h4>سكر</h4>
+                                <p class="ingredient-price">$0.60 لكل كيس</p>
+                            </div>
+                        </div>
+                        <div class="ingredient-controls">
+                            <button class="btn btn-secondary" onclick="changeIngredient('sugar', -1)">-</button>
+                            <span class="quantity" id="sugar">0</span>
+                            <button class="btn btn-secondary" onclick="changeIngredient('sugar', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>👨‍🍳 صمم الكعك</h2>
+                    <div class="recipe-builder">
+                        <h3>اختر النكهة</h3>
+                        <div class="flavor-grid">
+                            <button class="flavor-btn active" data-flavor="vanilla" onclick="selectFlavor(this)">
+                                <div class="flavor-icon">🍦</div>
+                                <div>فانيليا</div>
+                            </button>
+                            <button class="flavor-btn" data-flavor="chocolate" onclick="selectFlavor(this)">
+                                <div class="flavor-icon">🍫</div>
+                                <div>شوكولاتة</div>
+                            </button>
+                            <button class="flavor-btn" data-flavor="strawberry" onclick="selectFlavor(this)">
+                                <div class="flavor-icon">🍓</div>
+                                <div>فراولة</div>
+                            </button>
+                            <button class="flavor-btn" data-flavor="lemon" onclick="selectFlavor(this)">
+                                <div class="flavor-icon">🍋</div>
+                                <div>ليمون</div>
+                            </button>
+                        </div>
+
+                        <div class="decoration-section">
+                            <h3>اختر الزينة</h3>
+                            <div class="decoration-grid">
+                                <button class="decoration-btn active" data-decoration="sprinkles" onclick="selectDecoration(this)">
+                                    <div class="decoration-icon">✨</div>
+                                    <div style="font-size: 0.8em;">رشات</div>
+                                </button>
+                                <button class="decoration-btn" data-decoration="cream" onclick="selectDecoration(this)">
+                                    <div class="decoration-icon">🍰</div>
+                                    <div style="font-size: 0.8em;">كريمة</div>
+                                </button>
+                                <button class="decoration-btn" data-decoration="fruits" onclick="selectDecoration(this)">
+                                    <div class="decoration-icon">🍒</div>
+                                    <div style="font-size: 0.8em;">فواكه</div>
+                                </button>
+                                <button class="decoration-btn" data-decoration="chocolate" onclick="selectDecoration(this)">
+                                    <div class="decoration-icon">🍫</div>
+                                    <div style="font-size: 0.8em;">شوكولاتة</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>💵 استراتيجية التسعير</h2>
+                    <div class="pricing-section">
+                        <p style="color: #6c757d; margin-bottom: 10px;">اختر فئة السعر حسب جودة المنتج</p>
+                        <div class="price-tiers">
+                            <div class="price-tier" data-tier="budget" onclick="selectPriceTier(this)">
+                                <div class="tier-name">اقتصادي</div>
+                                <div class="tier-price">$2.00</div>
+                                <div class="tier-desc">جودة عادية</div>
+                            </div>
+                            <div class="price-tier active" data-tier="standard" onclick="selectPriceTier(this)">
+                                <div class="tier-name">قياسي</div>
+                                <div class="tier-price">$3.50</div>
+                                <div class="tier-desc">جودة جيدة</div>
+                            </div>
+                            <div class="price-tier" data-tier="premium" onclick="selectPriceTier(this)">
+                                <div class="tier-name">فاخر</div>
+                                <div class="tier-price">$5.00</div>
+                                <div class="tier-desc">جودة ممتازة</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cost-summary">
+                    <div class="cost-row">
+                        <span>تكلفة المكونات</span>
+                        <span id="ingredientCost">$0.00</span>
+                    </div>
+                    <div class="cost-row">
+                        <span>عدد الكعك المتوقع</span>
+                        <span id="expectedCupcakes">0</span>
+                    </div>
+                    <div class="cost-row">
+                        <span>تكلفة الوحدة</span>
+                        <span id="unitCost">$0.00</span>
+                    </div>
+                    <div class="cost-row">
+                        <span>رأس المال المتبقي</span>
+                        <span id="remainingMoney">$75.00</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-reset" onclick="resetDay()">↺ إعادة ضبط</button>
+                    <button class="btn btn-primary" onclick="startBaking()">🔥 ابدأ الخبز!</button>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="event-card">
+                    <h3>📢 حدث اليوم</h3>
+                    <h4 id="eventTitle">موسم الحفلات!</h4>
+                    <p id="eventDesc">هناك العديد من الحفلات هذا الأسبوع. الطلب على الكعك مرتفع!</p>
+                </div>
+
+                <div class="preview-card">
+                    <h3 style="margin-bottom: 15px;">👀 معاينة المنتج</h3>
+                    <div class="cupcake-preview" id="cupcakePreview">🧁</div>
+                    <div class="preview-details">
+                        <div class="preview-row">
+                            <span>النكهة:</span>
+                            <strong id="previewFlavor">فانيليا</strong>
+                        </div>
+                        <div class="preview-row">
+                            <span>الزينة:</span>
+                            <strong id="previewDecoration">رشات</strong>
+                        </div>
+                        <div class="preview-row">
+                            <span>السعر:</span>
+                            <strong id="previewPrice" style="color: #28a745;">$3.50</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tips-card">
+                    <h3>💡 نصائح احترافية</h3>
+                    <div class="tip-item">🧁 النكهات المميزة تجذب المزيد من الزبائن!</div>
+                    <div class="tip-item">✨ الزينة الجميلة تزيد من السعر المناسب.</div>
+                    <div class="tip-item">💰 لا تبالغ في السعر مقارنة بالجودة.</div>
+                    <div class="tip-item">📊 اشتر مكونات كافية لكن لا تسرف!</div>
+                    <div class="tip-item">🎯 اختر النكهة حسب المناسبة.</div>
+                </div>
+
+                <div class="section">
+                    <h2>📦 المخزون</h2>
+                    <div class="inventory-grid" id="inventoryDisplay">
+                        <p style="grid-column: 1/-1; text-align: center; color: #6c757d;">اشتر المكونات لرؤية مخزونك</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="stat-item">
-          <div class="stat-label">Items Sold</div>
-          <div class="stat-value">
-            <span>🎂</span>
-            <span id="itemsSoldDisplay">0</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">Customer Rating</div>
-          <div class="stat-value">
-            <span>⭐</span>
-            <span id="ratingDisplay">5.0</span>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Main Container -->
-    <div class="main-container">
-      <!-- Steps Indicator -->
-      <div class="steps-indicator">
-        <div class="step-item active" id="step1Indicator">
-          <div class="step-number">1</div>
-          <div class="step-text">Choose Recipes</div>
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-item" id="step2Indicator">
-          <div class="step-number">2</div>
-          <div class="step-text">Set Production</div>
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-item" id="step3Indicator">
-          <div class="step-number">3</div>
-          <div class="step-text">Choose Quality</div>
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-item" id="step4Indicator">
-          <div class="step-number">4</div>
-          <div class="step-text">Set Prices</div>
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-item" id="step5Indicator">
-          <div class="step-number">5</div>
-          <div class="step-text">Discount Strategy</div>
-        </div>
-        <div class="step-connector"></div>
-        <div class="step-item" id="step6Indicator">
-          <div class="step-number">6</div>
-          <div class="step-text">Schedule</div>
-        </div>
-      </div>
-
-      <!-- Step 1: Choose Recipes -->
-      <div id="step1" class="game-panel">
-        <div class="panel-header">
-          <h2 class="panel-title">🍰 Choose Your Recipes</h2>
-          <p class="panel-description">
-            Select 1-3 products to bake and sell. Each has different costs,
-            shelf life, and appeal!
-          </p>
-        </div>
-
-        <div class="products-grid">
-          <div class="product-card" onclick="toggleProduct('cupcakes')">
-            <div class="product-icon">🧁</div>
-            <div class="product-name">Cupcakes</div>
-            <div class="product-stats">
-              <div class="product-stat">
-                <span class="stat-name">Cost:</span>
-                <span class="stat-value">$0.75 each</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Baking Time:</span>
-                <span class="stat-value">30 min/batch (12)</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Shelf Life:</span>
-                <span class="stat-value">2 days</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Appeal:</span>
-                <span class="stat-value">⭐⭐⭐⭐⭐</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Suggested Price:</span>
-                <span class="stat-value">$3.00 - $4.00</span>
-              </div>
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <h2>🎉 اليوم مكتمل!</h2>
+            <div class="result-stat">
+                <span>الكعك المباع</span>
+                <strong id="resultCupcakes">0</strong>
             </div>
-          </div>
-
-          <div class="product-card" onclick="toggleProduct('cookies')">
-            <div class="product-icon">🍪</div>
-            <div class="product-name">Cookies</div>
-            <div class="product-stats">
-              <div class="product-stat">
-                <span class="stat-name">Cost:</span>
-                <span class="stat-value">$0.40 each</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Baking Time:</span>
-                <span class="stat-value">20 min/batch (24)</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Shelf Life:</span>
-                <span class="stat-value">4 days</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Appeal:</span>
-                <span class="stat-value">⭐⭐⭐⭐</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Suggested Price:</span>
-                <span class="stat-value">$1.50 - $2.50</span>
-              </div>
+            <div class="result-stat">
+                <span>الإيرادات</span>
+                <strong id="resultRevenue">$0.00</strong>
             </div>
-          </div>
-
-          <div class="product-card" onclick="toggleProduct('bread')">
-            <div class="product-icon">🍞</div>
-            <div class="product-name">Artisan Bread</div>
-            <div class="product-stats">
-              <div class="product-stat">
-                <span class="stat-name">Cost:</span>
-                <span class="stat-value">$2.00 each</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Baking Time:</span>
-                <span class="stat-value">90 min/batch (6)</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Shelf Life:</span>
-                <span class="stat-value">1 day</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Appeal:</span>
-                <span class="stat-value">⭐⭐⭐</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Suggested Price:</span>
-                <span class="stat-value">$7.00 - $9.00</span>
-              </div>
+            <div class="result-stat">
+                <span>المصروفات</span>
+                <strong id="resultExpenses">$0.00</strong>
             </div>
-          </div>
-
-          <div class="product-card" onclick="toggleProduct('brownies')">
-            <div class="product-icon">🟫</div>
-            <div class="product-name">Brownies</div>
-            <div class="product-stats">
-              <div class="product-stat">
-                <span class="stat-name">Cost:</span>
-                <span class="stat-value">$1.20 each</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Baking Time:</span>
-                <span class="stat-value">40 min/batch (16)</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Shelf Life:</span>
-                <span class="stat-value">3 days</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Appeal:</span>
-                <span class="stat-value">⭐⭐⭐⭐</span>
-              </div>
-              <div class="product-stat">
-                <span class="stat-name">Suggested Price:</span>
-                <span class="stat-value">$3.50 - $5.00</span>
-              </div>
+            <div class="result-stat">
+                <span>الربح الصافي</span>
+                <strong id="resultProfit" style="color: #28a745;">$0.00</strong>
             </div>
-          </div>
-        </div>
-
-        <div class="education-note">
-          <div class="education-note-icon">💡</div>
-          <div>
-            <strong>Business Tip:</strong> Different products have different
-            costs, times, and freshness windows! Choose a mix that balances
-            profit potential with your time and budget.
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button
-            class="btn btn-primary"
-            onclick="goToStep(2)"
-            id="step1NextBtn"
-            disabled=""
-          >
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 2: Set Production -->
-      <div id="step2" class="game-panel hidden">
-        <div class="panel-header">
-          <h2 class="panel-title">📊 Plan Your Production</h2>
-          <p class="panel-description">
-            How many of each item will you bake today? Watch your time and
-            budget!
-          </p>
-        </div>
-
-        <div class="production-grid" id="productionGrid">
-          <!-- Production items will be added dynamically -->
-        </div>
-
-        <div class="constraints-panel">
-          <div class="constraint-item">
-            <span class="constraint-label">🕐 Baking Time:</span>
-            <div class="constraint-bar">
-              <div class="constraint-fill" id="timeBar" style="width: 0%"></div>
+            <div class="result-stat">
+                <span>تقييم العملاء</span>
+                <strong id="resultRating">⭐⭐⭐⭐⭐</strong>
             </div>
-            <span class="constraint-value" id="timeUsed">0 / 360 min</span>
-          </div>
-          <div class="constraint-item">
-            <span class="constraint-label">💵 Cost:</span>
-            <div class="constraint-bar">
-              <div class="constraint-fill" id="costBar" style="width: 0%"></div>
+            <div class="action-buttons" style="margin-top: 20px;">
+                <button class="btn btn-reset" onclick="endGame()">🏁 إنهاء اللعبة</button>
+                <button class="btn btn-primary" onclick="nextDay()">← اليوم التالي</button>
             </div>
-            <span class="constraint-value" id="costUsed">$0.00 / $150.00</span>
-          </div>
         </div>
-
-        <div class="education-note">
-          <div class="education-note-icon">💡</div>
-          <div>
-            <strong>Production Planning:</strong> Make too little and you'll
-            miss sales. Make too much and you'll waste ingredients. Find the
-            right balance!
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="goToStep(1)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            onclick="goToStep(3)"
-            id="step2NextBtn"
-            disabled=""
-          >
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 3: Choose Quality -->
-      <div id="step3" class="game-panel hidden">
-        <div class="panel-header">
-          <h2 class="panel-title">✨ Choose Ingredient Quality</h2>
-          <p class="panel-description">
-            Better ingredients cost more but can justify higher prices and build
-            loyalty!
-          </p>
-        </div>
-
-        <div class="quality-options">
-          <div class="quality-card" onclick="selectQuality('standard')">
-            <div class="quality-icon">🥄</div>
-            <div class="quality-name">Standard</div>
-            <div class="quality-modifier">Base Cost</div>
-            <ul class="quality-benefits">
-              <li>Normal taste</li>
-              <li>Standard customer satisfaction</li>
-              <li>Good for budget-conscious</li>
-            </ul>
-          </div>
-
-          <div class="quality-card" onclick="selectQuality('organic')">
-            <div class="quality-icon">🌿</div>
-            <div class="quality-name">Organic</div>
-            <div class="quality-modifier">+50% Cost</div>
-            <ul class="quality-benefits">
-              <li>Premium organic taste</li>
-              <li>"Organic" marketing appeal</li>
-              <li>+30% price tolerance</li>
-              <li>Attracts health-conscious customers</li>
-            </ul>
-          </div>
-
-          <div class="quality-card" onclick="selectQuality('premium')">
-            <div class="quality-icon">👨‍🍳</div>
-            <div class="quality-name">Premium</div>
-            <div class="quality-modifier">+40% Cost</div>
-            <ul class="quality-benefits">
-              <li>Excellent gourmet taste</li>
-              <li>"Gourmet" brand appeal</li>
-              <li>+25% price tolerance</li>
-              <li>Word-of-mouth bonus</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="education-note">
-          <div class="education-note-icon">💡</div>
-          <div>
-            <strong>Quality Matters:</strong> Better ingredients cost more but
-            let you charge higher prices. Calculate if the premium is worth it
-            for your strategy!
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="goToStep(2)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            onclick="goToStep(4)"
-            id="step3NextBtn"
-            disabled=""
-          >
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 4: Set Prices -->
-      <div id="step4" class="game-panel hidden">
-        <div class="panel-header">
-          <h2 class="panel-title">💰 Set Your Prices</h2>
-          <p class="panel-description">
-            Find the sweet spot - not too high, not too low!
-          </p>
-        </div>
-
-        <div class="pricing-grid" id="pricingGrid">
-          <!-- Pricing items will be added dynamically -->
-        </div>
-
-        <div class="education-note">
-          <div class="education-note-icon">💡</div>
-          <div>
-            <strong>Pricing Strategy:</strong> Higher prices mean more profit
-            per sale, but fewer customers. Lower prices attract more buyers but
-            reduce margins. Watch the indicators!
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="goToStep(3)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button class="btn btn-primary" onclick="goToStep(5)">
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 5: Discount Strategy -->
-      <div id="step5" class="game-panel hidden">
-        <div class="panel-header">
-          <h2 class="panel-title">🏷️ Day-Old Discount Strategy</h2>
-          <p class="panel-description">
-            How will you handle items that don't sell on the first day?
-          </p>
-        </div>
-
-        <div class="discount-options">
-          <div class="discount-card" onclick="selectDiscount('throwaway')">
-            <div class="discount-icon">🗑️</div>
-            <div class="discount-name">Throw Away</div>
-            <div class="discount-effect">
-              Maintain premium brand image<br />0% recovery
-            </div>
-          </div>
-
-          <div class="discount-card" onclick="selectDiscount('half')">
-            <div class="discount-icon">💵</div>
-            <div class="discount-name">50% Off</div>
-            <div class="discount-effect">
-              Move most inventory<br />~70% recovery rate
-            </div>
-          </div>
-
-          <div class="discount-card" onclick="selectDiscount('clearance')">
-            <div class="discount-icon">🔥</div>
-            <div class="discount-name">75% Off</div>
-            <div class="discount-effect">
-              Clear all inventory<br />~90% recovery rate
-            </div>
-          </div>
-
-          <div class="discount-card" onclick="selectDiscount('donate')">
-            <div class="discount-icon">❤️</div>
-            <div class="discount-name">Donate</div>
-            <div class="discount-effect">
-              No revenue but<br />+20% customer loyalty tomorrow
-            </div>
-          </div>
-        </div>
-
-        <div class="education-note">
-          <div class="education-note-icon">💡</div>
-          <div>
-            <strong>Freshness Management:</strong> Fresh food has a shelf life.
-            Discounting saves some revenue from waste, but affects your brand.
-            Choose wisely!
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="goToStep(4)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            onclick="goToStep(6)"
-            id="step5NextBtn"
-            disabled=""
-          >
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 6: Operating Schedule -->
-      <div id="step6" class="game-panel hidden">
-        <div class="panel-header">
-          <h2 class="panel-title">⏰ Choose Your Schedule</h2>
-          <p class="panel-description">When will your bakery be open?</p>
-        </div>
-
-        <div class="schedule-options">
-          <div class="schedule-card" onclick="selectSchedule('morning')">
-            <div class="schedule-time">🌅 Morning Only</div>
-            <div class="schedule-hours">6:00 AM - 12:00 PM</div>
-            <ul class="schedule-pros">
-              <li>Catch breakfast crowd</li>
-              <li>Fresh items highly valued</li>
-              <li>Limited operating hours</li>
-              <li>30-50 customers</li>
-            </ul>
-          </div>
-
-          <div class="schedule-card" onclick="selectSchedule('afternoon')">
-            <div class="schedule-time">☀️ Afternoon Only</div>
-            <div class="schedule-hours">12:00 PM - 6:00 PM</div>
-            <ul class="schedule-pros">
-              <li>Lunch and after-school crowd</li>
-              <li>Mix of buyers</li>
-              <li>Limited operating hours</li>
-              <li>40-70 customers</li>
-            </ul>
-          </div>
-
-          <div class="schedule-card" onclick="selectSchedule('allday')">
-            <div class="schedule-time">🌞 All Day</div>
-            <div class="schedule-hours">6:00 AM - 6:00 PM</div>
-            <ul class="schedule-pros">
-              <li>Maximum exposure</li>
-              <li>All customer segments</li>
-              <li>Requires assistant (+$30/day)</li>
-              <li>70-120 customers</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="education-note">
-          <div class="education-note-icon">💡</div>
-          <div>
-            <strong>Timing Matters:</strong> Different schedules reach different
-            customers. Longer hours mean more sales potential but higher costs.
-            Balance revenue and expenses!
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="goToStep(5)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            onclick="startDay()"
-            id="step6NextBtn"
-            disabled=""
-          >
-            <span>🎬 Start Day!</span>
-          </button>
-        </div>
-      </div>
     </div>
 
-    <!-- Day Results Modal -->
-    <div class="modal" id="dayResultsModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-icon" id="dayResultIcon">🎉</div>
-          <h2 class="modal-title" id="dayResultTitle">Day 1 Complete!</h2>
-          <p id="dayResultMessage" style="color: var(--text-secondary)"></p>
-        </div>
+    <script>
+        const gameState = {
+            money: 75,
+            day: 1,
+            totalProfit: 0,
+            totalCupcakesSold: 0,
+            quality: 5.0,
+            ingredients: {
+                flour: 0,
+                eggs: 0,
+                butter: 0,
+                sugar: 0
+            },
+            inventory: {
+                flour: 0,
+                eggs: 0,
+                butter: 0,
+                sugar: 0
+            },
+            flavor: 'vanilla',
+            decoration: 'sprinkles',
+            priceTier: 'standard',
+            occasion: null
+        };
 
-        <div class="day-results-grid">
-          <div class="result-card">
-            <div class="result-label">Revenue</div>
-            <div class="result-value positive" id="dayRevenue">$0.00</div>
-          </div>
-          <div class="result-card">
-            <div class="result-label">Expenses</div>
-            <div class="result-value" id="dayExpenses">$0.00</div>
-          </div>
-          <div class="result-card">
-            <div class="result-label">Daily Profit</div>
-            <div class="result-value" id="dayProfit">$0.00</div>
-          </div>
-          <div class="result-card">
-            <div class="result-label">Items Sold</div>
-            <div class="result-value" id="dayItemsSold">0</div>
-          </div>
-        </div>
+        const ingredientPrices = {
+            flour: 1.00,
+            eggs: 0.80,
+            butter: 1.20,
+            sugar: 0.60
+        };
 
-        <div class="inventory-status">
-          <div class="inventory-title">📦 Remaining Inventory</div>
-          <div class="inventory-grid" id="remainingInventory">
-            <!-- Inventory items will be added dynamically -->
-          </div>
-        </div>
+        const priceTiers = {
+            budget: { price: 2.00, quality: 0.7 },
+            standard: { price: 3.50, quality: 1.0 },
+            premium: { price: 5.00, quality: 1.3 }
+        };
 
-        <div class="action-buttons">
-          <button
-            class="btn btn-secondary"
-            onclick="endGame()"
-            id="endGameBtn"
-            style="display: none"
-          >
-            <span>🏁 End Game</span>
-          </button>
-          <button class="btn btn-primary" onclick="nextDay()">
-            <span>Next Day</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-    </div>
+        const flavorNames = {
+            vanilla: 'فانيليا',
+            chocolate: 'شوكولاتة',
+            strawberry: 'فراولة',
+            lemon: 'ليمون'
+        };
 
-    <!-- Final Results Modal -->
-    <div class="modal" id="finalResultsModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-icon">🏆</div>
-          <h2 class="modal-title">Week Complete!</h2>
-          <p style="color: var(--text-secondary)">
-            Here's how your bakery performed over the week
-          </p>
-        </div>
+        const decorationNames = {
+            sprinkles: 'رشات',
+            cream: 'كريمة',
+            fruits: 'فواكه',
+            chocolate: 'شوكولاتة'
+        };
 
-        <div class="final-summary">
-          <div class="summary-stats">
-            <div class="summary-stat">
-              <div class="summary-stat-label">Total Profit</div>
-              <div class="summary-stat-value" id="finalProfit">$0.00</div>
-            </div>
-            <div class="summary-stat">
-              <div class="summary-stat-label">Items Sold</div>
-              <div class="summary-stat-value" id="finalItemsSold">0</div>
-            </div>
-            <div class="summary-stat">
-              <div class="summary-stat-label">Avg Rating</div>
-              <div class="summary-stat-value" id="finalRating">0.0⭐</div>
-            </div>
-            <div class="summary-stat">
-              <div class="summary-stat-label">Waste Rate</div>
-              <div class="summary-stat-value" id="finalWaste">0%</div>
-            </div>
-          </div>
-        </div>
+        const occasions = [
+            { icon: '🎉', name: 'موسم الحفلات', desc: 'هناك العديد من الحفلات هذا الأسبوع. الطلب على الكعك مرتفع!', multiplier: 1.5 },
+            { icon: '💒', name: 'موسم الأعراس', desc: 'الكثير من حفلات الزفاف. الناس يبحثون عن كعك فاخر!', multiplier: 1.3 },
+            { icon: '🎂', name: 'أعياد الميلاد', desc: 'موسم أعياد الميلاد. طلب مستمر على الكعك!', multiplier: 1.2 },
+            { icon: '🎓', name: 'حفلات التخرج', desc: 'موسم التخرج. العائلات تحتفل!', multiplier: 1.4 }
+        ];
 
-        <div class="performance-section">
-          <h3 class="performance-title">Performance Analysis</h3>
-          <div class="performance-grid">
-            <div class="performance-item">
-              <span class="performance-label">Profitability</span>
-              <div class="performance-bar">
-                <div
-                  class="performance-fill"
-                  id="profitBar"
-                  style="width: 0%"
-                ></div>
-              </div>
-              <span class="performance-value" id="profitScore">0/100</span>
-            </div>
-            <div class="performance-item">
-              <span class="performance-label">Efficiency</span>
-              <div class="performance-bar">
-                <div
-                  class="performance-fill"
-                  id="efficiencyBar"
-                  style="width: 0%"
-                ></div>
-              </div>
-              <span class="performance-value" id="efficiencyScore">0/100</span>
-            </div>
-            <div class="performance-item">
-              <span class="performance-label">Planning</span>
-              <div class="performance-bar">
-                <div
-                  class="performance-fill"
-                  id="planningBar"
-                  style="width: 0%"
-                ></div>
-              </div>
-              <span class="performance-value" id="planningScore">0/100</span>
-            </div>
-          </div>
-        </div>
+        function initGame() {
+            setRandomOccasion();
+            updateDisplay();
+            updatePreview();
+        }
 
-        <div class="insights-section">
-          <h3 class="performance-title">Key Insights</h3>
-          <div id="insightsContainer">
-            <!-- Insights will be added dynamically -->
-          </div>
-        </div>
+        function setRandomOccasion() {
+            gameState.occasion = occasions[Math.floor(Math.random() * occasions.length)];
+            document.getElementById('occasionIcon').textContent = gameState.occasion.icon;
+            document.getElementById('occasionName').textContent = gameState.occasion.name;
+            document.getElementById('occasionDesc').textContent = gameState.occasion.desc;
+        }
 
-        <div class="action-buttons">
-          <button
-            class="btn btn-secondary"
-            onclick="window.location.href='games.html'"
-          >
-            <span>← Back to Games</span>
-          </button>
-          <button class="btn btn-primary" onclick="location.reload()">
-            <span>🔄 Play Again</span>
-          </button>
-        </div>
-      </div>
-    </div>
+        function changeIngredient(type, amount) {
+            const newAmount = gameState.ingredients[type] + amount;
+            if (newAmount >= 0) {
+                const costDiff = amount * ingredientPrices[type];
+                if (gameState.money >= costDiff || amount < 0) {
+                    gameState.ingredients[type] = newAmount;
+                    updateDisplay();
+                }
+            }
+        }
 
-    <script src="bakery-game.js"></script>
-  </body>
+        function selectFlavor(btn) {
+            document.querySelectorAll('.flavor-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            gameState.flavor = btn.dataset.flavor;
+            updatePreview();
+        }
+
+        function selectDecoration(btn) {
+            document.querySelectorAll('.decoration-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            gameState.decoration = btn.dataset.decoration;
+            updatePreview();
+        }
+
+        function selectPriceTier(tier) {
+            document.querySelectorAll('.price-tier').forEach(t => t.classList.remove('active'));
+            tier.classList.add('active');
+            gameState.priceTier = tier.dataset.tier;
+            updatePreview();
+        }
+
+        function calculateIngredientCost() {
+            let total = 0;
+            for (let type in gameState.ingredients) {
+                total += gameState.ingredients[type] * ingredientPrices[type];
+            }
+            return total;
+        }
+
+        function calculateExpectedCupcakes() {
+            if (gameState.ingredients.flour === 0) return 0;
+            return Math.min(
+                gameState.ingredients.flour * 12,
+                gameState.ingredients.eggs * 12,
+                gameState.ingredients.butter * 12,
+                gameState.ingredients.sugar * 12
+            );
+        }
+
+        function updateDisplay() {
+            document.getElementById('money').textContent = '$' + gameState.money.toFixed(2);
+            document.getElementById('day').textContent = gameState.day;
+            document.getElementById('totalProfit').textContent = '$' + gameState.totalProfit.toFixed(2);
+            document.getElementById('cupcakesSold').textContent = gameState.totalCupcakesSold;
+            document.getElementById('quality').textContent = gameState.quality.toFixed(1);
+
+            for (let type in gameState.ingredients) {
+                document.getElementById(type).textContent = gameState.ingredients[type];
+            }
+
+            const ingredientCost = calculateIngredientCost();
+            const expectedCupcakes = calculateExpectedCupcakes();
+            const unitCost = expectedCupcakes > 0 ? ingredientCost / expectedCupcakes : 0;
+
+            document.getElementById('ingredientCost').textContent = '$' + ingredientCost.toFixed(2);
+            document.getElementById('expectedCupcakes').textContent = expectedCupcakes;
+            document.getElementById('unitCost').textContent = '$' + unitCost.toFixed(2);
+            document.getElementById('remainingMoney').textContent = '$' + (gameState.money - ingredientCost).toFixed(2);
+
+            updateInventoryDisplay();
+        }
+
+        function updatePreview() {
+            document.getElementById('previewFlavor').textContent = flavorNames[gameState.flavor];
+            document.getElementById('previewDecoration').textContent = decorationNames[gameState.decoration];
+            document.getElementById('previewPrice').textContent = '$' + priceTiers[gameState.priceTier].price.toFixed(2);
+        }
+
+        function updateInventoryDisplay() {
+            const container = document.getElementById('inventoryDisplay');
+            const hasInventory = Object.values(gameState.inventory).some(v => v > 0);
+
+            if (!hasInventory) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #6c757d;">اشتر المكونات لرؤية مخزونك</p>';
+                return;
+            }
+
+            const icons = { flour: '🌾', eggs: '🥚', butter: '🧈', sugar: '🍬' };
+            const names = { flour: 'دقيق', eggs: 'بيض', butter: 'زبدة', sugar: 'سكر' };
+
+            container.innerHTML = '';
+            for (let type in gameState.inventory) {
+                if (gameState.inventory[type] > 0) {
+                    const div = document.createElement('div');
+                    div.className = 'inventory-item';
+                    div.innerHTML = `
+                        <div style="font-size: 1.5em;">${icons[type]}</div>
+                        <div style="font-size: 0.9em; color: #6c757d;">${names[type]}</div>
+                        <div style="font-weight: bold;">${gameState.inventory[type]}</div>
+                    `;
+                    container.appendChild(div);
+                }
+            }
+        }
+
+        function startBaking() {
+            const ingredientCost = calculateIngredientCost();
+
+            if (ingredientCost > gameState.money) {
+                alert('ليس لديك نقود كافية!');
+                return;
+            }
+
+            if (calculateExpectedCupcakes() === 0) {
+                alert('تحتاج إلى شراء المكونات أولاً!');
+                return;
+            }
+
+            // Deduct money and add to inventory
+            gameState.money -= ingredientCost;
+            for (let type in gameState.ingredients) {
+                gameState.inventory[type] += gameState.ingredients[type];
+                gameState.ingredients[type] = 0;
+            }
+
+            simulateSales();
+        }
+
+        function simulateSales() {
+            const cupcakesMade = calculateExpectedCupcakes();
+            const price = priceTiers[gameState.priceTier].price;
+            const qualityMod = priceTiers[gameState.priceTier].quality;
+
+            // Calculate demand
+            let demandMod = 1.0;
+            demandMod *= gameState.occasion.multiplier;
+
+            // Flavor popularity
+            const flavorPop = {
+                vanilla: 1.2,
+                chocolate: 1.3,
+                strawberry: 1.1,
+                lemon: 0.9
+            };
+            demandMod *= flavorPop[gameState.flavor];
+
+            // Decoration appeal
+            const decorationAppeal = {
+                sprinkles: 1.0,
+                cream: 1.2,
+                fruits: 1.3,
+                chocolate: 1.1
+            };
+            demandMod *= decorationAppeal[gameState.decoration];
+
+            // Price sensitivity
+            if (gameState.priceTier === 'budget') demandMod *= 1.3;
+            else if (gameState.priceTier === 'premium') demandMod *= 0.8;
+
+            demandMod *= (gameState.quality / 5.0);
+
+            const soldPercentage = Math.min(0.95, 0.6 + (demandMod * 0.2) + (Math.random() * 0.2));
+            const cupcakesSold = Math.floor(cupcakesMade * soldPercentage);
+
+            const revenue = cupcakesSold * price;
+            const expenses = calculateIngredientCost();
+            const profit = revenue - expenses;
+
+            // Update inventory
+            const usedPerCupcake = cupcakesMade / Math.min(
+                gameState.inventory.flour * 12,
+                gameState.inventory.eggs * 12,
+                gameState.inventory.butter * 12,
+                gameState.inventory.sugar * 12
+            );
+
+            for (let type in gameState.inventory) {
+                gameState.inventory[type] = Math.max(0, gameState.inventory[type] - Math.ceil(cupcakesSold * usedPerCupcake / 12));
+            }
+
+            // Update stats
+            gameState.money += revenue;
+            gameState.totalCupcakesSold += cupcakesSold;
+            gameState.totalProfit += profit;
+
+            // Update quality rating
+            if (qualityMod > 1.1 && soldPercentage > 0.8) {
+                gameState.quality = Math.min(5.0, gameState.quality + 0.2);
+            } else if (qualityMod < 0.8 || soldPercentage < 0.5) {
+                gameState.quality = Math.max(3.0, gameState.quality - 0.2);
+            }
+
+            showResults(cupcakesSold, revenue, expenses, profit);
+        }
+
+        function showResults(sold, revenue, expenses, profit) {
+            document.getElementById('resultCupcakes').textContent = sold;
+            document.getElementById('resultRevenue').textContent = '$' + revenue.toFixed(2);
+            document.getElementById('resultExpenses').textContent = '$' + expenses.toFixed(2);
+            document.getElementById('resultProfit').textContent = '$' + profit.toFixed(2);
+
+            const stars = '⭐'.repeat(Math.round(gameState.quality));
+            document.getElementById('resultRating').textContent = stars;
+
+            const profitElement = document.getElementById('resultProfit');
+            profitElement.style.color = profit >= 0 ? '#28a745' : '#dc3545';
+
+            document.getElementById('resultModal').classList.add('active');
+        }
+
+        function nextDay() {
+            gameState.day++;
+            setRandomOccasion();
+            document.getElementById('resultModal').classList.remove('active');
+            
+            // Reset selections to default
+            document.querySelectorAll('.flavor-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-flavor="vanilla"]').classList.add('active');
+            
+            document.querySelectorAll('.decoration-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-decoration="sprinkles"]').classList.add('active');
+            
+            document.querySelectorAll('.price-tier').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tier="standard"]').classList.add('active');
+            
+            gameState.flavor = 'vanilla';
+            gameState.decoration = 'sprinkles';
+            gameState.priceTier = 'standard';
+            
+            updateDisplay();
+            updatePreview();
+        }
+
+        function resetDay() {
+            for (let type in gameState.ingredients) {
+                gameState.ingredients[type] = 0;
+            }
+            updateDisplay();
+        }
+
+        function endGame() {
+            if (confirm('هل أنت متأكد أنك تريد إنهاء اللعبة؟')) {
+                alert(`اللعبة انتهت!\n\nالأيام: ${gameState.day}\nإجمالي الربح: $${gameState.totalProfit.toFixed(2)}\nالكعك المباع: ${gameState.totalCupcakesSold}\nتقييم الجودة: ${gameState.quality.toFixed(1)}/5.0`);
+                location.reload();
+            }
+        }
+
+        initGame();
+    </script>
+</body>
 </html>

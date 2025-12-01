@@ -1,871 +1,1167 @@
 <!DOCTYPE html>
-<html lang="en">
-{% load static %}
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
+<html lang="ar" dir="rtl">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lemonade Stand Tycoon - BizKids Learning Platform</title>
-    <link rel="stylesheet" href="{% static "css/scenarios/lemon-tycoon.css" %}" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
+    <title>كشك الليمونادة - منصة التعلم التجاري للأطفال</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4caf50;
+            --secondary-color: #ff9800;
+            --background: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #2e7d32;
+            --text-secondary: #666;
+            --border-color: #e0e0e0;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        .game-header {
+            background: linear-gradient(135deg, #ffd54f, #ffb74d);
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-primary);
+            font-weight: 800;
+            font-size: 2rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .stats-bar {
+            background: white;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .game-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .game-board {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 12px;
+        }
+
+        .day-info {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .weather-icon {
+            font-size: 2rem;
+        }
+
+        .control-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .control-card {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .control-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(76,175,80,0.2);
+        }
+
+        .control-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .control-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .quantity-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--text-primary);
+            transform: scale(1.1);
+        }
+
+        .quantity-display {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .cost-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .cost-info span:last-child {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .slider-container {
+            padding: 1rem 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: var(--border-color);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--text-primary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(76,175,80,0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--background);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-right: 4px solid var(--secondary-color);
+        }
+
+        .event-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .event-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--background);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .tip-item:hover {
+            background: #e8f5e9;
+            transform: translateX(-5px);
+        }
+
+        .tip-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .result-item {
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .result-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 150px;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 8px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            background: linear-gradient(to top, var(--primary-color), #81c784);
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+
+        .chart-label {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        @media (max-width: 1200px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-container {
+                flex-direction: column;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
     <!-- Game Header -->
     <header class="game-header">
-      <div class="header-content">
-        <div class="game-title">
-          <span style="font-size: 2rem">🍋</span>
-          <h1>Lemonade Stand Tycoon</h1>
+        <div class="header-content">
+            <div class="game-title">
+                <span style="font-size: 2rem">🍋</span>
+                <h1>كشك الليمونادة</h1>
+            </div>
+            <a href="#" class="back-link">
+                <span>→</span>
+                <span>العودة للألعاب</span>
+            </a>
         </div>
-        <a href="games.html" class="back-link">
-          <span>←</span>
-          <span>Back to Games</span>
-        </a>
-      </div>
     </header>
 
     <!-- Stats Bar -->
     <div class="stats-bar">
-      <div class="stats-container">
-        <div class="stat-item">
-          <div class="stat-label">Cash</div>
-          <div class="stat-value">
-            <span>💵</span>
-            <span id="cashDisplay">$50.00</span>
-          </div>
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-label">النقود</div>
+                <div class="stat-value">
+                    <span>💵</span>
+                    <span id="cashDisplay">$50.00</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">اليوم</div>
+                <div class="stat-value">
+                    <span>📅</span>
+                    <span id="dayDisplay">1</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">إجمالي الربح</div>
+                <div class="stat-value">
+                    <span>💰</span>
+                    <span id="profitDisplay">$0.00</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">الأكواب المباعة</div>
+                <div class="stat-value">
+                    <span>🥤</span>
+                    <span id="cupsSoldDisplay">0</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">السمعة</div>
+                <div class="stat-value">
+                    <span>⭐</span>
+                    <span id="reputationDisplay">5.0</span>
+                </div>
+            </div>
         </div>
-        <div class="stat-item">
-          <div class="stat-label">Day</div>
-          <div class="stat-value">
-            <span>📅</span>
-            <span id="dayDisplay">1</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">Total Profit</div>
-          <div class="stat-value">
-            <span>💰</span>
-            <span id="profitDisplay">$0.00</span>
-          </div>
-          <div class="stat-change positive" id="profitChange"></div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">Cups Sold</div>
-          <div class="stat-value">
-            <span>🥤</span>
-            <span id="cupsSoldDisplay">0</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">Reputation</div>
-          <div class="stat-value">
-            <span>⭐</span>
-            <span id="reputationDisplay">5.0</span>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Main Game Area -->
     <div class="game-container">
-      <!-- Game Board -->
-      <div class="game-board">
-        <div class="board-header">
-          <div class="day-info">
-            <div class="day-number">Day <span id="currentDay">1</span></div>
-          </div>
-          <div class="weather-info">
-            <span class="weather-icon" id="weatherIcon">☀️</span>
-            <span id="weatherText">Sunny &amp; Hot</span>
-            <span id="temperature">85°F</span>
-          </div>
-        </div>
+        <!-- Game Board -->
+        <div class="game-board">
+            <div class="board-header">
+                <div class="day-info">
+                    <div class="day-number">اليوم <span id="currentDay">1</span></div>
+                </div>
+                <div class="weather-info">
+                    <span class="weather-icon" id="weatherIcon">☀️</span>
+                    <span id="weatherText">مشمس وحار</span>
+                    <span id="temperature">29°م</span>
+                </div>
+            </div>
 
-        <!-- Inventory Section -->
-        <div class="control-section">
-          <div class="section-title">
-            <span>📦</span>
-            <span>Buy Supplies</span>
-          </div>
-          <div class="control-grid">
-            <div class="control-card">
-              <div class="control-label">
-                <span>🍋</span>
-                <span>Lemons</span>
-              </div>
-              <div class="control-input">
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('lemons', -10)"
-                >
-                  -
+            <!-- Inventory Section -->
+            <div class="control-section">
+                <div class="section-title">
+                    <span>📦</span>
+                    <span>شراء المستلزمات</span>
+                </div>
+                <div class="control-grid">
+                    <div class="control-card">
+                        <div class="control-label">
+                            <span>🍋</span>
+                            <span>الليمون</span>
+                        </div>
+                        <div class="control-input">
+                            <button class="quantity-btn" onclick="adjustQuantity('lemons', -10)">-</button>
+                            <div class="quantity-display" id="lemonsQty">0</div>
+                            <button class="quantity-btn" onclick="adjustQuantity('lemons', 10)">+</button>
+                        </div>
+                        <div class="cost-info">
+                            <span>$0.50 لكل 10</span>
+                            <span id="lemonsCost">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-label">
+                            <span>🧂</span>
+                            <span>السكر</span>
+                        </div>
+                        <div class="control-input">
+                            <button class="quantity-btn" onclick="adjustQuantity('sugar', -10)">-</button>
+                            <div class="quantity-display" id="sugarQty">0</div>
+                            <button class="quantity-btn" onclick="adjustQuantity('sugar', 10)">+</button>
+                        </div>
+                        <div class="cost-info">
+                            <span>$0.30 لكل 10</span>
+                            <span id="sugarCost">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-label">
+                            <span>🥤</span>
+                            <span>الأكواب</span>
+                        </div>
+                        <div class="control-input">
+                            <button class="quantity-btn" onclick="adjustQuantity('cups', -10)">-</button>
+                            <div class="quantity-display" id="cupsQty">0</div>
+                            <button class="quantity-btn" onclick="adjustQuantity('cups', 10)">+</button>
+                        </div>
+                        <div class="cost-info">
+                            <span>$0.20 لكل 10</span>
+                            <span id="cupsCost">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-label">
+                            <span>🧊</span>
+                            <span>الثلج</span>
+                        </div>
+                        <div class="control-input">
+                            <button class="quantity-btn" onclick="adjustQuantity('ice', -10)">-</button>
+                            <div class="quantity-display" id="iceQty">0</div>
+                            <button class="quantity-btn" onclick="adjustQuantity('ice', 10)">+</button>
+                        </div>
+                        <div class="cost-info">
+                            <span>$0.10 لكل 10</span>
+                            <span id="iceCost">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Section -->
+            <div class="control-section">
+                <div class="section-title">
+                    <span>💵</span>
+                    <span>حدد السعر</span>
+                </div>
+                <div class="control-card">
+                    <div class="control-label">
+                        <span>السعر لكل كوب</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" class="slider" id="priceSlider" min="25" max="500" value="100" step="25" oninput="updatePrice()" />
+                    </div>
+                    <div style="text-align: center; margin-top: 1rem">
+                        <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary-color)" id="priceDisplay">$1.00</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary)">موصى به: $0.75 - $1.25</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Quality -->
+            <div class="control-section">
+                <div class="section-title">
+                    <span>👨‍🍳</span>
+                    <span>جودة الوصفة</span>
+                </div>
+                <div class="control-card">
+                    <div class="control-label">
+                        <span>نسبة الليمون إلى السكر</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" class="slider" id="recipeSlider" min="1" max="10" value="5" oninput="updateRecipe()" />
+                    </div>
+                    <div style="text-align: center; margin-top: 1rem">
+                        <div style="font-weight: 700; color: var(--primary-color)" id="recipeQuality">متوازن</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem">
+                            <span style="float: right">🍋 حامض</span>
+                            <span style="float: left">حلو 🧂</span>
+                        </div>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Cost -->
+            <div style="background: var(--background); padding: 1.5rem; border-radius: 12px; margin-top: 2rem">
+                <div style="display: flex; justify-content: space-between; align-items: center">
+                    <div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary)">إجمالي تكلفة المستلزمات</div>
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--primary-color)" id="totalCost">$0.00</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary)">النقود المتبقية</div>
+                        <div style="font-size: 2rem; font-weight: 800" id="remainingCash">$50.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetDay()">
+                    <span>↺</span>
+                    <span>إعادة ضبط</span>
                 </button>
-                <div class="quantity-display" id="lemonsQty">0</div>
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('lemons', 10)"
-                >
-                  +
+                <button class="btn btn-primary" onclick="startDay()">
+                    <span>▶</span>
+                    <span>ابدأ البيع!</span>
                 </button>
-              </div>
-              <div class="cost-info">
-                <span>$0.50 per 10</span>
-                <span id="lemonsCost">$0.00</span>
-              </div>
             </div>
-
-            <div class="control-card">
-              <div class="control-label">
-                <span>🧂</span>
-                <span>Sugar</span>
-              </div>
-              <div class="control-input">
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('sugar', -10)"
-                >
-                  -
-                </button>
-                <div class="quantity-display" id="sugarQty">0</div>
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('sugar', 10)"
-                >
-                  +
-                </button>
-              </div>
-              <div class="cost-info">
-                <span>$0.30 per 10</span>
-                <span id="sugarCost">$0.00</span>
-              </div>
-            </div>
-
-            <div class="control-card">
-              <div class="control-label">
-                <span>🥤</span>
-                <span>Cups</span>
-              </div>
-              <div class="control-input">
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('cups', -10)"
-                >
-                  -
-                </button>
-                <div class="quantity-display" id="cupsQty">0</div>
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('cups', 10)"
-                >
-                  +
-                </button>
-              </div>
-              <div class="cost-info">
-                <span>$0.20 per 10</span>
-                <span id="cupsCost">$0.00</span>
-              </div>
-            </div>
-
-            <div class="control-card">
-              <div class="control-label">
-                <span>🧊</span>
-                <span>Ice</span>
-              </div>
-              <div class="control-input">
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('ice', -10)"
-                >
-                  -
-                </button>
-                <div class="quantity-display" id="iceQty">0</div>
-                <button
-                  class="quantity-btn"
-                  onclick="adjustQuantity('ice', 10)"
-                >
-                  +
-                </button>
-              </div>
-              <div class="cost-info">
-                <span>$0.10 per 10</span>
-                <span id="iceCost">$0.00</span>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <!-- Pricing Section -->
-        <div class="control-section">
-          <div class="section-title">
-            <span>💵</span>
-            <span>Set Your Price</span>
-          </div>
-          <div class="control-card">
-            <div class="control-label">
-              <span>Price per Cup</span>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Current Event -->
+            <div class="info-panel">
+                <div class="panel-title">
+                    <span>📢</span>
+                    <span>حدث اليوم</span>
+                </div>
+                <div class="event-card" id="eventCard">
+                    <div class="event-title">طقس مثالي!</div>
+                    <div class="event-description">إنه يوم مشمس جميل. الناس يبحثون عن مشروبات منعشة!</div>
+                </div>
             </div>
-            <div class="slider-container">
-              <input
-                type="range"
-                class="slider"
-                id="priceSlider"
-                min="25"
-                max="500"
-                value="100"
-                step="25"
-                oninput="updatePrice()"
-              />
-            </div>
-            <div style="text-align: center; margin-top: 1rem">
-              <div
-                style="
-                  font-size: 2.5rem;
-                  font-weight: 800;
-                  color: var(--primary-color);
-                "
-                id="priceDisplay"
-              >
-                $1.00
-              </div>
-              <div style="font-size: 0.875rem; color: var(--text-secondary)">
-                Recommended: $0.75 - $1.25
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Recipe Quality -->
-        <div class="control-section">
-          <div class="section-title">
-            <span>👨‍🍳</span>
-            <span>Recipe Quality</span>
-          </div>
-          <div class="control-card">
-            <div class="control-label">
-              <span>Lemon-to-Sugar Ratio</span>
+            <!-- Tips -->
+            <div class="info-panel">
+                <div class="panel-title">
+                    <span>💡</span>
+                    <span>نصائح احترافية</span>
+                </div>
+                <ul class="tips-list">
+                    <li class="tip-item">
+                        <span class="tip-icon">☀️</span>
+                        <span>الطقس الحار يعني المزيد من الزبائن! اشتر المزيد من المستلزمات.</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">💰</span>
+                        <span>لا تبالغ في التسعير! ابحث عن النقطة المثالية لزيادة المبيعات.</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">⭐</span>
+                        <span>الوصفات الجيدة تبني السمعة وتجلب الزبائن المتكررين.</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📊</span>
+                        <span>تابع أداءك اليومي لتحسين استراتيجيتك.</span>
+                    </li>
+                </ul>
             </div>
-            <div class="slider-container">
-              <input
-                type="range"
-                class="slider"
-                id="recipeSlider"
-                min="1"
-                max="10"
-                value="5"
-                oninput="updateRecipe()"
-              />
-            </div>
-            <div style="text-align: center; margin-top: 1rem">
-              <div
-                style="font-weight: 700; color: var(--primary-color)"
-                id="recipeQuality"
-              >
-                Balanced
-              </div>
-              <div
-                style="
-                  font-size: 0.75rem;
-                  color: var(--text-secondary);
-                  margin-top: 0.5rem;
-                "
-              >
-                <span style="float: left">🍋 Sour</span>
-                <span style="float: right">Sweet 🧂</span>
-              </div>
-              <div style="clear: both"></div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Total Cost -->
-        <div
-          style="
-            background: var(--background);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-          "
-        >
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            "
-          >
-            <div>
-              <div style="font-size: 0.875rem; color: var(--text-secondary)">
-                Total Supplies Cost
-              </div>
-              <div
-                style="
-                  font-size: 2rem;
-                  font-weight: 800;
-                  color: var(--primary-color);
-                "
-                id="totalCost"
-              >
-                $0.00
-              </div>
+            <!-- Sales History -->
+            <div class="info-panel">
+                <div class="panel-title">
+                    <span>📊</span>
+                    <span>سجل المبيعات</span>
+                </div>
+                <div class="chart-container" id="salesChart">
+                    <div style="text-align: center; width: 100%; color: var(--text-secondary); font-size: 0.875rem">
+                        لا توجد بيانات مبيعات بعد. ابدأ يومك الأول!
+                    </div>
+                </div>
             </div>
-            <div>
-              <div style="font-size: 0.875rem; color: var(--text-secondary)">
-                Remaining Cash
-              </div>
-              <div style="font-size: 2rem; font-weight: 800" id="remainingCash">
-                $50.00
-              </div>
+
+            <!-- Inventory Status -->
+            <div class="info-panel">
+                <div class="panel-title">
+                    <span>📦</span>
+                    <span>المخزون الحالي</span>
+                </div>
+                <div id="inventoryStatus">
+                    <div style="color: var(--text-secondary); font-size: 0.875rem; text-align: center">
+                        اشتر المستلزمات لرؤية مخزونك
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="resetDay()">
-            <span>↺</span>
-            <span>Reset</span>
-          </button>
-          <button class="btn btn-primary" onclick="startDay()">
-            <span>▶</span>
-            <span>Start Selling!</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <!-- Current Event -->
-        <div class="info-panel">
-          <div class="panel-title">
-            <span>📢</span>
-            <span>Today's Event</span>
-          </div>
-          <div class="event-card" id="eventCard">
-            <div class="event-title">Perfect Weather!</div>
-            <div class="event-description">
-              It's a beautiful sunny day. People are looking for refreshing
-              drinks!
-            </div>
-          </div>
-        </div>
-
-        <!-- Tips -->
-        <div class="info-panel">
-          <div class="panel-title">
-            <span>💡</span>
-            <span>Pro Tips</span>
-          </div>
-          <ul class="tips-list">
-            <li class="tip-item">
-              <span class="tip-icon">☀️</span>
-              <span
-                >Hot weather means more customers! Stock up on supplies.</span
-              >
-            </li>
-            <li class="tip-item">
-              <span class="tip-icon">💰</span>
-              <span
-                >Don't overprice! Find the sweet spot to maximize sales.</span
-              >
-            </li>
-            <li class="tip-item">
-              <span class="tip-icon">⭐</span>
-              <span
-                >Good recipes build reputation and bring repeat customers.</span
-              >
-            </li>
-            <li class="tip-item">
-              <span class="tip-icon">📊</span>
-              <span
-                >Track your daily performance to improve your strategy.</span
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- Sales History -->
-        <div class="info-panel">
-          <div class="panel-title">
-            <span>📊</span>
-            <span>Sales History</span>
-          </div>
-          <div class="chart-container" id="salesChart">
-            <div
-              style="
-                text-align: center;
-                width: 100%;
-                color: var(--text-secondary);
-                font-size: 0.875rem;
-              "
-            >
-              No sales data yet. Start your first day!
-            </div>
-          </div>
-        </div>
-
-        <!-- Inventory Status -->
-        <div class="info-panel">
-          <div class="panel-title">
-            <span>📦</span>
-            <span>Current Inventory</span>
-          </div>
-          <div id="inventoryStatus">
-            <div
-              style="
-                color: var(--text-secondary);
-                font-size: 0.875rem;
-                text-align: center;
-              "
-            >
-              Buy supplies to see your inventory
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Results Modal -->
     <div class="modal" id="resultsModal">
-      <div class="modal-content">
-        <div class="modal-icon" id="resultIcon">🎉</div>
-        <h2 class="modal-title" id="resultTitle">Day Complete!</h2>
-        <p
-          id="resultMessage"
-          style="color: var(--text-secondary); margin-bottom: 2rem"
-        ></p>
+        <div class="modal-content">
+            <div class="modal-icon" id="resultIcon">🎉</div>
+            <h2 class="modal-title" id="resultTitle">اليوم مكتمل!</h2>
+            <p id="resultMessage" style="color: var(--text-secondary); margin-bottom: 2rem"></p>
 
-        <div class="results-grid">
-          <div class="result-item">
-            <div class="result-label">Cups Sold</div>
-            <div class="result-value" id="resultCupsSold">0</div>
-          </div>
-          <div class="result-item">
-            <div class="result-label">Revenue</div>
-            <div class="result-value" id="resultRevenue">$0.00</div>
-          </div>
-          <div class="result-item">
-            <div class="result-label">Expenses</div>
-            <div class="result-value" id="resultExpenses">$0.00</div>
-          </div>
-          <div class="result-item">
-            <div class="result-label">Profit</div>
-            <div class="result-value" id="resultProfit">$0.00</div>
-          </div>
-        </div>
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-label">الأكواب المباعة</div>
+                    <div class="result-value" id="resultCupsSold">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">الإيرادات</div>
+                    <div class="result-value" id="resultRevenue">$0.00</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">المصروفات</div>
+                    <div class="result-value" id="resultExpenses">$0.00</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">الربح</div>
+                    <div class="result-value" id="resultProfit">$0.00</div>
+                </div>
+            </div>
 
-        <div class="action-buttons" style="margin-top: 2rem">
-          <button class="btn btn-secondary" onclick="endGame()">
-            <span>🏁</span>
-            <span>End Game</span>
-          </button>
-          <button class="btn btn-primary" onclick="nextDay()">
-            <span>→</span>
-            <span>Next Day</span>
-          </button>
+            <div class="action-buttons" style="margin-top: 2rem">
+                <button class="btn btn-secondary" onclick="endGame()">
+                    <span>🏁</span>
+                    <span>إنهاء اللعبة</span>
+                </button>
+                <button class="btn btn-primary" onclick="nextDay()">
+                    <span>←</span>
+                    <span>اليوم التالي</span>
+                </button>
+            </div>
         </div>
-      </div>
     </div>
 
     <script>
-      // Game State
-      let gameState = {
-        cash: 50,
-        day: 1,
-        totalProfit: 0,
-        reputation: 5.0,
-        totalCupsSold: 0,
-        inventory: {
-          lemons: 0,
-          sugar: 0,
-          cups: 0,
-          ice: 0,
-        },
-        price: 1.0,
-        recipe: 5,
-        salesHistory: [],
-        weather: {
-          type: "sunny",
-          temperature: 85,
-          modifier: 1.5,
-        },
-      };
+        // Game State
+        let gameState = {
+            cash: 50,
+            day: 1,
+            totalProfit: 0,
+            reputation: 5.0,
+            totalCupsSold: 0,
+            inventory: {
+                lemons: 0,
+                sugar: 0,
+                cups: 0,
+                ice: 0
+            },
+            price: 1.0,
+            recipe: 5,
+            salesHistory: [],
+            weather: {
+                type: 'sunny',
+                temperature: 29,
+                modifier: 1.5
+            }
+        };
 
-      const prices = {
-        lemons: 0.05,
-        sugar: 0.03,
-        cups: 0.02,
-        ice: 0.01,
-      };
+        const prices = {
+            lemons: 0.05,
+            sugar: 0.03,
+            cups: 0.02,
+            ice: 0.01
+        };
 
-      // Initialize game
-      function initGame() {
-        updateDisplay();
-        generateWeather();
-        generateEvent();
-      }
-
-      // Adjust quantities
-      function adjustQuantity(item, amount) {
-        const currentQty = gameState.inventory[item];
-        const newQty = Math.max(0, currentQty + amount);
-        const cost = (newQty - currentQty) * prices[item];
-
-        if (gameState.cash >= cost || amount < 0) {
-          gameState.inventory[item] = newQty;
-          gameState.cash -= cost;
-          updateDisplay();
-        } else {
-          alert("Not enough cash!");
+        // Initialize game
+        function initGame() {
+            updateDisplay();
+            generateWeather();
+            generateEvent();
         }
-      }
 
-      // Update price
-      function updatePrice() {
-        const value = document.getElementById("priceSlider").value;
-        gameState.price = value / 100;
-        document.getElementById("priceDisplay").textContent =
-          "$" + gameState.price.toFixed(2);
-      }
+        // Adjust quantities
+        function adjustQuantity(item, amount) {
+            const currentQty = gameState.inventory[item];
+            const newQty = Math.max(0, currentQty + amount);
+            const cost = (newQty - currentQty) * prices[item];
 
-      // Update recipe
-      function updateRecipe() {
-        const value = document.getElementById("recipeSlider").value;
-        gameState.recipe = parseInt(value);
+            if (gameState.cash >= cost || amount < 0) {
+                gameState.inventory[item] = newQty;
+                gameState.cash -= cost;
+                updateDisplay();
+            } else {
+                alert('لا يوجد نقود كافية!');
+            }
+        }
 
-        let quality = "Balanced";
-        if (value < 3) quality = "Very Sour 😖";
-        else if (value < 5) quality = "Slightly Sour";
-        else if (value == 5) quality = "Perfect! ⭐";
-        else if (value < 8) quality = "Slightly Sweet";
-        else quality = "Too Sweet 🍬";
+        // Update price
+        function updatePrice() {
+            const value = document.getElementById('priceSlider').value;
+            gameState.price = value / 100;
+            document.getElementById('priceDisplay').textContent = ' + gameState.price.toFixed(2);
+        }
 
-        document.getElementById("recipeQuality").textContent = quality;
-      }
+        // Update recipe
+        function updateRecipe() {
+            const value = document.getElementById('recipeSlider').value;
+            gameState.recipe = parseInt(value);
 
-      // Generate weather
-      function generateWeather() {
-        const weathers = [
-          {
-            type: "sunny",
-            icon: "☀️",
-            text: "Sunny & Hot",
-            temp: 85,
-            modifier: 1.5,
-          },
-          {
-            type: "partly",
-            icon: "⛅",
-            text: "Partly Cloudy",
-            temp: 75,
-            modifier: 1.2,
-          },
-          {
-            type: "cloudy",
-            icon: "☁️",
-            text: "Cloudy",
-            temp: 70,
-            modifier: 0.9,
-          },
-          { type: "rainy", icon: "🌧️", text: "Rainy", temp: 65, modifier: 0.5 },
-        ];
+            let quality = 'متوازن';
+            if (value < 3) quality = 'حامض جداً 😖';
+            else if (value < 5) quality = 'حامض قليلاً';
+            else if (value == 5) quality = 'مثالي! ⭐';
+            else if (value < 8) quality = 'حلو قليلاً';
+            else quality = 'حلو جداً �';
 
-        const weather = weathers[Math.floor(Math.random() * weathers.length)];
-        gameState.weather = weather;
+            document.getElementById('recipeQuality').textContent = quality;
+        }
 
-        document.getElementById("weatherIcon").textContent = weather.icon;
-        document.getElementById("weatherText").textContent = weather.text;
-        document.getElementById("temperature").textContent =
-          weather.temp + "°F";
-      }
+        // Generate weather
+        function generateWeather() {
+            const weathers = [
+                { type: 'sunny', icon: '☀️', text: 'مشمس وحار', temp: 29, modifier: 1.5 },
+                { type: 'partly', icon: '⛅', text: 'غائم جزئياً', temp: 24, modifier: 1.2 },
+                { type: 'cloudy', icon: '☁️', text: 'غائم', temp: 21, modifier: 0.9 },
+                { type: 'rainy', icon: '🌧️', text: 'ممطر', temp: 18, modifier: 0.5 }
+            ];
 
-      // Generate event
-      function generateEvent() {
-        const events = [
-          {
-            title: "Perfect Weather!",
-            desc: "It's a beautiful sunny day. People are looking for refreshing drinks!",
-          },
-          {
-            title: "Local Fair Nearby",
-            desc: "There's a fair in town! Expect more foot traffic today.",
-          },
-          {
-            title: "Hot Day Alert",
-            desc: "Temperature is soaring! People will pay more for cold drinks.",
-          },
-          {
-            title: "Weekend Rush",
-            desc: "It's the weekend! Families are out and about.",
-          },
-          {
-            title: "Slow Day",
-            desc: "Not many people around today. Keep costs low!",
-          },
-        ];
+            const weather = weathers[Math.floor(Math.random() * weathers.length)];
+            gameState.weather = weather;
 
-        const event = events[Math.floor(Math.random() * events.length)];
-        document.getElementById("eventCard").innerHTML = `
+            document.getElementById('weatherIcon').textContent = weather.icon;
+            document.getElementById('weatherText').textContent = weather.text;
+            document.getElementById('temperature').textContent = weather.temp + '°م';
+        }
+
+        // Generate event
+        function generateEvent() {
+            const events = [
+                { title: 'طقس مثالي!', desc: 'إنه يوم مشمس جميل. الناس يبحثون عن مشروبات منعشة!' },
+                { title: 'معرض محلي قريب', desc: 'هناك معرض في المدينة! توقع المزيد من الزوار اليوم.' },
+                { title: 'تنبيه يوم حار', desc: 'درجة الحرارة ترتفع! الناس سيدفعون أكثر للمشروبات الباردة.' },
+                { title: 'ازدحام عطلة نهاية الأسبوع', desc: 'إنها عطلة نهاية الأسبوع! العائلات في الخارج.' },
+                { title: 'يوم هادئ', desc: 'ليس هناك الكثير من الناس اليوم. حافظ على التكاليف منخفضة!' }
+            ];
+
+            const event = events[Math.floor(Math.random() * events.length)];
+            document.getElementById('eventCard').innerHTML = `
                 <div class="event-title">${event.title}</div>
                 <div class="event-description">${event.desc}</div>
             `;
-      }
-
-      // Start day
-      function startDay() {
-        const supplies = gameState.inventory;
-        const minSupplies = Math.min(
-          Math.floor(supplies.lemons / 2),
-          Math.floor(supplies.sugar / 2),
-          supplies.cups,
-          Math.floor(supplies.ice / 3)
-        );
-
-        if (minSupplies === 0) {
-          alert(
-            "You need supplies to make lemonade! Buy lemons, sugar, cups, and ice."
-          );
-          return;
         }
 
-        // Simulate sales
-        const baseCustomers = Math.floor(Math.random() * 50 + 30);
-        const weatherCustomers = Math.floor(
-          baseCustomers * gameState.weather.modifier
-        );
+        // Start day
+        function startDay() {
+            const supplies = gameState.inventory;
+            const minSupplies = Math.min(
+                Math.floor(supplies.lemons / 2),
+                Math.floor(supplies.sugar / 2),
+                supplies.cups,
+                Math.floor(supplies.ice / 3)
+            );
 
-        // Price affects demand
-        let priceModifier = 1.0;
-        if (gameState.price < 0.75) priceModifier = 1.3;
-        else if (gameState.price > 1.25) priceModifier = 0.6;
-        else if (gameState.price > 1.5) priceModifier = 0.3;
+            if (minSupplies === 0) {
+                alert('تحتاج إلى مستلزمات لصنع الليمونادة! اشتر الليمون والسكر والأكواب والثلج.');
+                return;
+            }
 
-        // Recipe affects satisfaction
-        let recipeModifier = 1.0;
-        if (gameState.recipe === 5) recipeModifier = 1.2;
-        else if (gameState.recipe < 3 || gameState.recipe > 7)
-          recipeModifier = 0.7;
+            // Simulate sales
+            const baseCustomers = Math.floor(Math.random() * 50 + 30);
+            const weatherCustomers = Math.floor(baseCustomers * gameState.weather.modifier);
 
-        const totalCustomers = Math.floor(
-          weatherCustomers * priceModifier * recipeModifier
-        );
-        const cupsSold = Math.min(totalCustomers, minSupplies);
+            // Price affects demand
+            let priceModifier = 1.0;
+            if (gameState.price < 0.75) priceModifier = 1.3;
+            else if (gameState.price > 1.25) priceModifier = 0.6;
+            else if (gameState.price > 1.5) priceModifier = 0.3;
 
-        // Calculate results
-        const revenue = cupsSold * gameState.price;
-        const suppliesCost = getTotalCost();
-        const profit = revenue - suppliesCost;
+            // Recipe affects satisfaction
+            let recipeModifier = 1.0;
+            if (gameState.recipe === 5) recipeModifier = 1.2;
+            else if (gameState.recipe < 3 || gameState.recipe > 7) recipeModifier = 0.7;
 
-        // Update inventory
-        gameState.inventory.lemons -= cupsSold * 2;
-        gameState.inventory.sugar -= cupsSold * 2;
-        gameState.inventory.cups -= cupsSold;
-        gameState.inventory.ice -= cupsSold * 3;
+            const totalCustomers = Math.floor(weatherCustomers * priceModifier * recipeModifier);
+            const cupsSold = Math.min(totalCustomers, minSupplies);
 
-        // Update stats
-        gameState.cash += revenue;
-        gameState.totalProfit += profit;
-        gameState.totalCupsSold += cupsSold;
+            // Calculate results
+            const revenue = cupsSold * gameState.price;
+            const suppliesCost = getTotalCost();
+            const profit = revenue - suppliesCost;
 
-        // Update reputation
-        if (gameState.recipe === 5 && gameState.price <= 1.25) {
-          gameState.reputation = Math.min(5.0, gameState.reputation + 0.1);
-        } else if (
-          gameState.price > 1.5 ||
-          gameState.recipe < 3 ||
-          gameState.recipe > 7
-        ) {
-          gameState.reputation = Math.max(1.0, gameState.reputation - 0.1);
+            // Update inventory
+            gameState.inventory.lemons -= cupsSold * 2;
+            gameState.inventory.sugar -= cupsSold * 2;
+            gameState.inventory.cups -= cupsSold;
+            gameState.inventory.ice -= cupsSold * 3;
+
+            // Update stats
+            gameState.cash += revenue;
+            gameState.totalProfit += profit;
+            gameState.totalCupsSold += cupsSold;
+
+            // Update reputation
+            if (gameState.recipe === 5 && gameState.price <= 1.25) {
+                gameState.reputation = Math.min(5.0, gameState.reputation + 0.1);
+            } else if (gameState.price > 1.5 || gameState.recipe < 3 || gameState.recipe > 7) {
+                gameState.reputation = Math.max(1.0, gameState.reputation - 0.1);
+            }
+
+            // Store sales data
+            gameState.salesHistory.push({
+                day: gameState.day,
+                cupsSold: cupsSold,
+                revenue: revenue,
+                profit: profit
+            });
+
+            // Show results
+            showResults(cupsSold, revenue, suppliesCost, profit);
         }
-
-        // Store sales data
-        gameState.salesHistory.push({
-          day: gameState.day,
-          cupsSold: cupsSold,
-          revenue: revenue,
-          profit: profit,
-        });
 
         // Show results
-        showResults(cupsSold, revenue, suppliesCost, profit);
-      }
+        function showResults(cupsSold, revenue, expenses, profit) {
+            document.getElementById('resultCupsSold').textContent = cupsSold;
+            document.getElementById('resultRevenue').textContent = ' + revenue.toFixed(2);
+            document.getElementById('resultExpenses').textContent = ' + expenses.toFixed(2);
+            document.getElementById('resultProfit').textContent = ' + profit.toFixed(2);
 
-      // Show results
-      function showResults(cupsSold, revenue, expenses, profit) {
-        document.getElementById("resultCupsSold").textContent = cupsSold;
-        document.getElementById("resultRevenue").textContent =
-          "$" + revenue.toFixed(2);
-        document.getElementById("resultExpenses").textContent =
-          "$" + expenses.toFixed(2);
-        document.getElementById("resultProfit").textContent =
-          "$" + profit.toFixed(2);
+            if (profit > 0) {
+                document.getElementById('resultIcon').textContent = '🎉';
+                document.getElementById('resultTitle').textContent = 'عمل رائع!';
+                document.getElementById('resultMessage').textContent = 'لقد حققت ربحاً اليوم! استمر في العمل الجيد.';
+            } else if (profit === 0) {
+                document.getElementById('resultIcon').textContent = '😐';
+                document.getElementById('resultTitle').textContent = 'التعادل';
+                document.getElementById('resultMessage').textContent = 'حققت التعادل اليوم. حاول تحسين استراتيجيتك!';
+            } else {
+                document.getElementById('resultIcon').textContent = '😢';
+                document.getElementById('resultTitle').textContent = 'خسارة مالية';
+                document.getElementById('resultMessage').textContent = 'خسرت أموالاً اليوم. اضبط أسعارك وتكاليفك!';
+            }
 
-        if (profit > 0) {
-          document.getElementById("resultIcon").textContent = "🎉";
-          document.getElementById("resultTitle").textContent = "Great Job!";
-          document.getElementById("resultMessage").textContent =
-            "You made a profit today! Keep up the good work.";
-        } else if (profit === 0) {
-          document.getElementById("resultIcon").textContent = "😐";
-          document.getElementById("resultTitle").textContent = "Break Even";
-          document.getElementById("resultMessage").textContent =
-            "You broke even today. Try to improve your strategy!";
-        } else {
-          document.getElementById("resultIcon").textContent = "😢";
-          document.getElementById("resultTitle").textContent = "Lost Money";
-          document.getElementById("resultMessage").textContent =
-            "You lost money today. Adjust your prices and costs!";
+            document.getElementById('resultsModal').classList.add('active');
         }
 
-        document.getElementById("resultsModal").classList.add("active");
-      }
-
-      // Next day
-      function nextDay() {
-        gameState.day++;
-        document.getElementById("resultsModal").classList.remove("active");
-        generateWeather();
-        generateEvent();
-        resetInventoryPurchases();
-        updateDisplay();
-        updateSalesChart();
-      }
-
-      // Reset day
-      function resetDay() {
-        resetInventoryPurchases();
-        updateDisplay();
-      }
-
-      // Reset inventory purchases
-      function resetInventoryPurchases() {
-        // This would reset the purchase interface, not the actual inventory
-        updateDisplay();
-      }
-
-      // End game
-      function endGame() {
-        const totalDays = gameState.day;
-        const avgProfit = (gameState.totalProfit / totalDays).toFixed(2);
-
-        if (
-          confirm(
-            `Game Over!\n\nTotal Days: ${totalDays}\nTotal Profit: $${gameState.totalProfit.toFixed(
-              2
-            )}\nAverage Profit: $${avgProfit}\nTotal Cups Sold: ${
-              gameState.totalCupsSold
-            }\n\nPlay again?`
-          )
-        ) {
-          location.reload();
-        } else {
-          window.location.href = "games.html";
+        // Next day
+        function nextDay() {
+            gameState.day++;
+            document.getElementById('resultsModal').classList.remove('active');
+            generateWeather();
+            generateEvent();
+            resetInventoryPurchases();
+            updateDisplay();
+            updateSalesChart();
         }
-      }
 
-      // Get total cost
-      function getTotalCost() {
-        let total = 0;
-        for (let item in gameState.inventory) {
-          total += gameState.inventory[item] * prices[item];
+        // Reset day
+        function resetDay() {
+            resetInventoryPurchases();
+            updateDisplay();
         }
-        return total;
-      }
 
-      // Update display
-      function updateDisplay() {
-        document.getElementById("cashDisplay").textContent =
-          "$" + gameState.cash.toFixed(2);
-        document.getElementById("dayDisplay").textContent = gameState.day;
-        document.getElementById("currentDay").textContent = gameState.day;
-        document.getElementById("profitDisplay").textContent =
-          "$" + gameState.totalProfit.toFixed(2);
-        document.getElementById("cupsSoldDisplay").textContent =
-          gameState.totalCupsSold;
-        document.getElementById("reputationDisplay").textContent =
-          gameState.reputation.toFixed(1);
+        // Reset inventory purchases
+        function resetInventoryPurchases() {
+            updateDisplay();
+        }
 
-        // Update quantities
-        document.getElementById("lemonsQty").textContent =
-          gameState.inventory.lemons;
-        document.getElementById("sugarQty").textContent =
-          gameState.inventory.sugar;
-        document.getElementById("cupsQty").textContent =
-          gameState.inventory.cups;
-        document.getElementById("iceQty").textContent = gameState.inventory.ice;
+        // End game
+        function endGame() {
+            const totalDays = gameState.day;
+            const avgProfit = (gameState.totalProfit / totalDays).toFixed(2);
 
-        // Update costs
-        document.getElementById("lemonsCost").textContent =
-          "$" + (gameState.inventory.lemons * prices.lemons).toFixed(2);
-        document.getElementById("sugarCost").textContent =
-          "$" + (gameState.inventory.sugar * prices.sugar).toFixed(2);
-        document.getElementById("cupsCost").textContent =
-          "$" + (gameState.inventory.cups * prices.cups).toFixed(2);
-        document.getElementById("iceCost").textContent =
-          "$" + (gameState.inventory.ice * prices.ice).toFixed(2);
+            if (confirm(`انتهت اللعبة!\n\nإجمالي الأيام: ${totalDays}\nإجمالي الربح: ${gameState.totalProfit.toFixed(2)}\nمتوسط الربح: ${avgProfit}\nإجمالي الأكواب المباعة: ${gameState.totalCupsSold}\n\nهل تريد اللعب مرة أخرى؟`)) {
+                location.reload();
+            } else {
+                window.history.back();
+            }
+        }
 
-        const totalCost = getTotalCost();
-        document.getElementById("totalCost").textContent =
-          "$" + totalCost.toFixed(2);
-        document.getElementById("remainingCash").textContent =
-          "$" + (gameState.cash - totalCost).toFixed(2);
+        // Get total cost
+        function getTotalCost() {
+            let total = 0;
+            for (let item in gameState.inventory) {
+                total += gameState.inventory[item] * prices[item];
+            }
+            return total;
+        }
+
+        // Update display
+        function updateDisplay() {
+            document.getElementById('cashDisplay').textContent = ' + gameState.cash.toFixed(2);
+            document.getElementById('dayDisplay').textContent = gameState.day;
+            document.getElementById('currentDay').textContent = gameState.day;
+            document.getElementById('profitDisplay').textContent = ' + gameState.totalProfit.toFixed(2);
+            document.getElementById('cupsSoldDisplay').textContent = gameState.totalCupsSold;
+            document.getElementById('reputationDisplay').textContent = gameState.reputation.toFixed(1);
+
+            // Update quantities
+            document.getElementById('lemonsQty').textContent = gameState.inventory.lemons;
+            document.getElementById('sugarQty').textContent = gameState.inventory.sugar;
+            document.getElementById('cupsQty').textContent = gameState.inventory.cups;
+            document.getElementById('iceQty').textContent = gameState.inventory.ice;
+
+            // Update costs
+            document.getElementById('lemonsCost').textContent = ' + (gameState.inventory.lemons * prices.lemons).toFixed(2);
+            document.getElementById('sugarCost').textContent = ' + (gameState.inventory.sugar * prices.sugar).toFixed(2);
+            document.getElementById('cupsCost').textContent = ' + (gameState.inventory.cups * prices.cups).toFixed(2);
+            document.getElementById('iceCost').textContent = ' + (gameState.inventory.ice * prices.ice).toFixed(2);
+
+            const totalCost = getTotalCost();
+            document.getElementById('totalCost').textContent = ' + totalCost.toFixed(2);
+            document.getElementById('remainingCash').textContent = ' + (gameState.cash - totalCost).toFixed(2);
+
+            // Update inventory status
+            updateInventoryStatus();
+        }
 
         // Update inventory status
-        updateInventoryStatus();
-      }
-
-      // Update inventory status
-      function updateInventoryStatus() {
-        const inv = gameState.inventory;
-        const html = `
+        function updateInventoryStatus() {
+            const inv = gameState.inventory;
+            const html = `
                 <div style="display: grid; gap: 0.5rem;">
                     <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--background); border-radius: 6px;">
-                        <span>🍋 Lemons</span>
+                        <span>🍋 الليمون</span>
                         <span style="font-weight: 700;">${inv.lemons}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--background); border-radius: 6px;">
-                        <span>🧂 Sugar</span>
+                        <span>🧂 السكر</span>
                         <span style="font-weight: 700;">${inv.sugar}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--background); border-radius: 6px;">
-                        <span>🥤 Cups</span>
+                        <span>🥤 الأكواب</span>
                         <span style="font-weight: 700;">${inv.cups}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--background); border-radius: 6px;">
-                        <span>🧊 Ice</span>
+                        <span>🧊 الثلج</span>
                         <span style="font-weight: 700;">${inv.ice}</span>
                     </div>
                 </div>
             `;
-        document.getElementById("inventoryStatus").innerHTML = html;
-      }
+            document.getElementById('inventoryStatus').innerHTML = html;
+        }
 
-      // Update sales chart
-      function updateSalesChart() {
-        const history = gameState.salesHistory.slice(-7);
-        if (history.length === 0) return;
+        // Update sales chart
+        function updateSalesChart() {
+            const history = gameState.salesHistory.slice(-7);
+            if (history.length === 0) return;
 
-        const maxSales = Math.max(...history.map((d) => d.cupsSold));
+            const maxSales = Math.max(...history.map(d => d.cupsSold));
 
-        let html = "";
-        history.forEach((data, index) => {
-          const height = (data.cupsSold / maxSales) * 100;
-          html += `
+            let html = '';
+            history.forEach((data, index) => {
+                const height = (data.cupsSold / maxSales) * 100;
+                html += `
                     <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                        <div class="chart-bar" style="height: ${height}%" title="Day ${data.day}: ${data.cupsSold} cups"></div>
-                        <div class="chart-label">D${data.day}</div>
+                        <div class="chart-bar" style="height: ${height}%" title="اليوم ${data.day}: ${data.cupsSold} أكواب"></div>
+                        <div class="chart-label">ي${data.day}</div>
                     </div>
                 `;
-        });
+            });
 
-        document.getElementById("salesChart").innerHTML = html;
-      }
+            document.getElementById('salesChart').innerHTML = html;
+        }
 
-      // Initialize on load
-      window.addEventListener("load", initGame);
+        // Initialize on load
+        window.addEventListener('load', initGame);
     </script>
-  </body>
+</body>
 </html>

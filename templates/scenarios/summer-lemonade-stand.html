@@ -1,1050 +1,929 @@
 <!DOCTYPE html>
-<html lang="en">
-{% load static %}
-  <head>
-    <meta name="x-poe-datastore-behavior" content="local_only" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Summer Lemonade Stand - BizKids Simulation</title>
-    <link rel="stylesheet" href="{% static "css/scenarios/summer-lemonade-stand.css" %}" />
-    <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script>
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="header">
-      <div class="header-content">
-        <div class="header-title">
-          <span style="font-size: 2.5rem">🍋</span>
-          <div>
-            <h1>Summer Lemonade Stand</h1>
-            <div style="opacity: 0.9; font-size: 0.875rem">
-              Difficulty: Beginner | Duration: 10-15 mins
-            </div>
-          </div>
-        </div>
-        <div class="header-stats">
-          <div class="stat">
-            <div class="stat-label">Starting Capital</div>
-            <div class="stat-value">$50.00</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">Current Cash</div>
-            <div class="stat-value" id="currentCash">$50.00</div>
-          </div>
-        </div>
-        <a href="games.html" class="back-btn">
-          <span>←</span>
-          <span>Back</span>
-        </a>
-      </div>
-    </header>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كشك الليمونادة - منصة التعلم التجاري للأطفال</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Progress Bar -->
-    <div class="progress-container">
-      <div class="progress-wrapper">
-        <div class="progress-steps" id="progressSteps">
-          <div class="step active">
-            <div class="step-circle">1</div>
-            <div class="step-label">Lemons</div>
-          </div>
-          <div class="step">
-            <div class="step-circle">2</div>
-            <div class="step-label">Supplies</div>
-          </div>
-          <div class="step">
-            <div class="step-circle">3</div>
-            <div class="step-label">Marketing</div>
-          </div>
-          <div class="step">
-            <div class="step-circle">4</div>
-            <div class="step-label">Pricing</div>
-          </div>
-          <div class="step">
-            <div class="step-circle">5</div>
-            <div class="step-label">Hours</div>
-          </div>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .game-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .weather-card {
+            background: linear-gradient(135deg, #FDB99B 0%, #F8961E 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .weather-icon {
+            font-size: 3em;
+        }
+
+        .weather-info h3 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .supply-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .supply-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .supply-icon {
+            font-size: 2em;
+        }
+
+        .supply-details h4 {
+            font-size: 1.1em;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .supply-price {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .supply-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quantity {
+            font-size: 1.2em;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .price-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .price-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2em;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .price-recommendation {
+            text-align: center;
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .recipe-section {
+            margin-top: 15px;
+        }
+
+        .recipe-slider {
+            margin: 20px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .recipe-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .recipe-status {
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 10px;
+            padding: 10px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            color: #0066cc;
+        }
+
+        .cost-summary {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .cost-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+            padding: 15px;
+            font-size: 1.2em;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-reset {
+            background: #dc3545;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+        }
+
+        .btn-reset:hover {
+            background: #c82333;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .event-card {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 15px;
+            border-right: 5px solid #ffc107;
+        }
+
+        .event-card h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tips-card {
+            background: #d1ecf1;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .tips-card h3 {
+            color: #0c5460;
+            margin-bottom: 15px;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .results-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .sales-log {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .sales-entry {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #495057;
+        }
+
+        .result-stat {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .inventory-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .game-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .back-button {
+                position: static;
+                transform: none;
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="#" class="back-button">🍋 العودة للألعاب →</a>
+            <h1>كشك الليمونادة</h1>
         </div>
-      </div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="icon">💵</div>
+                <div class="label">النقود</div>
+                <div class="value" id="money">$50.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">📅</div>
+                <div class="label">اليوم</div>
+                <div class="value" id="day">1</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">💰</div>
+                <div class="label">إجمالي الربح</div>
+                <div class="value" id="totalProfit">$0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🥤</div>
+                <div class="label">الأكواب المباعة</div>
+                <div class="value" id="cupsSold">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⭐</div>
+                <div class="label">السمعة</div>
+                <div class="value" id="reputation">5.0</div>
+            </div>
+        </div>
+
+        <div class="game-content">
+            <div class="main-panel">
+                <div class="weather-card">
+                    <div class="weather-icon" id="weatherIcon">☀️</div>
+                    <div class="weather-info">
+                        <h3 id="weatherDesc">مشمس وحار</h3>
+                        <p id="weatherTemp">29°م</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>📦 شراء المستلزمات</h2>
+                    
+                    <div class="supply-item">
+                        <div class="supply-info">
+                            <div class="supply-icon">🍋</div>
+                            <div class="supply-details">
+                                <h4>الليمون</h4>
+                                <p class="supply-price">$0.50 لكل 10</p>
+                            </div>
+                        </div>
+                        <div class="supply-controls">
+                            <button class="btn btn-secondary" onclick="changeSupply('lemons', -1)">-</button>
+                            <span class="quantity" id="lemons">0</span>
+                            <button class="btn btn-secondary" onclick="changeSupply('lemons', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="supply-item">
+                        <div class="supply-info">
+                            <div class="supply-icon">🧂</div>
+                            <div class="supply-details">
+                                <h4>السكر</h4>
+                                <p class="supply-price">$0.30 لكل 10</p>
+                            </div>
+                        </div>
+                        <div class="supply-controls">
+                            <button class="btn btn-secondary" onclick="changeSupply('sugar', -1)">-</button>
+                            <span class="quantity" id="sugar">0</span>
+                            <button class="btn btn-secondary" onclick="changeSupply('sugar', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="supply-item">
+                        <div class="supply-info">
+                            <div class="supply-icon">🥤</div>
+                            <div class="supply-details">
+                                <h4>الأكواب</h4>
+                                <p class="supply-price">$0.20 لكل 10</p>
+                            </div>
+                        </div>
+                        <div class="supply-controls">
+                            <button class="btn btn-secondary" onclick="changeSupply('cups', -1)">-</button>
+                            <span class="quantity" id="cups">0</span>
+                            <button class="btn btn-secondary" onclick="changeSupply('cups', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="supply-item">
+                        <div class="supply-info">
+                            <div class="supply-icon">🧊</div>
+                            <div class="supply-details">
+                                <h4>الثلج</h4>
+                                <p class="supply-price">$0.10 لكل 10</p>
+                            </div>
+                        </div>
+                        <div class="supply-controls">
+                            <button class="btn btn-secondary" onclick="changeSupply('ice', -1)">-</button>
+                            <span class="quantity" id="ice">0</span>
+                            <button class="btn btn-secondary" onclick="changeSupply('ice', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="price-section">
+                        <h3>💵 حدد السعر</h3>
+                        <input type="number" class="price-input" id="priceInput" value="1.00" min="0.25" max="5.00" step="0.25">
+                        <p class="price-recommendation">موصى به: $0.75 - $1.25</p>
+                    </div>
+
+                    <div class="recipe-section">
+                        <h3>👨‍🍳 جودة الوصفة</h3>
+                        <p style="text-align: center; margin: 10px 0;">نسبة الليمون إلى السكر</p>
+                        <input type="range" class="slider" id="recipeSlider" min="0" max="100" value="50" oninput="updateRecipe()">
+                        <div class="recipe-labels">
+                            <span>🍋 حامض</span>
+                            <span>حلو 🧂</span>
+                        </div>
+                        <div class="recipe-status" id="recipeStatus">متوازن</div>
+                    </div>
+
+                    <div class="cost-summary">
+                        <div class="cost-row">
+                            <span>إجمالي تكلفة المستلزمات</span>
+                            <span id="totalCost">$0.00</span>
+                        </div>
+                        <div class="cost-row">
+                            <span>النقود المتبقية</span>
+                            <span id="remainingMoney">$50.00</span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-reset" onclick="resetDay()">↺ إعادة ضبط</button>
+                        <button class="btn btn-primary" onclick="startSelling()">▶ ابدأ البيع!</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="event-card">
+                    <h3>📢 حدث اليوم</h3>
+                    <h4 id="eventTitle">طقس مثالي!</h4>
+                    <p id="eventDesc">إنه يوم مشمس جميل. الناس يبحثون عن مشروبات منعشة!</p>
+                </div>
+
+                <div class="tips-card">
+                    <h3>💡 نصائح احترافية</h3>
+                    <div class="tip-item">☀️ الطقس الحار يعني المزيد من الزبائن! اشتر المزيد من المستلزمات.</div>
+                    <div class="tip-item">💰 لا تبالغ في التسعير! ابحث عن النقطة المثالية لزيادة المبيعات.</div>
+                    <div class="tip-item">⭐ الوصفات الجيدة تبني السمعة وتجلب الزبائن المتكررين.</div>
+                    <div class="tip-item">📊 تابع أداءك اليومي لتحسين استراتيجيتك.</div>
+                </div>
+
+                <div class="section">
+                    <h2>📦 المخزون الحالي</h2>
+                    <div class="inventory-grid" id="inventoryDisplay">
+                        <p style="grid-column: 1/-1; text-align: center; color: #6c757d;">اشتر المستلزمات لرؤية مخزونك</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Main Container -->
-    <div class="container">
-      <!-- Story Section -->
-      <div class="story-section">
-        <div class="story-icon">🌞</div>
-        <h2 class="story-title">Your Lemonade Business Adventure</h2>
-        <p class="story-text">
-          It's a hot summer day! You decide to set up a lemonade stand in your
-          neighborhood. Your parents give you $50 to start your business. You
-          need to buy supplies, decide on pricing, and attract customers. Can
-          you make a profit?
-        </p>
-      </div>
-
-      <!-- Step 1: Lemons -->
-      <div class="decision-card active" id="step1">
-        <div class="decision-header">
-          <h2 class="decision-question">🍋 How many lemons will you buy?</h2>
-          <div class="educational-note">
-            <div class="educational-note-title">
-              <span>📚</span>
-              <span>Did You Know?</span>
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <h2>🎉 اليوم مكتمل!</h2>
+            <div class="result-stat">
+                <span>الأكواب المباعة</span>
+                <strong id="resultCups">0</strong>
             </div>
-            <p>Each lemon makes 2 cups of lemonade. Think about demand!</p>
-          </div>
-          <div class="hint-box">
-            <div class="hint-title">
-              <span>💡</span>
-              <span>Hint</span>
+            <div class="result-stat">
+                <span>الإيرادات</span>
+                <strong id="resultRevenue">$0.00</strong>
             </div>
-            <p>
-              Too few = missed sales. Too many = wasted lemons = wasted money!
-            </p>
-          </div>
+            <div class="result-stat">
+                <span>المصروفات</span>
+                <strong id="resultExpenses">$0.00</strong>
+            </div>
+            <div class="result-stat">
+                <span>الربح</span>
+                <strong id="resultProfit" style="color: #28a745;">$0.00</strong>
+            </div>
+            <div class="action-buttons" style="margin-top: 20px;">
+                <button class="btn btn-reset" onclick="endGame()">🏁 إنهاء اللعبة</button>
+                <button class="btn btn-primary" onclick="nextDay()">← اليوم التالي</button>
+            </div>
         </div>
-
-        <div class="slider-container">
-          <div class="slider-header">
-            <span class="slider-label">Number of Lemons</span>
-            <span class="slider-value" id="lemonsValue">15</span>
-          </div>
-          <input
-            type="range"
-            class="slider"
-            id="lemonsSlider"
-            min="5"
-            max="30"
-            value="15"
-            step="1"
-          />
-          <div class="slider-info">
-            <span>5 lemons (10 cups)</span>
-            <span>30 lemons (60 cups)</span>
-          </div>
-
-          <div class="calculation-preview">
-            <div class="calc-row">
-              <span>Lemons purchased:</span>
-              <span id="lemonsPurchased">15</span>
-            </div>
-            <div class="calc-row">
-              <span>Cost per lemon:</span>
-              <span>$0.50</span>
-            </div>
-            <div class="calc-row">
-              <span>Cups you can make:</span>
-              <span id="cupsCanMake">30</span>
-            </div>
-            <div class="calc-row">
-              <span>Total cost:</span>
-              <span id="lemonsCost">$7.50</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-primary" onclick="nextStep(1)">
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 2: Supplies -->
-      <div class="decision-card" id="step2">
-        <div class="decision-header">
-          <h2 class="decision-question">🥤 Choose your supply pack</h2>
-          <div class="educational-note">
-            <div class="educational-note-title">
-              <span>📚</span>
-              <span>Quality Matters!</span>
-            </div>
-            <p>
-              Happy customers tell their friends. Quality affects repeat
-              business!
-            </p>
-          </div>
-        </div>
-
-        <div class="options-grid">
-          <div class="option-card" onclick="selectSupply('basic')">
-            <div class="option-header">
-              <div class="option-title">Basic Pack</div>
-              <div class="option-price">$5.00</div>
-            </div>
-            <ul class="option-features">
-              <li>Makes 20 cups</li>
-              <li>Standard taste</li>
-              <li>Normal customer satisfaction</li>
-            </ul>
-          </div>
-
-          <div class="option-card" onclick="selectSupply('premium')">
-            <div class="option-header">
-              <div class="option-title">Premium Pack</div>
-              <div class="option-price">$10.00</div>
-            </div>
-            <ul class="option-features">
-              <li>Makes 20 cups</li>
-              <li>Delicious taste ⭐</li>
-              <li>20% more customers return</li>
-              <li>Word-of-mouth bonus 🗣️</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="previousStep(2)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            id="step2Next"
-            onclick="nextStep(2)"
-            disabled=""
-          >
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 3: Marketing -->
-      <div class="decision-card" id="step3">
-        <div class="decision-header">
-          <h2 class="decision-question">
-            📢 How will you advertise your stand?
-          </h2>
-          <div class="educational-note">
-            <div class="educational-note-title">
-              <span>📚</span>
-              <span>Marketing Investment</span>
-            </div>
-            <p>
-              Marketing is spending money to make money! Better advertising =
-              more customers.
-            </p>
-          </div>
-          <div class="hint-box">
-            <div class="hint-title">
-              <span>💡</span>
-              <span>Calculate</span>
-            </div>
-            <p>Will the extra customers pay for the advertising cost?</p>
-          </div>
-        </div>
-
-        <div class="options-grid">
-          <div class="option-card" onclick="selectMarketing('free')">
-            <div class="option-header">
-              <div class="option-title">Hand-Made Sign</div>
-              <div class="option-price">$0.00</div>
-            </div>
-            <ul class="option-features">
-              <li>Attracts 10-15 customers</li>
-              <li>Neighborhood foot traffic only</li>
-              <li>Free option 💰</li>
-            </ul>
-          </div>
-
-          <div class="option-card" onclick="selectMarketing('posters')">
-            <div class="option-header">
-              <div class="option-title">Colorful Posters</div>
-              <div class="option-price">$8.00</div>
-            </div>
-            <ul class="option-features">
-              <li>Attracts 20-30 customers</li>
-              <li>Catches attention of nearby streets</li>
-              <li>Eye-catching design 🎨</li>
-            </ul>
-          </div>
-
-          <div class="option-card" onclick="selectMarketing('social')">
-            <div class="option-header">
-              <div class="option-title">Social Media Campaign</div>
-              <div class="option-price">$15.00</div>
-            </div>
-            <ul class="option-features">
-              <li>Attracts 35-50 customers</li>
-              <li>Parents help post online</li>
-              <li>Reaches wider community 🌐</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="previousStep(3)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            id="step3Next"
-            onclick="nextStep(3)"
-            disabled=""
-          >
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 4: Pricing -->
-      <div class="decision-card" id="step4">
-        <div class="decision-header">
-          <h2 class="decision-question">
-            💵 What price per cup will you charge?
-          </h2>
-          <div class="educational-note">
-            <div class="educational-note-title">
-              <span>📚</span>
-              <span>Price Elasticity</span>
-            </div>
-            <p>
-              Higher prices = fewer buyers. Find the sweet spot for maximum
-              profit!
-            </p>
-          </div>
-          <div class="hint-box">
-            <div class="hint-title">
-              <span>💡</span>
-              <span>Think About It</span>
-            </div>
-            <p>
-              Look at your costs. What price gives you good profit without
-              scaring away customers?
-            </p>
-          </div>
-        </div>
-
-        <div class="slider-container">
-          <div class="slider-header">
-            <span class="slider-label">Price per Cup</span>
-            <span class="slider-value" id="priceValue">$1.50</span>
-          </div>
-          <input
-            type="range"
-            class="slider"
-            id="priceSlider"
-            min="50"
-            max="500"
-            value="150"
-            step="25"
-          />
-          <div class="slider-info">
-            <span>$0.50 (budget-friendly)</span>
-            <span>$5.00 (premium)</span>
-          </div>
-
-          <div class="calculation-preview">
-            <div class="calc-row">
-              <span>Recommended range:</span>
-              <span>$0.75 - $1.25</span>
-            </div>
-            <div class="calc-row">
-              <span>Expected demand at this price:</span>
-              <span id="demandIndicator">High 📈</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="previousStep(4)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button class="btn btn-primary" onclick="nextStep(4)">
-            <span>Continue</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 5: Operating Hours -->
-      <div class="decision-card" id="step5">
-        <div class="decision-header">
-          <h2 class="decision-question">⏰ When will you sell?</h2>
-          <div class="educational-note">
-            <div class="educational-note-title">
-              <span>📚</span>
-              <span>Timing is Everything</span>
-            </div>
-            <p>
-              Different times of day bring different numbers and types of
-              customers!
-            </p>
-          </div>
-        </div>
-
-        <div class="options-grid">
-          <div class="option-card" onclick="selectHours('morning')">
-            <div class="option-header">
-              <div class="option-title">Morning (9am-12pm)</div>
-            </div>
-            <ul class="option-features">
-              <li>Fewer people out 🌅</li>
-              <li>Customers thirsty from morning activities</li>
-              <li>Lower competition</li>
-              <li>Good for testing</li>
-            </ul>
-          </div>
-
-          <div class="option-card" onclick="selectHours('afternoon')">
-            <div class="option-header">
-              <div class="option-title">Afternoon (12pm-3pm)</div>
-            </div>
-            <ul class="option-features">
-              <li>Hottest time of day ☀️</li>
-              <li>Most demand for cold drinks</li>
-              <li>More competition from lunch spots</li>
-              <li>Peak selling opportunity</li>
-            </ul>
-          </div>
-
-          <div class="option-card" onclick="selectHours('evening')">
-            <div class="option-header">
-              <div class="option-title">Evening (4pm-7pm)</div>
-            </div>
-            <ul class="option-features">
-              <li>People coming home 🏠</li>
-              <li>Tired and thirsty</li>
-              <li>Less competition</li>
-              <li>Steady customer flow</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="previousStep(5)">
-            <span>←</span>
-            <span>Back</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            id="step5Next"
-            onclick="calculateResults()"
-            disabled=""
-          >
-            <span>🎯 See Results!</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Results Screen -->
-      <div class="results-screen" id="resultsScreen">
-        <div class="results-hero" id="resultsHero">
-          <div class="results-icon" id="resultsIcon">🎉</div>
-          <h2 class="results-title" id="resultsTitle">
-            Outstanding Entrepreneur!
-          </h2>
-          <p class="results-subtitle" id="resultsSubtitle">
-            You made a great profit!
-          </p>
-          <div class="results-score">
-            <div style="font-size: 1.5rem; opacity: 0.9; margin-bottom: 0.5rem">
-              Final Score
-            </div>
-            <div id="finalScore">95</div>
-          </div>
-        </div>
-
-        <div id="achievementContainer"></div>
-
-        <div class="results-grid">
-          <div class="result-card">
-            <div class="result-card-icon">💰</div>
-            <div class="result-card-label">Total Profit</div>
-            <div class="result-card-value" id="totalProfit">$0.00</div>
-          </div>
-          <div class="result-card">
-            <div class="result-card-icon">💵</div>
-            <div class="result-card-label">Revenue</div>
-            <div class="result-card-value" id="totalRevenue">$0.00</div>
-          </div>
-          <div class="result-card">
-            <div class="result-card-icon">🥤</div>
-            <div class="result-card-label">Cups Sold</div>
-            <div class="result-card-value" id="cupsSold">0</div>
-          </div>
-          <div class="result-card">
-            <div class="result-card-icon">👥</div>
-            <div class="result-card-label">Customers</div>
-            <div class="result-card-value" id="totalCustomers">0</div>
-          </div>
-        </div>
-
-        <div class="breakdown-section">
-          <h3 class="section-title">
-            <span>📊</span>
-            <span>Financial Breakdown</span>
-          </h3>
-          <div id="financialBreakdown"></div>
-        </div>
-
-        <div class="breakdown-section">
-          <h3 class="section-title">
-            <span>📈</span>
-            <span>Customer Metrics</span>
-          </h3>
-          <div id="customerMetrics"></div>
-        </div>
-
-        <div class="breakdown-section">
-          <h3 class="section-title">
-            <span>💡</span>
-            <span>Key Insights</span>
-          </h3>
-          <ul class="insights-list" id="insightsList"></ul>
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-secondary" onclick="location.reload()">
-            <span>↺</span>
-            <span>Play Again</span>
-          </button>
-          <button
-            class="btn btn-primary"
-            onclick="window.location.href='games.html'"
-          >
-            <span>Back to Games</span>
-            <span>→</span>
-          </button>
-        </div>
-      </div>
     </div>
 
     <script>
-      // Game State
-      const gameState = {
-        currentStep: 1,
-        cash: 50.0,
-        lemons: 15,
-        supplyType: null,
-        marketingType: null,
-        price: 1.5,
-        hours: null,
-        costs: {
-          lemons: 0,
-          supplies: 0,
-          marketing: 0,
-        },
-      };
+        const gameState = {
+            money: 50,
+            day: 1,
+            totalProfit: 0,
+            totalCupsSold: 0,
+            reputation: 5.0,
+            supplies: {
+                lemons: 0,
+                sugar: 0,
+                cups: 0,
+                ice: 0
+            },
+            inventory: {
+                lemons: 0,
+                sugar: 0,
+                cups: 0,
+                ice: 0
+            },
+            price: 1.00,
+            recipe: 50,
+            weather: null
+        };
 
-      // Constants
-      const LEMON_COST = 0.5;
-      const SUPPLY_COSTS = { basic: 5, premium: 10 };
-      const MARKETING_COSTS = { free: 0, posters: 8, social: 15 };
-      const BASE_CUSTOMERS = { free: 12, posters: 25, social: 42 };
-      const TIME_MULTIPLIERS = { morning: 0.9, afternoon: 1.2, evening: 1.0 };
+        const supplyPrices = {
+            lemons: 0.50,
+            sugar: 0.30,
+            cups: 0.20,
+            ice: 0.10
+        };
 
-      // Initialize
-      document
-        .getElementById("lemonsSlider")
-        .addEventListener("input", updateLemons);
-      document
-        .getElementById("priceSlider")
-        .addEventListener("input", updatePrice);
+        const weatherTypes = [
+            { icon: '☀️', desc: 'مشمس وحار', temp: '29°م', customerMultiplier: 1.5 },
+            { icon: '⛅', desc: 'غائم جزئياً', temp: '24°م', customerMultiplier: 1.0 },
+            { icon: '🌧️', desc: 'ممطر', temp: '18°م', customerMultiplier: 0.5 },
+            { icon: '🌤️', desc: 'مشمس ولطيف', temp: '26°م', customerMultiplier: 1.2 }
+        ];
 
-      function updateLemons() {
-        const value = parseInt(this.value);
-        gameState.lemons = value;
-        document.getElementById("lemonsValue").textContent = value;
-        document.getElementById("lemonsPurchased").textContent = value;
-        document.getElementById("cupsCanMake").textContent = value * 2;
-        const cost = value * LEMON_COST;
-        document.getElementById("lemonsCost").textContent =
-          "$" + cost.toFixed(2);
-        gameState.costs.lemons = cost;
-        updateCurrentCash();
-      }
-
-      function updatePrice() {
-        const value = parseInt(this.value) / 100;
-        gameState.price = value;
-        document.getElementById("priceValue").textContent =
-          "$" + value.toFixed(2);
-
-        let demand = "High 📈";
-        if (value > 3.0) demand = "Very Low 📉";
-        else if (value > 2.0) demand = "Low 📊";
-        else if (value > 1.25) demand = "Medium 📊";
-
-        document.getElementById("demandIndicator").textContent = demand;
-      }
-
-      function updateCurrentCash() {
-        const totalCosts =
-          gameState.costs.lemons +
-          gameState.costs.supplies +
-          gameState.costs.marketing;
-        const remaining = gameState.cash - totalCosts;
-        document.getElementById("currentCash").textContent =
-          "$" + remaining.toFixed(2);
-        document.getElementById("currentCash").style.color =
-          remaining < 0 ? "#ef4444" : "white";
-      }
-
-      function selectSupply(type) {
-        document.querySelectorAll("#step2 .option-card").forEach((card) => {
-          card.classList.remove("selected");
-        });
-        event.currentTarget.classList.add("selected");
-        gameState.supplyType = type;
-        gameState.costs.supplies = SUPPLY_COSTS[type];
-        document.getElementById("step2Next").disabled = false;
-        updateCurrentCash();
-      }
-
-      function selectMarketing(type) {
-        document.querySelectorAll("#step3 .option-card").forEach((card) => {
-          card.classList.remove("selected");
-        });
-        event.currentTarget.classList.add("selected");
-        gameState.marketingType = type;
-        gameState.costs.marketing = MARKETING_COSTS[type];
-        document.getElementById("step3Next").disabled = false;
-        updateCurrentCash();
-      }
-
-      function selectHours(time) {
-        document.querySelectorAll("#step5 .option-card").forEach((card) => {
-          card.classList.remove("selected");
-        });
-        event.currentTarget.classList.add("selected");
-        gameState.hours = time;
-        document.getElementById("step5Next").disabled = false;
-      }
-
-      function nextStep(current) {
-        // Hide current step
-        document.getElementById("step" + current).classList.remove("active");
-
-        // Show next step
-        const next = current + 1;
-        document.getElementById("step" + next).classList.add("active");
-
-        // Update progress
-        updateProgress(next);
-
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      function previousStep(current) {
-        // Hide current step
-        document.getElementById("step" + current).classList.remove("active");
-
-        // Show previous step
-        const prev = current - 1;
-        document.getElementById("step" + prev).classList.add("active");
-
-        // Update progress
-        updateProgress(prev);
-
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      function updateProgress(step) {
-        const steps = document.querySelectorAll(".step");
-        steps.forEach((stepEl, index) => {
-          stepEl.classList.remove("active", "completed");
-          if (index < step - 1) {
-            stepEl.classList.add("completed");
-          } else if (index === step - 1) {
-            stepEl.classList.add("active");
-          }
-        });
-      }
-
-      function calculateResults() {
-        // Hide decision cards
-        document.querySelectorAll(".decision-card").forEach((card) => {
-          card.style.display = "none";
-        });
-
-        // Calculate production capacity
-        const maxCupsFromLemons = gameState.lemons * 2;
-        const maxCupsFromSupplies = 20;
-        const maxCupsPossible = Math.min(
-          maxCupsFromLemons,
-          maxCupsFromSupplies
-        );
-
-        // Calculate customer attraction
-        const baseCustomers = BASE_CUSTOMERS[gameState.marketingType];
-        const qualityMultiplier =
-          gameState.supplyType === "premium" ? 1.2 : 1.0;
-        const timeMultiplier = TIME_MULTIPLIERS[gameState.hours];
-        const potentialCustomers = Math.floor(
-          baseCustomers * qualityMultiplier * timeMultiplier
-        );
-
-        // Calculate price elasticity
-        let demandFactor;
-        if (gameState.price <= 1.0) demandFactor = 1.0;
-        else if (gameState.price <= 2.0) demandFactor = 0.85;
-        else if (gameState.price <= 3.0) demandFactor = 0.6;
-        else demandFactor = 0.3;
-
-        // Calculate actual sales
-        const interestedCustomers = Math.floor(
-          potentialCustomers * demandFactor
-        );
-        const actualSales = Math.min(interestedCustomers, maxCupsPossible);
-        const cupsWasted = maxCupsPossible - actualSales;
-        const customersWalkedAway = Math.max(
-          0,
-          interestedCustomers - actualSales
-        );
-
-        // Calculate financials
-        const totalCosts =
-          gameState.costs.lemons +
-          gameState.costs.supplies +
-          gameState.costs.marketing;
-        const revenue = actualSales * gameState.price;
-        const profit = revenue - totalCosts;
-        const profitMargin = revenue > 0 ? (profit / revenue) * 100 : 0;
-
-        // Calculate score
-        let score, feedback, icon, subtitle;
-        if (profit > 20) {
-          score = 100;
-          feedback = "Outstanding Entrepreneur!";
-          subtitle = "Excellent profit! You're a business superstar! 🌟";
-          icon = "🎉";
-        } else if (profit >= 10) {
-          score = 80;
-          feedback = "Great Job!";
-          subtitle = "Solid profit. You made smart decisions!";
-          icon = "👏";
-        } else if (profit >= 1) {
-          score = 60;
-          feedback = "Good Effort!";
-          subtitle = "Small profit. There's room to improve!";
-          icon = "😊";
-        } else if (profit >= 0) {
-          score = 40;
-          feedback = "Break Even";
-          subtitle = "You covered your costs. Try different choices!";
-          icon = "😐";
-        } else {
-          score = 20;
-          feedback = "Learning Experience";
-          subtitle = "You lost money, but that's how we learn!";
-          icon = "📚";
+        function initGame() {
+            setRandomWeather();
+            updateDisplay();
         }
 
-        // Check for achievements
-        const achievements = [];
-        if (actualSales === maxCupsPossible && cupsWasted === 0) {
-          achievements.push({
-            title: "Waste Not! 🎯",
-            desc: "You sold 100% of your lemonade with zero waste!",
-          });
-        }
-        if (profit >= 25) {
-          achievements.push({
-            title: "Sweet Profit 💰",
-            desc: "You earned over $25 in profit! Amazing!",
-          });
-        }
-        if (gameState.marketingType === "social" && profit > 15) {
-          achievements.push({
-            title: "Marketing Genius 🚀",
-            desc: "Your social media campaign paid off big time!",
-          });
+        function setRandomWeather() {
+            gameState.weather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+            document.getElementById('weatherIcon').textContent = gameState.weather.icon;
+            document.getElementById('weatherDesc').textContent = gameState.weather.desc;
+            document.getElementById('weatherTemp').textContent = gameState.weather.temp;
         }
 
-        // Display results
-        displayResults({
-          score,
-          feedback,
-          icon,
-          subtitle,
-          profit,
-          revenue,
-          totalCosts,
-          actualSales,
-          potentialCustomers,
-          interestedCustomers,
-          customersWalkedAway,
-          cupsWasted,
-          profitMargin,
-          achievements,
-        });
-
-        // Show confetti if good profit
-        if (profit > 15) {
-          createConfetti();
-        }
-      }
-
-      function displayResults(results) {
-        // Update hero section
-        document.getElementById("resultsIcon").textContent = results.icon;
-        document.getElementById("resultsTitle").textContent = results.feedback;
-        document.getElementById("resultsSubtitle").textContent =
-          results.subtitle;
-        document.getElementById("finalScore").textContent = results.score;
-
-        // Color code hero based on profit
-        const hero = document.getElementById("resultsHero");
-        if (results.profit > 15) {
-          hero.style.background = "linear-gradient(135deg, #10b981, #059669)";
-        } else if (results.profit < 0) {
-          hero.style.background = "linear-gradient(135deg, #ef4444, #dc2626)";
+        function changeSupply(type, amount) {
+            const newAmount = gameState.supplies[type] + amount;
+            if (newAmount >= 0) {
+                const costDiff = amount * supplyPrices[type];
+                if (gameState.money >= costDiff || amount < 0) {
+                    gameState.supplies[type] = newAmount;
+                    updateDisplay();
+                }
+            }
         }
 
-        // Update result cards
-        document.getElementById("totalProfit").textContent =
-          "$" + results.profit.toFixed(2);
-        document.getElementById("totalProfit").style.color =
-          results.profit >= 0 ? "#10b981" : "#ef4444";
-        document.getElementById("totalRevenue").textContent =
-          "$" + results.revenue.toFixed(2);
-        document.getElementById("cupsSold").textContent = results.actualSales;
-        document.getElementById("totalCustomers").textContent =
-          results.potentialCustomers;
-
-        // Financial breakdown
-        const financialHTML = `
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>💵</span> Revenue (${
-                      results.actualSales
-                    } cups × $${gameState.price.toFixed(2)})</span>
-                    <span class="breakdown-value">$${results.revenue.toFixed(
-                      2
-                    )}</span>
-                </div>
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>🍋</span> Lemon Cost (${
-                      gameState.lemons
-                    } lemons)</span>
-                    <span class="breakdown-value">-$${gameState.costs.lemons.toFixed(
-                      2
-                    )}</span>
-                </div>
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>🥤</span> Supply Cost (${
-                      gameState.supplyType
-                    })</span>
-                    <span class="breakdown-value">-$${gameState.costs.supplies.toFixed(
-                      2
-                    )}</span>
-                </div>
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>📢</span> Marketing Cost (${
-                      gameState.marketingType
-                    })</span>
-                    <span class="breakdown-value">-$${gameState.costs.marketing.toFixed(
-                      2
-                    )}</span>
-                </div>
-                <div class="breakdown-total">
-                    <div class="breakdown-row">
-                        <span class="breakdown-label"><strong>Net Profit/Loss</strong></span>
-                        <span class="breakdown-value" style="color: ${
-                          results.profit >= 0 ? "#10b981" : "#ef4444"
-                        }">
-                            ${
-                              results.profit >= 0 ? "+" : ""
-                            }$${results.profit.toFixed(2)}
-                        </span>
-                    </div>
-                    <div class="breakdown-row" style="border: none; font-size: 0.875rem; padding-top: 0.5rem;">
-                        <span class="breakdown-label">Profit Margin</span>
-                        <span class="breakdown-value">${results.profitMargin.toFixed(
-                          1
-                        )}%</span>
-                    </div>
-                </div>
-            `;
-        document.getElementById("financialBreakdown").innerHTML = financialHTML;
-
-        // Customer metrics
-        const customerHTML = `
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>👥</span> Potential Customers</span>
-                    <span class="breakdown-value">${results.potentialCustomers}</span>
-                </div>
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>💚</span> Interested (after pricing)</span>
-                    <span class="breakdown-value">${results.interestedCustomers}</span>
-                </div>
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>🥤</span> Actually Bought</span>
-                    <span class="breakdown-value">${results.actualSales}</span>
-                </div>
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>😞</span> Walked Away</span>
-                    <span class="breakdown-value">${results.customersWalkedAway}</span>
-                </div>
-                <div class="breakdown-row">
-                    <span class="breakdown-label"><span>🗑️</span> Cups Wasted</span>
-                    <span class="breakdown-value">${results.cupsWasted}</span>
-                </div>
-            `;
-        document.getElementById("customerMetrics").innerHTML = customerHTML;
-
-        // Generate insights
-        const insights = generateInsights(results);
-        const insightsHTML = insights
-          .map(
-            (insight) => `
-                <li class="insight-item">
-                    <span class="insight-icon">${insight.icon}</span>
-                    <div>
-                        <strong>${insight.title}</strong>
-                        <p style="color: var(--text-secondary); margin-top: 0.25rem;">${insight.text}</p>
-                    </div>
-                </li>
-            `
-          )
-          .join("");
-        document.getElementById("insightsList").innerHTML = insightsHTML;
-
-        // Display achievements
-        if (results.achievements.length > 0) {
-          const achievementsHTML = results.achievements
-            .map(
-              (ach) => `
-                    <div class="achievement-banner">
-                        <span class="achievement-icon">🏆</span>
-                        <div class="achievement-content">
-                            <div class="achievement-title">${ach.title}</div>
-                            <div class="achievement-desc">${ach.desc}</div>
-                        </div>
-                    </div>
-                `
-            )
-            .join("");
-          document.getElementById("achievementContainer").innerHTML =
-            achievementsHTML;
+        function updateRecipe() {
+            const value = document.getElementById('recipeSlider').value;
+            gameState.recipe = parseInt(value);
+            
+            let status = '';
+            if (value < 30) status = 'حامض جداً 🍋';
+            else if (value < 45) status = 'حامض قليلاً 🍋';
+            else if (value < 55) status = 'متوازن ✨';
+            else if (value < 70) status = 'حلو قليلاً 🧂';
+            else status = 'حلو جداً 🧂';
+            
+            document.getElementById('recipeStatus').textContent = status;
         }
 
-        // Show results screen
-        document.getElementById("resultsScreen").classList.add("active");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      function generateInsights(results) {
-        const insights = [];
-
-        // Price insights
-        if (gameState.price > 2.5) {
-          insights.push({
-            icon: "💵",
-            title: "Pricing Strategy",
-            text: `Your price of $${gameState.price.toFixed(
-              2
-            )} was quite high. Lower prices attract more customers!`,
-          });
-        } else if (gameState.price < 1.0 && results.profit < 10) {
-          insights.push({
-            icon: "💵",
-            title: "Pricing Too Low",
-            text: `At $${gameState.price.toFixed(
-              2
-            )} per cup, you need to sell a lot to make good profit. Try pricing between $1.00-$1.50.`,
-          });
-        } else if (results.profit > 15) {
-          insights.push({
-            icon: "🎯",
-            title: "Perfect Pricing!",
-            text: `Your price of $${gameState.price.toFixed(
-              2
-            )} was in the sweet spot - not too high, not too low!`,
-          });
+        function calculateTotalCost() {
+            let total = 0;
+            for (let type in gameState.supplies) {
+                total += gameState.supplies[type] * supplyPrices[type];
+            }
+            return total;
         }
 
-        // Marketing insights
-        if (
-          gameState.marketingType === "free" &&
-          results.customersWalkedAway > 5
-        ) {
-          insights.push({
-            icon: "📢",
-            title: "Marketing Opportunity",
-            text: "You had limited customers with the free sign. Investing in better marketing could have increased sales!",
-          });
-        } else if (gameState.marketingType === "social" && results.profit > 0) {
-          insights.push({
-            icon: "🚀",
-            title: "Marketing Investment Paid Off",
-            text: "Your social media campaign brought in lots of customers! Smart investment.",
-          });
+        function updateDisplay() {
+            document.getElementById('money').textContent = '$' + gameState.money.toFixed(2);
+            document.getElementById('day').textContent = gameState.day;
+            document.getElementById('totalProfit').textContent = '$' + gameState.totalProfit.toFixed(2);
+            document.getElementById('cupsSold').textContent = gameState.totalCupsSold;
+            document.getElementById('reputation').textContent = gameState.reputation.toFixed(1);
+
+            for (let type in gameState.supplies) {
+                document.getElementById(type).textContent = gameState.supplies[type];
+            }
+
+            const totalCost = calculateTotalCost();
+            document.getElementById('totalCost').textContent = '$' + totalCost.toFixed(2);
+            document.getElementById('remainingMoney').textContent = '$' + (gameState.money - totalCost).toFixed(2);
+
+            updateInventoryDisplay();
         }
 
-        // Supply insights
-        if (gameState.supplyType === "premium" && results.actualSales > 30) {
-          insights.push({
-            icon: "⭐",
-            title: "Quality Wins",
-            text: "Premium supplies created happy customers who likely told their friends!",
-          });
+        function updateInventoryDisplay() {
+            const container = document.getElementById('inventoryDisplay');
+            const hasInventory = Object.values(gameState.inventory).some(v => v > 0);
+            
+            if (!hasInventory) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #6c757d;">اشتر المستلزمات لرؤية مخزونك</p>';
+                return;
+            }
+
+            const icons = { lemons: '🍋', sugar: '🧂', cups: '🥤', ice: '🧊' };
+            const names = { lemons: 'ليمون', sugar: 'سكر', cups: 'أكواب', ice: 'ثلج' };
+            
+            container.innerHTML = '';
+            for (let type in gameState.inventory) {
+                if (gameState.inventory[type] > 0) {
+                    const div = document.createElement('div');
+                    div.className = 'inventory-item';
+                    div.innerHTML = `
+                        <div style="font-size: 1.5em;">${icons[type]}</div>
+                        <div style="font-size: 0.9em; color: #6c757d;">${names[type]}</div>
+                        <div style="font-weight: bold;">${gameState.inventory[type]}</div>
+                    `;
+                    container.appendChild(div);
+                }
+            }
         }
 
-        // Waste insights
-        if (results.cupsWasted > 10) {
-          insights.push({
-            icon: "🗑️",
-            title: "Reduce Waste",
-            text: `You wasted ${results.cupsWasted} cups. Next time, buy fewer lemons or improve marketing to sell more!`,
-          });
-        } else if (results.cupsWasted === 0) {
-          insights.push({
-            icon: "🎯",
-            title: "Zero Waste!",
-            text: "Perfect planning! You sold everything you made with no waste.",
-          });
+        function startSelling() {
+            const totalCost = calculateTotalCost();
+            
+            if (totalCost > gameState.money) {
+                alert('ليس لديك نقود كافية!');
+                return;
+            }
+
+            if (gameState.supplies.cups === 0) {
+                alert('تحتاج إلى شراء أكواب أولاً!');
+                return;
+            }
+
+            // Deduct money and add to inventory
+            gameState.money -= totalCost;
+            for (let type in gameState.supplies) {
+                gameState.inventory[type] += gameState.supplies[type];
+                gameState.supplies[type] = 0;
+            }
+
+            // Simulate selling
+            simulateSales();
         }
 
-        // General advice
-        if (results.profit < 0) {
-          insights.push({
-            icon: "📚",
-            title: "Next Time",
-            text: "Try reducing costs or increasing price slightly. Every business has learning experiences!",
-          });
-        } else if (results.profit > 20) {
-          insights.push({
-            icon: "🌟",
-            title: "Entrepreneur Material",
-            text: "You have great business instincts! Consider more advanced simulations.",
-          });
+        function simulateSales() {
+            const price = parseFloat(document.getElementById('priceInput').value);
+            const maxCups = Math.min(
+                gameState.inventory.cups,
+                gameState.inventory.lemons,
+                gameState.inventory.sugar,
+                gameState.inventory.ice
+            );
+
+            if (maxCups === 0) {
+                alert('ليس لديك مستلزمات كافية للبيع!');
+                return;
+            }
+
+            // Calculate demand based on price, weather, and recipe
+            let baseCustomers = 20;
+            baseCustomers *= gameState.weather.customerMultiplier;
+            
+            // Price affects demand
+            if (price < 0.75) baseCustomers *= 1.3;
+            else if (price > 1.25) baseCustomers *= 0.7;
+            else if (price > 1.75) baseCustomers *= 0.4;
+
+            // Recipe affects reputation
+            let recipeQuality = 1.0;
+            if (gameState.recipe >= 45 && gameState.recipe <= 55) {
+                recipeQuality = 1.2; // Perfect recipe
+            } else if (gameState.recipe < 30 || gameState.recipe > 70) {
+                recipeQuality = 0.8; // Poor recipe
+            }
+
+            baseCustomers *= recipeQuality;
+            baseCustomers *= (gameState.reputation / 5.0);
+
+            const cupsSold = Math.min(Math.floor(baseCustomers + Math.random() * 10), maxCups);
+            const revenue = cupsSold * price;
+            const profit = revenue - (cupsSold * 0.15); // 15 cents cost per cup
+
+            // Update inventory
+            gameState.inventory.cups -= cupsSold;
+            gameState.inventory.lemons -= cupsSold;
+            gameState.inventory.sugar -= cupsSold;
+            gameState.inventory.ice -= cupsSold;
+
+            // Update stats
+            gameState.money += revenue;
+            gameState.totalCupsSold += cupsSold;
+            gameState.totalProfit += profit;
+
+            // Update reputation
+            if (recipeQuality > 1.1) {
+                gameState.reputation = Math.min(5.0, gameState.reputation + 0.1);
+            } else if (recipeQuality < 0.9) {
+                gameState.reputation = Math.max(1.0, gameState.reputation - 0.1);
+            }
+
+            showResults(cupsSold, revenue, profit);
         }
 
-        return insights.slice(0, 4); // Limit to 4 insights
-      }
-
-      function createConfetti() {
-        const colors = ["#fbbf24", "#f59e0b", "#10b981", "#3b82f6", "#ec4899"];
-        for (let i = 0; i < 50; i++) {
-          setTimeout(() => {
-            const confetti = document.createElement("div");
-            confetti.className = "confetti";
-            confetti.style.left = Math.random() * 100 + "%";
-            confetti.style.background =
-              colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDelay = Math.random() * 0.5 + "s";
-            confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
-            document.body.appendChild(confetti);
-
-            setTimeout(() => confetti.remove(), 3000);
-          }, i * 30);
+        function showResults(cups, revenue, profit) {
+            document.getElementById('resultCups').textContent = cups;
+            document.getElementById('resultRevenue').textContent = '$' + revenue.toFixed(2);
+            document.getElementById('resultExpenses').textContent = '$' + (revenue - profit).toFixed(2);
+            document.getElementById('resultProfit').textContent = '$' + profit.toFixed(2);
+            
+            const profitElement = document.getElementById('resultProfit');
+            profitElement.style.color = profit >= 0 ? '#28a745' : '#dc3545';
+            
+            document.getElementById('resultModal').classList.add('active');
         }
-      }
 
-      // Initialize lemons and price displays
-      updateLemons.call(document.getElementById("lemonsSlider"));
-      updatePrice.call(document.getElementById("priceSlider"));
+        function nextDay() {
+            gameState.day++;
+            setRandomWeather();
+            document.getElementById('resultModal').classList.remove('active');
+            updateDisplay();
+        }
+
+        function resetDay() {
+            for (let type in gameState.supplies) {
+                gameState.supplies[type] = 0;
+            }
+            document.getElementById('priceInput').value = '1.00';
+            document.getElementById('recipeSlider').value = '50';
+            updateRecipe();
+            updateDisplay();
+        }
+
+        function endGame() {
+            if (confirm('هل أنت متأكد أنك تريد إنهاء اللعبة؟')) {
+                alert(`اللعبة انتهت!\n\nالأيام: ${gameState.day}\nإجمالي الربح: $${gameState.totalProfit.toFixed(2)}\nالأكواب المباعة: ${gameState.totalCupsSold}\nالسمعة النهائية: ${gameState.reputation.toFixed(1)}`);
+                location.reload();
+            }
+        }
+
+        // Initialize game on load
+        initGame();
     </script>
-  </body>
+</body>
 </html>
