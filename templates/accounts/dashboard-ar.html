@@ -105,36 +105,26 @@
         <div class="recommendations-title">💡 توصيات مخصصة لك</div>
         <div class="recommendations-grid">
           <div class="recommendation-card">
-            <div class="recommendation-icon">🏪</div>
-            <div class="recommendation-title">متجر الألعاب الكبير</div>
+            <div class="recommendation-icon">🎮</div>
+            <div class="recommendation-title">سيناريوهات الأعمال التفاعلية</div>
             <div class="recommendation-description">
-              لقد أتقنت الأساسيات! جرب إدارة متجر ألعاب مع خطوط إنتاج متعددة وطلب موسمي.
+              ابدأ مشروعك الخاص وتعلم من خلال التجربة! اختر من بين عدة سيناريوهات ممتعة لإدارة الأعمال.
             </div>
-            <button class="start-button" onclick="startScenario('toy-shop')">
+            <button class="start-button" onclick="window.location.href='{% url "scenarios:scenario_list" %}'">
               <span>▶️</span>
-              <span>بدء السيناريو</span>
+              <span>تصفح السيناريوهات</span>
             </button>
           </div>
+          
           <div class="recommendation-card">
-            <div class="recommendation-icon">🍋</div>
-            <div class="recommendation-title">إمبراطورية الليمون</div>
+            <div class="recommendation-icon">📚</div>
+            <div class="recommendation-title">الدروس التعليمية</div>
             <div class="recommendation-description">
-              تدرب على استراتيجيات التسعير مع هذا السيناريو الكلاسيكي. مثالي لجلسة سريعة مدتها 10 دقائق!
+              تعلم المهارات المالية والمحاسبية من خلال دروس تفاعلية مصممة خصيصاً لك.
             </div>
-            <button class="start-button" onclick="startScenario('lemonade')">
-              <span>▶️</span>
-              <span>بدء السيناريو</span>
-            </button>
-          </div>
-          <div class="recommendation-card">
-            <div class="recommendation-icon">📊</div>
-            <div class="recommendation-title">التقارير المالية</div>
-            <div class="recommendation-description">
-              تعلم قراءة الميزانيات العمومية وبيانات الدخل من خلال وحدة الثقافة المالية التفاعلية.
-            </div>
-            <button class="start-button" onclick="startLesson('financial-reports')">
-              <span>📚</span>
-              <span>بدء الدرس</span>
+            <button class="start-button" onclick="window.location.href='{% url "lessons:learning_path" %}'">
+              <span>📖</span>
+              <span>ابدأ التعلم</span>
             </button>
           </div>
         </div>
@@ -235,21 +225,24 @@
 
       <!-- Quick Actions -->
       <div class="quick-actions">
-        <div class="action-card" onclick="window.location.href='{% url "lessons:learning_path" %}'">
+        <div class="action-card" onclick="window.location.href='{% url "scenarios:scenario_list" %}'">
           <div class="action-icon">🎮</div>
           <div class="action-title">بدء سيناريو جديد</div>
         </div>
+        
+        <div class="action-card" onclick="window.location.href='{% url "lessons:learning_path" %}'">
+          <div class="action-icon">📚</div>
+          <div class="action-title">تصفح الدروس</div>
+        </div>
+        
         <div class="action-card" onclick="window.location.href='{% url "accounts:profile" %}'">
           <div class="action-icon">👤</div>
           <div class="action-title">تعديل الملف الشخصي</div>
         </div>
+        
         <div class="action-card" onclick="window.location.href='{% url "accounts:progress_rewards" %}'">
           <div class="action-icon">🏆</div>
           <div class="action-title">عرض الإنجازات</div>
-        </div>
-        <div class="action-card" onclick="visitShop()">
-          <div class="action-icon">🛒</div>
-          <div class="action-title">زيارة المتجر</div>
         </div>
       </div>
     </div>
