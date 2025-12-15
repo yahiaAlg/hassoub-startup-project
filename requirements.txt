@@ -2,4 +2,5 @@ django
 pillow
 gunicorn
 whitenoise[brotli]
-mysqlclient
+PyMySQL
+cryptography
